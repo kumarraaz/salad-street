@@ -39,7 +39,7 @@ export default function HomePage() {
 
       <section className="sec" id="our-products" aria-labelledby="pr-t">
         <div className="wrap">
-          <SecTitle id="pr-t" title="Our Products" sub="Explore our fresh and healthy range of products" />
+          <SecTitle id="pr-t" title="Salad Street Products" sub="Explore our fresh and healthy range of products" />
           <ProductGrid list={PRODUCTS.filter((p) => p.home).slice(0, 8)} />
           <CtaRow label="View All Products" href="/products" />
         </div>
