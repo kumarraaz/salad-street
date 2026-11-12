@@ -36,9 +36,9 @@ export function CartDrawer() {
               <li className="cart-item" key={p.id}>
                 <Media src={p.img} label="" alt="" />
                 <div>
-                  <div className="ci-name">
+                  <Link className="ci-name" href={`/products/${p.id}`} onClick={closeCart}>
                     {p.name} <span lang="hi">({p.hi})</span>
-                  </div>
+                  </Link>
                   <div className="ci-meta">
                     {p.weight} · {inr(p.price)}
                   </div>

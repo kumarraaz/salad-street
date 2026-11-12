@@ -28,7 +28,7 @@ export function FarmVideo({ poster }: { poster: string }) {
 }
 
 /** Newsletter sign-up. Posts to CONFIG.formEndpoint when one is configured; otherwise says so honestly. */
-export function Newsletter() {
+export function Newsletter({ cls = "" }: { cls?: string }) {
   const [msg, setMsg] = useState<{ ok: boolean; t: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -60,7 +60,7 @@ export function Newsletter() {
     }
   };
   return (
-    <section className="newsletter-wrap" aria-labelledby="nl-t">
+    <section className={`newsletter-wrap ${cls}`} aria-labelledby="nl-t">
       <div className="wrap">
         <div className="newsletter">
           <Decor k="carrot" cls="nl-carrot" />

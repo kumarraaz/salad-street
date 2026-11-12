@@ -38,9 +38,9 @@ function FounderCard({ f }: { f: Founder }) {
   );
 }
 
-export default function Founders() {
+export default function Founders({ cls = "" }: { cls?: string }) {
   return (
-    <section className="sec founders-sec" aria-labelledby="fd-t">
+    <section className={`sec founders-sec ${cls}`} aria-labelledby="fd-t">
       <Decor k="leaf" cls="fd-leaf" />
       <div className="wrap">
         <div className="sec-title">

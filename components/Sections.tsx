@@ -8,7 +8,7 @@ import { FarmVideo } from "./SectionsClient";
    Nothing here adds new claims about delivery times, certifications or ratings. */
 
 /** Four-up benefit strip under the hero (content of the old hero badges + Why Choose Us). */
-export function FeatureStrip() {
+export function FeatureStrip({ cls = "" }: { cls?: string }) {
   const items = [
     { icon: "leaf", t: "100% Fresh", s: "Farm fresh ingredients" },
     { icon: "shield", t: "No Preservatives", s: "Made without added preservatives", tbc: true },
@@ -16,7 +16,7 @@ export function FeatureStrip() {
     { icon: "basket", t: "Ready to Eat", s: "Prepared fresh, ready to eat" },
   ];
   return (
-    <section className="fstrip" aria-label="Why Salad Street">
+    <section className={`fstrip ${cls}`} aria-label="Why Salad Street">
       <div className="wrap fstrip-in">
         {items.map((it) => (
           <div className="fitem" key={it.t}>
@@ -35,10 +35,10 @@ export function FeatureStrip() {
 }
 
 /** "Ready-to-Eat" promo banner with the client's horizontal salad-bowl PNG. */
-export function KitsBanner() {
+export function KitsBanner({ cls = "" }: { cls?: string }) {
   const n = productsInCategory("fresh-salads");
   return (
-    <section className="kits-wrap" aria-labelledby="kits-t">
+    <section className={`kits-wrap ${cls}`} aria-labelledby="kits-t">
       <div className="wrap">
         <div className="kits">
           <Decor k="leaf" cls="kits-leaf" />
@@ -69,9 +69,9 @@ export function KitsBanner() {
 }
 
 /** "From Our Farm to Your Plate" story with play-on-demand farm video. */
-export function FarmStory() {
+export function FarmStory({ cls = "" }: { cls?: string }) {
   return (
-    <section className="sec farm" aria-labelledby="farm-t">
+    <section className={`sec farm ${cls}`} aria-labelledby="farm-t">
       <div className="wrap farm-in">
         <div className="farm-copy">
           <p className="script">Our Farm, Your Freshness</p>
@@ -100,7 +100,7 @@ export function FarmStory() {
 }
 
 /** Why Choose Salad Street (4 columns) + green "farm process" band. */
-export function WhySection() {
+export function WhySection({ cls = "" }: { cls?: string }) {
   const steps = [
     { icon: "sprout", t: "Grow", s: "Grown at our farm" },
     { icon: "leaf", t: "Harvest", s: "Picked fresh" },
@@ -108,7 +108,7 @@ export function WhySection() {
     { icon: "truck", t: "Deliver", s: "Fresh to your table" },
   ];
   return (
-    <section className="why2" aria-labelledby="why2-t">
+    <section className={`why2 ${cls}`} aria-labelledby="why2-t">
       <div className="sec wrap">
         <Decor k="tomato" cls="why-tomato" />
         <SecTitle id="why2-t" title="Why Choose Salad Street?" />

@@ -7,7 +7,7 @@ import { Icon } from "./ui";
 import Media from "./Media";
 
 /** Scroll-snap rail logic shared by the category rail and the reviews carousel. */
-function useRail() {
+export function useRail() {
   const track = useRef<HTMLDivElement>(null);
   const [prevDis, setPrevDis] = useState(true);
   const [nextDis, setNextDis] = useState(false);
