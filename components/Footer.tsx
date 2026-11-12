@@ -69,7 +69,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="fcol">
-            <h3>Our Products</h3>
+            <h3>Categories</h3>
             <ul>
               {CATEGORIES.map((c) => (
                 <li key={c.id}>
@@ -79,7 +79,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="fcol">
-            <h3>Information</h3>
+            <h3>Contact Us</h3>
             <div style={{ display: "grid", gap: "12px" }}>
               <ContactRows />
             </div>

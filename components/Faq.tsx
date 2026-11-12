@@ -23,7 +23,15 @@ function FaqItem({ f, i }: { f: FaqT; i: number }) {
   );
 }
 
-export default function FaqColumns({ list }: { list: FaqT[] }) {
+export default function FaqColumns({ list, single = false }: { list: FaqT[]; single?: boolean }) {
+  if (single)
+    return (
+      <div className="faq-list">
+        {list.map((f, i) => (
+          <FaqItem key={i} f={f} i={i} />
+        ))}
+      </div>
+    );
   const h = Math.ceil(list.length / 2);
   return (
     <div className="faq-cols">

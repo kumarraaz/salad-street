@@ -11,9 +11,16 @@ const SEL = [
   ".hl-card",
   ".rail",
   ".pcard",
-  ".founder",
+  ".founder-card",
   ".why",
-  ".query-in",
+  ".why-item",
+  ".fitem",
+  ".kits",
+  ".farm-copy",
+  ".farm-media",
+  ".process-in",
+  ".query",
+  ".newsletter",
   ".carousel",
   ".rv-grid > *",
   ".bcard",
@@ -32,6 +39,7 @@ export default function Motion() {
 
   useEffect(() => {
     const hdr = document.getElementById("siteHeader");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let ticking = false;
     const onScroll = () => {
       if (ticking) return;
@@ -39,6 +47,16 @@ export default function Motion() {
       requestAnimationFrame(() => {
         ticking = false;
         if (hdr) hdr.dataset.scrolled = window.scrollY > 8 ? "1" : "0";
+        if (reduced) return;
+        /* Parallax: [data-parallax="0.15"] gets --py (px) while on screen; CSS applies it with `translate`. */
+        const vh = window.innerHeight;
+        document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh) return;
+          const f = parseFloat(el.dataset.parallax || "0.15");
+          const centre = r.top + r.height / 2 - vh / 2;
+          el.style.setProperty("--py", `${(-centre * f).toFixed(1)}px`);
+        });
       });
     };
     onScroll();

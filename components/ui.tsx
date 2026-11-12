@@ -27,6 +27,12 @@ export const P: Record<string, string> = {
     "M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z",
   mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
   pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  check: "m5 12.5 4.5 4.5L19 7.5",
+  play: '<path d="M8 5.5v13l11-6.5z" fill="currentColor"/>',
+  quote: '<path d="M9.5 7C6.5 8 5 10.4 5 13.5V17h5v-5H7.5c0-1.7.9-2.9 2.7-3.6zM18.5 7c-3 1-4.5 3.4-4.5 6.5V17h5v-5h-2.5c0-1.7.9-2.9 2.7-3.6z" fill="currentColor" stroke="none"/>',
+  basket: '<path d="M3 10h18l-2 10H5z"/><path d="m8 10 4-6 4 6M9 14v3M15 14v3"/>',
+  truck: '<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+  sparkle: "M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18",
 };
 
 export function Icon({ k, size = 20 }: { k: string; size?: number }) {
@@ -125,15 +131,17 @@ export function Tbc({ t, on }: { t: string; on?: boolean }) {
   );
 }
 
-export function SecTitle({ title, sub, id }: { title: string; sub?: string; id?: string }) {
+/** Section heading from the design: optional script-style eyebrow, serif title flanked by leaves. */
+export function SecTitle({ title, sub, id, eyebrow, as: H = "h2" }: { title: string; sub?: string; id?: string; eyebrow?: string; as?: "h1" | "h2" }) {
   return (
     <div className="sec-title">
-      <h2 id={id}>
+      {eyebrow ? <p className="eyebrow-s">{eyebrow}</p> : null}
+      <H id={id}>
         <LeafFill />
         {title}
         <LeafFill />
-      </h2>
-      {sub ? <p>{sub}</p> : null}
+      </H>
+      {sub ? <p className="sec-sub">{sub}</p> : null}
     </div>
   );
 }

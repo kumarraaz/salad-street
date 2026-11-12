@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ElementType } from "react";
 import { SLIDES } from "@/lib/data";
-import { Cta, Icon } from "./ui";
+import { Cta, Decor, Icon } from "./ui";
 
 const AUTOPLAY_MS = 3000;
 const url = (p: string) => `url("${p.startsWith("/") ? p : "/" + p}")`;
@@ -51,6 +51,7 @@ export default function Hero() {
   return (
     <section
       className="hero hero-banner"
+      data-parallax="0.08"
       aria-roledescription="carousel"
       aria-label="Featured"
       onMouseEnter={() => {
@@ -71,6 +72,7 @@ export default function Hero() {
         if (Math.abs(dx) > 50) go(idx.current + (dx < 0 ? 1 : -1));
       }}
     >
+      <Decor k="leaf" cls="hero-leaf" />
       <div className="slides">
         {SLIDES.map((s, k) => {
           const H = (k ? "h2" : "h1") as ElementType;
@@ -92,6 +94,13 @@ export default function Hero() {
               />
               <div className="slide-in">
                 <div className="hero-copy">
+                  <p className="hero-eyebrow">
+                    Farm Fresh, Everyday
+                    <svg width="64" height="18" viewBox="0 0 64 18" aria-hidden="true">
+                      <path d="M2 14C18 6 34 4 52 7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                      <path d="M50 8c3-5 8-6 12-5-2 4-6 6-12 5z" fill="currentColor" />
+                    </svg>
+                  </p>
                   <H className="hero-h">
                     <span>{s.lines[0]}</span>
                     <span>
@@ -101,28 +110,9 @@ export default function Hero() {
                     <span>{s.lines[2]}</span>
                   </H>
                   <p className="hero-p">{s.text}</p>
-                  <Cta label="Shop Now" href="/products" solid />
-                  <div className="feats">
-                    <span className="feat">
-                      <i>
-                        <Icon k="leaf" size={20} />
-                      </i>
-                      100% Fresh
-                      <br />
-                      Ingredients
-                    </span>
-                    <span className="feat">
-                      <i>
-                        <Icon k="shield" size={20} />
-                      </i>
-                      No Preservatives
-                    </span>
-                    <span className="feat">
-                      <i>
-                        <Icon k="heart" size={20} />
-                      </i>
-                      Healthy &amp; Nutritious
-                    </span>
+                  <div className="hero-ctas">
+                    <Cta label="Shop Now" href="/products" solid />
+                    <Cta label="Explore Our Farm" href="/highlights" />
                   </div>
                 </div>
               </div>

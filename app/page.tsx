@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import { BLOGS, FAQS, PRODUCTS } from "@/lib/data";
-import { CtaRow, Decor, LeafDeco, SecTitle } from "@/components/ui";
+import { CtaRow, Decor, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
 import { CategoryRail, ReviewCarousel } from "@/components/Rails";
 import { ProductGrid } from "@/components/Products";
 import Founders from "@/components/Founders";
-import WhyBlock from "@/components/WhyBlock";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
+import { FarmStory, FeatureStrip, KitsBanner, WhySection } from "@/components/Sections";
+import { Newsletter } from "@/components/SectionsClient";
 
 export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
 
@@ -16,64 +17,54 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <FeatureStrip />
 
-      <section className="sec highlights" id="day-highlights" aria-labelledby="hl-t">
-        <Decor k="leaf" cls="corner-tl" />
-        <LeafDeco x="94%" y="14%" s={28} r={30} />
-        <LeafDeco x="96%" y="62%" s={24} r={60} op={0.8} />
+      <section className="sec deco-sec" aria-labelledby="cat-t">
+        <Decor k="carrot" cls="cat-carrot" />
+        <Decor k="leaf" cls="corner-tr" />
         <div className="wrap">
-          <SecTitle id="hl-t" title="Day Highlights" sub="A day of fresh food, fun and learning for the whole family" />
-          <HighlightCards />
-          <CtaRow label="Explore Highlights" href="/highlights" />
-        </div>
-      </section>
-
-      <section className="sec" aria-labelledby="cat-t" style={{ paddingBottom: "12px" }}>
-        <div className="wrap">
-          <SecTitle id="cat-t" title="Shop by Category" sub="Pick a category to see its products" />
+          <SecTitle id="cat-t" eyebrow="Explore Our Range" title="Shop by Category" />
           <CategoryRail />
-          <CtaRow label="Explore All Categories" href="/categories" />
         </div>
       </section>
 
-      <section className="sec deco-sec" id="our-products" aria-labelledby="pr-t">
-        <Decor k="carrot" cls="pr-carrot" />
-        <Decor k="bowlH" cls="pr-bowl" />
+      <section className="sec deco-sec tint" id="our-products" aria-labelledby="pr-t">
+        <Decor k="leaf" cls="corner-tl" />
+        <Decor k="tomato" cls="pr-tomato" />
         <div className="wrap">
-          <SecTitle id="pr-t" title="Salad Street Products" sub="Explore our fresh and healthy range of products" />
+          <SecTitle id="pr-t" eyebrow="Our Bestsellers" title="Fresh Picks for a Healthy Lifestyle" />
           <ProductGrid list={PRODUCTS.filter((p) => p.home).slice(0, 8)} />
           <CtaRow label="View All Products" href="/products" />
         </div>
       </section>
 
-      <section aria-label="Meet the founders">
-        <Founders />
-        <div className="founders-cta">
-          <CtaRow label="Meet Our Founders" href="/about" />
+      <KitsBanner />
+      <FarmStory />
+
+      <section className="sec highlights" id="day-highlights" aria-labelledby="hl-t">
+        <Decor k="leaf" cls="corner-tl" />
+        <div className="wrap">
+          <SecTitle id="hl-t" eyebrow="Visit Our Farm" title="Day Highlights" sub="A day of fresh food, fun and learning for the whole family" />
+          <HighlightCards />
+          <CtaRow label="Explore Highlights" href="/highlights" />
         </div>
       </section>
 
-      <section className="why-query" aria-label="Why choose us and enquiry">
-        <WhyBlock />
-        <QueryBlock />
-      </section>
+      <WhySection />
+      <Founders />
 
-      <section className="sec deco-sec" aria-labelledby="rv-t">
-        <Decor k="leaf" cls="corner-tr" />
+      <section className="sec reviews" aria-labelledby="rv-t">
         <div className="wrap">
-          <div className="sec-title">
-            <h2 id="rv-t">What Our Customers Say</h2>
-          </div>
+          <SecTitle id="rv-t" title="Loved by Health-Conscious Customers" />
           <ReviewCarousel />
-          <CtaRow label="Read All Reviews" href="/reviews" />
         </div>
       </section>
 
-      <section className="sec" aria-labelledby="bl-t" style={{ paddingTop: "12px" }}>
+      <section className="sec" aria-labelledby="bl-t">
         <div className="wrap">
-          <SecTitle id="bl-t" title="Power Blog" sub="Fresh ideas, healthy living and stories from our farm" />
+          <SecTitle id="bl-t" title="From Our Blog" sub="Fresh ideas, healthy living and stories from our farm" />
           <div className="bgrid">
-            {BLOGS.slice(0, 4).map((b) => (
+            {BLOGS.slice(0, 3).map((b) => (
               <BlogCard key={b.slug} b={b} />
             ))}
           </div>
@@ -81,18 +72,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec faq" aria-labelledby="faq-t" style={{ paddingTop: "20px" }}>
+      <section className="sec faq deco-sec" aria-labelledby="faq-t">
         <Decor k="carrot" cls="faq-deco l" />
         <Decor k="tomato" cls="faq-deco r" />
         <div className="wrap">
           <div className="faq-in">
-            <p className="eyebrow">Frequently asked questions</p>
-            <h2 id="faq-t">Everything You Need to Know</h2>
-            <FaqColumns list={FAQS.slice(0, 6)} />
+            <SecTitle id="faq-t" title="Frequently Asked Questions" />
+            <FaqColumns list={FAQS.slice(0, 6)} single />
             <CtaRow label="View All FAQs" href="/faqs" />
           </div>
         </div>
       </section>
+
+      <section className="sec enquire-sec" aria-label="Enquiry">
+        <div className="wrap">
+          <QueryBlock />
+        </div>
+      </section>
+
+      <Newsletter />
     </>
   );
 }

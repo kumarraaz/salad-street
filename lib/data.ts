@@ -13,6 +13,8 @@ export const CONFIG = {
   designedByUrl: "https://webdigitaldevelopment.in",
 };
 
+import { BLOG_IMG, CATEGORY_IMG, PRODUCT_IMG, WHY_IMG } from "./media";
+
 /* ============================ DATA ================================== */
 export type Category = { id: string; name: string; img: string };
 export const CATEGORIES: Category[] = [
@@ -22,7 +24,7 @@ export const CATEGORIES: Category[] = [
   { id: "salad-dressings", name: "Salad Dressings", img: "images/categories/salad-dressings.webp" },
   { id: "healthy-snacks", name: "Healthy Snacks", img: "images/categories/healthy-snacks.webp" },
   { id: "combo-packs", name: "Combo Packs", img: "images/categories/combo-packs.webp" },
-];
+].map((c) => ({ ...c, img: CATEGORY_IMG[c.id] || c.img }));
 
 export type Product = {
   id: string;
@@ -49,7 +51,7 @@ export const PRODUCTS: Product[] = [
      { id:"classic-garden-salad", name:"Classic Garden Salad", hi:"", weight:"", price:0, cat:"fresh-salads", home:false },
      Names: Classic Garden Salad, Caesar Salad, Greek Salad, Mediterranean Salad, Fresh Spinach Salad, Kale Salad,
      Mixed Greens Salad, Avocado Salad, Quinoa Salad, Chickpea Salad, Protein Salad, Seasonal Fresh Salad. */
-].map((p) => ({ ...p, img: `images/products/${p.id}.webp` }));
+].map((p) => ({ ...p, img: PRODUCT_IMG[p.id] || `images/products/${p.id}.webp` }));
 
 /* Slides 2–4 copy is draft — replace with approved copy.
    Banners: full-width hero backgrounds (2048px) with a 1024px `-sm` version for phones. */
@@ -102,7 +104,7 @@ export const WHY: Why[] = [
   { id: "nopres", tab: "No Preservatives", icon: "shield", title: "No Preservatives", text: "Our salads and products are made without added preservatives.", tbc: true, img: "images/why/no-preservatives.webp" },
   { id: "healthy", tab: "Healthy & Nutritious", icon: "heart", title: "Healthy & Nutritious", text: "Wholesome, balanced food made for everyday wellness.", tbc: true, img: "images/why/healthy.webp" },
   { id: "variety", tab: "Wide Variety", icon: "grid", title: "Wide Variety", text: "Salads, cut fruits, vegetables, dressings, snacks and combo packs in one place.", img: "images/why/variety.webp" },
-];
+].map((w) => ({ ...w, img: WHY_IMG[w.id] || w.img }));
 
 /* SAMPLE reviews from the mockup. Replace with genuine, verifiable reviews before launch. */
 export type Review = { name: string; text: string; stars: number; sample?: boolean; img?: string };
@@ -118,7 +120,7 @@ export const BLOGS: Blog[] = [
   { slug: "why-fresh-ingredients-matter", title: "How Fresh Ingredients Make a Difference", excerpt: "What freshness changes in taste, texture and nutrition." },
   { slug: "from-farm-to-your-bowl", title: "From Farm to Your Bowl: Our Journey", excerpt: "How our produce travels from the field to your plate." },
   { slug: "nutrition-tips-healthier-you", title: "Nutrition Tips for a Healthier You", excerpt: "Small, practical changes for better everyday eating." },
-].map((b) => ({ ...b, img: `images/blog/${b.slug}.webp` }));
+].map((b) => ({ ...b, img: BLOG_IMG[b.slug] || `images/blog/${b.slug}.webp` }));
 
 /* Answers in tbc:true need client confirmation. */
 export type Faq = { q: string; a: string; tbc?: boolean };

@@ -3,46 +3,36 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FOUNDERS, type Founder } from "@/lib/data";
-import { Icon, Tbc } from "./ui";
+import { Decor, Icon, Tbc } from "./ui";
 import Media from "./Media";
 
-function FounderCard({ f, right }: { f: Founder; right: boolean }) {
+function FounderCard({ f }: { f: Founder }) {
   const [open, setOpen] = useState(false);
   return (
-    <article
-      className={`founder ${right ? "right" : ""}${open ? " open" : ""}`}
-      data-founder
-      onClick={(e) => {
-        // On touch devices (no hover) tapping the card toggles it, as in the original.
-        if (!(e.target as HTMLElement).closest("a,button") && matchMedia("(hover: none)").matches) setOpen((o) => !o);
-      }}
-    >
-      <Media src={f.img} label={"Founder photo · " + f.name + " (garden background)"} alt={"Portrait of " + f.name} cls="dark" />
-      <button
-        className="f-toggle"
-        type="button"
-        aria-expanded={open}
-        aria-controls={`fm-${f.id}`}
-        aria-label={(open ? "Show less about " : "Show more about ") + f.name}
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpen((o) => !o);
-        }}
-      >
-        <Icon k="plus" size={20} />
-      </button>
-      <div className="founder-copy">
-        <h3>Meet the Founder</h3>
-        <p className="fname">{f.name}</p>
+    <article className={`founder-card${open ? " open" : ""}`}>
+      {/* Founder photo: client to upload images/founders/<id>.webp (placeholder shows until then). */}
+      <Media src={f.img} label={"Founder photo · " + f.name} alt={"Portrait of " + f.name} cls="founder-photo" />
+      <div className="founder-body">
+        <p className="script">Meet the Founder</p>
+        <h3>{f.name}</h3>
         <p>{f.bio}</p>
         <div className="founder-more" id={`fm-${f.id}`}>
           <div>
             <p>{f.bioFull ? f.bioFull : <Tbc t="Full biography to be supplied by Salad Street." on />}</p>
           </div>
         </div>
-        <Link className="know" href="/about">
-          Know More <Icon k="arrow" size={18} />
-        </Link>
+        <p className="sign" aria-hidden="true">
+          {f.name}
+        </p>
+        <small className="role">Founder, Salad Street</small>
+        <div className="founder-actions">
+          <button className="link-arrow" type="button" aria-expanded={open} aria-controls={`fm-${f.id}`} onClick={() => setOpen((o) => !o)}>
+            {open ? "Show less" : "Read more"} <Icon k={open ? "chevD" : "arrow"} size={16} />
+          </button>
+          <Link className="link-arrow" href="/about">
+            Our story <Icon k="arrow" size={16} />
+          </Link>
+        </div>
       </div>
     </article>
   );
@@ -50,10 +40,19 @@ function FounderCard({ f, right }: { f: Founder; right: boolean }) {
 
 export default function Founders() {
   return (
-    <div className="founders">
-      {FOUNDERS.map((f, i) => (
-        <FounderCard key={f.id} f={f} right={i > 0} />
-      ))}
-    </div>
+    <section className="sec founders-sec" aria-labelledby="fd-t">
+      <Decor k="leaf" cls="fd-leaf" />
+      <div className="wrap">
+        <div className="sec-title">
+          <p className="eyebrow-s">The people behind our food</p>
+          <h2 id="fd-t">Meet the Founders</h2>
+        </div>
+        <div className="founder-grid">
+          {FOUNDERS.map((f) => (
+            <FounderCard key={f.id} f={f} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

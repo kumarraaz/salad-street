@@ -15,6 +15,8 @@ type Ctx = {
   total: number;
   add: (id: string, q?: number) => void;
   set: (id: string, q: number) => void;
+  wish: string[];
+  toggleWish: (id: string) => boolean;
   cartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
@@ -33,6 +35,7 @@ export const useApp = () => {
 export default function Providers({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [items, setItems] = useState<Record<string, number>>({});
+  const [wish, setWish] = useState<string[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [toastState, setToastState] = useState<ToastState>({ text: "", show: false });
   const lastFocus = useRef<HTMLElement | null>(null);
@@ -42,6 +45,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       setItems(JSON.parse(localStorage.getItem("ss-cart") || "{}"));
+      setWish(JSON.parse(localStorage.getItem("ss-wish") || "[]"));
     } catch {
       /* ignore */
     }
@@ -72,6 +76,22 @@ export default function Providers({ children }: { children: ReactNode }) {
       return next;
     });
   }, []);
+
+  /** Wishlist (saved in this browser). Returns true when the product is now saved. */
+  const toggleWish = useCallback(
+    (id: string) => {
+      const saved = !wish.includes(id);
+      const next = saved ? [...wish, id] : wish.filter((x) => x !== id);
+      setWish(next);
+      try {
+        localStorage.setItem("ss-wish", JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return saved;
+    },
+    [wish],
+  );
 
   const lines = useMemo<CartLine[]>(
     () =>
@@ -151,6 +171,8 @@ export default function Providers({ children }: { children: ReactNode }) {
     total,
     add,
     set,
+    wish,
+    toggleWish,
     cartOpen,
     openCart,
     closeCart,

@@ -79,8 +79,15 @@ export function CategoryRail() {
           return (
             <Link className="cat" href={`/products?cat=${c.id}`} key={c.id}>
               <Media src={c.img} label={c.name} alt={c.name} />
-              <b>{c.name}</b>
-              <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : "Coming soon"}</small>
+              <span className="cat-meta">
+                <span>
+                  <b>{c.name}</b>
+                  <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : "Coming soon"}</small>
+                </span>
+                <span className="cat-go" aria-hidden="true">
+                  <Icon k="chevR" size={16} />
+                </span>
+              </span>
             </Link>
           );
         })}
@@ -93,19 +100,24 @@ export function CategoryRail() {
 }
 
 export function ReviewCard({ name, text, stars, img }: { name: string; text: string; stars: number; img?: string }) {
+  const initials = name
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("");
   return (
     <article className="rcard">
-      <Media src={img} label="Avatar" alt={name} />
-      <div>
-        <q>{text}</q>
-        <div className="stars" aria-label={`${stars} out of 5 stars`}>
-          {"★".repeat(stars)}
-        </div>
-        <b>{name}</b>
-      </div>
-      <span className="qmark" aria-hidden="true">
-        ”
+      <span className="rq" aria-hidden="true">
+        <Icon k="quote" size={26} />
       </span>
+      <q>{text}</q>
+      <div className="rfoot">
+        {img ? <Media src={img} label="" alt={name} cls="ravatar" /> : <span className="ravatar ini" aria-hidden="true">{initials}</span>}
+        <b>{name}</b>
+        <span className="stars" role="img" aria-label={`${stars} out of 5 stars`}>
+          {"★".repeat(stars)}
+        </span>
+      </div>
     </article>
   );
 }

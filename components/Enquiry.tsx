@@ -148,14 +148,17 @@ export function EnquiryForm({ pfx }: { pfx: string }) {
 export function QueryBlock() {
   return (
     <div className="query">
-      <Decor k="bowlV" cls="query-deco" />
-      <div className="query-in">
+      <div className="query-side">
+        <p className="script">We&apos;re here to help</p>
         <h2>Have Any Query?</h2>
         <p className="sub">Tell us what you need. We&apos;ll get back to you.</p>
-        <EnquiryForm pfx="q" />
         <div className="contact-cta">
           <Cta label="Contact Us" href="/contact" />
         </div>
+        <Decor k="bowlV" cls="query-deco" />
+      </div>
+      <div className="query-in">
+        <EnquiryForm pfx="q" />
       </div>
     </div>
   );

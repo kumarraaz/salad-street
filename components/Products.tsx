@@ -1,21 +1,38 @@
 "use client";
 
 import { inr, type Product } from "@/lib/data";
-import { Cta } from "./ui";
+import { Cta, Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
 
 export function ProductCard({ p }: { p: Product }) {
-  const { add, toast, openCart } = useApp();
+  const { add, toast, openCart, wish, toggleWish } = useApp();
+  const saved = wish.includes(p.id);
   return (
     <article className="pcard">
-      <Media src={p.img} label={"Product photo · " + p.name} alt={`${p.name}, ${p.weight}`} />
+      <div className="pimg">
+        <Media src={p.img} label={"Product photo · " + p.name} alt={`${p.name}, ${p.weight}`} />
+        <button
+          className={`wish${saved ? " on" : ""}`}
+          type="button"
+          aria-pressed={saved}
+          aria-label={saved ? `Remove ${p.name} from wishlist` : `Save ${p.name} to wishlist`}
+          onClick={() => {
+            const now = toggleWish(p.id);
+            toast(now ? `${p.name} saved to wishlist` : `${p.name} removed from wishlist`);
+          }}
+        >
+          <Icon k="heart" size={18} />
+        </button>
+      </div>
       <div className="pbody">
-        <span className="pw">{p.weight}</span>
         <h3 className="pn">
           {p.name} <span lang="hi">({p.hi})</span>
         </h3>
-        <span className="pp">{inr(p.price)}</span>
+        <p className="pmeta">
+          <span className="pp">{inr(p.price)}</span>
+          <span className="pw">/ {p.weight}</span>
+        </p>
       </div>
       <button
         className="btn-cart"
@@ -47,4 +64,3 @@ export function ProductGrid({ list }: { list: Product[] }) {
     </div>
   );
 }
-

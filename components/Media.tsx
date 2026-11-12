@@ -26,7 +26,8 @@ export default function Media({
     if (el && el.complete && el.naturalWidth === 0) setFailed(true);
   }, []);
 
-  const url = src ? (src.startsWith("/") ? src : "/" + src) : "";
+  // Local files ("images/x.webp" or "/images/x.webp") and remote demo URLs (https://…) both work.
+  const url = src ? (/^https?:\/\//.test(src) || src.startsWith("/") ? src : "/" + src) : "";
   return (
     <div className={`media ${cls}`} data-label={label}>
       {url && !failed ? (
