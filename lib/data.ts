@@ -46,13 +46,13 @@ export type Product = {
   reviews?: number;
 };
 export const PRODUCTS: Product[] = [
-  { id: "rocket-leaves", name: "Rocket Leaves", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/rocket.png", note: "Peppery, crisp leaves" },
-  { id: "italian-basil", name: "Italian Basil", hi: "", weight: "", price: null, cat: "herbs", home: true, img: "/images/leafy/italian-basil.png", note: "Sweet, aromatic herb" },
-  { id: "lettuce-mix", name: "Lettuce Mix", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/lettuce-mix.png", note: "Soft and crunchy lettuces" },
-  { id: "baby-spinach", name: "Baby Spinach", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/baby-spinach.png", note: "Tender, mild leaves" },
-  { id: "salad-leaves-mix", name: "Salad Leaves Mix", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/salad-leaves-mix.png", note: "Red and green salad leaves" },
-  { id: "mint", name: "Mint", hi: "", weight: "", price: null, cat: "herbs", home: true, img: "/images/leafy/mint.png", note: "Cool, fresh aroma" },
-  { id: "microgreens", name: "Microgreens", hi: "", weight: "", price: null, cat: "microgreens", home: true, img: "/images/leafy/microgreens.png", note: "Tiny, tender shoots" },
+  { id: "rocket-leaves", name: "Rocket Leaves", hi: "", weight: "100 g", price: 120, cat: "salad-greens", home: true, img: "/images/leafy/rocket.png", note: "Peppery, crisp leaves" },
+  { id: "italian-basil", name: "Italian Basil", hi: "", weight: "100 g", price: 140, cat: "herbs", home: true, img: "/images/leafy/italian-basil.png", note: "Sweet, aromatic herb" },
+  { id: "lettuce-mix", name: "Lettuce Mix", hi: "", weight: "200 g", price: 299, cat: "salad-greens", home: true, img: "/images/leafy/lettuce-mix.png", note: "Soft and crunchy lettuces" },
+  { id: "baby-spinach", name: "Baby Spinach", hi: "", weight: "200 g", price: 200, cat: "salad-greens", home: true, img: "/images/leafy/baby-spinach.png", note: "Tender, mild leaves" },
+  { id: "salad-leaves-mix", name: "Salad Leaves Mix", hi: "", weight: "150 g", price: 200, cat: "salad-greens", home: true, img: "/images/leafy/salad-leaves-mix.png", note: "Red and green salad leaves" },
+  { id: "mint", name: "Mint", hi: "", weight: "100 g", price: 70, cat: "herbs", home: true, img: "/images/leafy/mint.png", note: "Cool, fresh aroma" },
+  { id: "microgreens", name: "Microgreens", hi: "", weight: "50 g", price: 150, cat: "microgreens", home: true, img: "/images/leafy/microgreens.png", note: "Tiny, tender shoots" },
 ];
 
 /* Slides 2–4 copy is draft — replace with approved copy.
