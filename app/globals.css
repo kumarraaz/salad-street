@@ -783,3 +783,43 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .prate{font-size:12px}
   .pcard .btn-cart{min-height:40px;font-size:13.5px;border-radius:9px}
 }
+
+/* ---------- Upcoming Harvest v2 (reference: cream category cards, edge arrows, floating decor) ---------- */
+.harvest .hv-carrot{left:1.5%;top:34px;width:150px;rotate:-14deg}
+.hv-leaf{left:9%;top:18px;width:60px;opacity:.95;animation-delay:-3s}
+.hv-lettuce{right:1%;top:4px;width:200px;rotate:12deg;opacity:.95;animation-delay:-1.5s}
+.hv-slider{position:relative;padding:0 6px}
+.hv-rail{grid-auto-columns:calc((100% - 3 * 22px) / 4);gap:22px;padding:10px 2px 22px}
+.hv-card{scroll-snap-align:start;min-width:0;display:flex;flex-direction:column;text-decoration:none;color:inherit;background:linear-gradient(180deg,#FFFDF6 0%,#F8F3E4 100%);border:1px solid #EDE6D2;border-radius:18px;padding:12px;box-shadow:0 8px 22px rgba(92,74,30,.08);transition:transform .4s var(--ease),box-shadow .4s ease,border-color .3s}
+.hv-pic{position:relative;display:grid;place-items:center;aspect-ratio:5/4;border-radius:14px;background:radial-gradient(circle at 50% 60%,#FFFFFF 0%,#FBF7EC 55%,#F3EBD6 100%);overflow:hidden}
+.hv-pic img{width:84%;height:84%;object-fit:contain;filter:drop-shadow(0 14px 12px rgba(23,63,21,.2));animation:floaty 6s ease-in-out infinite;animation-delay:var(--d,0s);transition:transform .6s var(--ease)}
+.hv-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 4px 4px}
+.hv-meta b{display:block;font-size:17px;font-weight:700;color:#1E2619;line-height:1.25}
+.hv-meta small{display:block;margin-top:3px;font-size:13px;color:var(--mu)}
+.hv-go{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--g9);box-shadow:0 3px 10px rgba(0,0,0,.1);transition:background-color .25s,color .25s,transform .25s}
+@media (hover:hover){
+  .hv-card:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(92,74,30,.14);border-color:#E2D6B4}
+  .hv-card:hover .hv-pic img{transform:scale(1.08)}
+  .hv-card:hover .hv-go{background:var(--g6);color:#fff;transform:translateX(2px)}
+}
+.hv-card:focus-visible{outline:3px solid #9CCB7E;outline-offset:3px}
+.hv-slider .rail-btn{position:absolute;top:calc(50% - 30px);translate:0 -50%;z-index:3;display:grid}
+.hv-prev{left:-16px}
+.hv-next{right:-16px}
+.hv-slider .rail-btn:disabled{opacity:.45;cursor:default}
+@media (max-width:1180px){.hv-rail{grid-auto-columns:calc((100% - 2 * 20px) / 3);gap:20px}.hv-prev{left:-8px}.hv-next{right:-8px}}
+@media (max-width:1100px){.hv-lettuce{width:140px;opacity:.6}.harvest .hv-carrot,.hv-leaf{display:none}}
+@media (max-width:700px){
+  .hv-lettuce{display:none}
+  .hv-slider{padding:0}
+  .hv-rail{grid-auto-columns:calc((100% - 12px) / 2);gap:12px;padding:6px 0 16px}
+  .hv-card{padding:8px;border-radius:14px}
+  .hv-meta{padding:10px 2px 2px}
+  .hv-meta b{font-size:14.5px}
+  .hv-meta small{font-size:11.5px}
+  .hv-go{display:none}
+  .hv-slider .rail-btn{width:34px;height:34px;top:calc(50% - 24px)}
+  .hv-prev{left:-10px}
+  .hv-next{right:-10px}
+}
+@media (prefers-reduced-motion:reduce){.hv-pic img{animation:none}.hv-card:hover,.hv-card:hover .hv-pic img{transform:none}}

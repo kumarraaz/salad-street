@@ -1,27 +1,20 @@
-import { PRODUCTS } from "@/lib/data";
 import { Cta, Decor, SecTitle } from "./ui";
+import { HarvestRail } from "./Rails";
 
-/* Leafy greens shown as free-floating transparent cutouts (no boxed cards).
-   Display only: no prices or stock levels are shown because none are confirmed. */
+/* Display only: no prices or stock levels are shown because none are confirmed.
+   Product images come from lib/data.ts (public/images/leafy/*.png); replace those files to update them. */
 
-/** "What's Going to Be Available Next Week?" — upcoming harvest strip. */
+/** "What's Going to Be Available Next Week?" — upcoming harvest slider. */
 export function UpcomingHarvest({ cls = "" }: { cls?: string }) {
   return (
     <section className={`sec harvest deco-sec ${cls}`} aria-labelledby="hv-t">
       <Decor k="carrot" cls="hv-carrot" />
-      <Decor k="leaf" cls="corner-tr" />
+      <Decor k="leaf" cls="hv-leaf" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="decor floaty hv-lettuce" src="/images/leafy/lettuce-mix.png" width={360} height={300} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div className="wrap">
         <SecTitle id="hv-t" eyebrow="Upcoming Harvest" title="What's Going to Be Available Next Week?" sub="Leafy greens from our farm. Message us to reserve yours." />
-        <ul className="hv-track" aria-label="Upcoming leafy greens">
-          {PRODUCTS.map((l, i) => (
-            <li className="hv-item" key={l.id} style={{ ["--d" as string]: `${(i % 4) * -1.4}s` }}>
-              <span className="hv-glow" aria-hidden="true" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="hv-img" src={l.img} alt={l.name} loading="lazy" decoding="async" width={360} height={300} />
-              <b>{l.name}</b>
-            </li>
-          ))}
-        </ul>
+        <HarvestRail />
         <div className="cta-row">
           <Cta label="Enquire to Reserve" href="/contact" solid />
         </div>
@@ -29,4 +22,3 @@ export function UpcomingHarvest({ cls = "" }: { cls?: string }) {
     </section>
   );
 }
-

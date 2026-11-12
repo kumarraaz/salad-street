@@ -189,3 +189,44 @@ export function ReviewCarousel(): ReactNode {
     </div>
   );
 }
+
+/** "Upcoming Harvest": cream cards for the 7 products, 4 per view on desktop, 2 on phones. */
+export function HarvestRail() {
+  const r = useRail();
+  return (
+    <div className="hv-slider" data-carousel>
+      <button className="rail-btn hv-prev" type="button" aria-label="Previous products" disabled={r.prevDis} onClick={r.prev}>
+        <Icon k="chevL" />
+      </button>
+      <div className="track hv-rail" tabIndex={0} aria-label="Available next week" ref={r.track}>
+        {PRODUCTS.map((p, i) => (
+          <Link className="hv-card" href={`/products/${p.id}`} key={p.id}>
+            <span className="hv-pic">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.img} alt={p.name} loading="lazy" decoding="async" width={360} height={300} style={{ ["--d" as string]: `${(i % 4) * -1.5}s` }} />
+            </span>
+            <span className="hv-meta">
+              <span>
+                <b>{p.name}</b>
+                <small>{p.note}</small>
+              </span>
+              <span className="hv-go" aria-hidden="true">
+                <Icon k="chevR" size={15} />
+              </span>
+            </span>
+          </Link>
+        ))}
+      </div>
+      <button className="rail-btn hv-next" type="button" aria-label="Next products" disabled={r.nextDis} onClick={r.next}>
+        <Icon k="chevR" />
+      </button>
+      <div className="dots" aria-label="Harvest pages">
+        {r.pages > 1
+          ? Array.from({ length: r.pages }, (_, k) => (
+              <button type="button" key={k} aria-label={`Page ${k + 1}`} aria-current={k === r.cur} onClick={() => r.go(k)} />
+            ))
+          : null}
+      </div>
+    </div>
+  );
+}
