@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { inr, orderText, waLink } from "@/lib/data";
+import { inr, orderText, waLink, priceText } from "@/lib/data";
 import { Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
@@ -34,13 +34,13 @@ export function CartDrawer() {
           <ul className="cart-list">
             {lines.map(({ p, q }) => (
               <li className="cart-item" key={p.id}>
-                <Media src={p.img} label="" alt="" />
+                <Media src={p.img} label="" alt="" cls="cutout" />
                 <div>
                   <Link className="ci-name" href={`/products/${p.id}`} onClick={closeCart}>
-                    {p.name} <span lang="hi">({p.hi})</span>
+                    {p.name} {p.hi ? <span lang="hi">({p.hi})</span> : null}
                   </Link>
                   <div className="ci-meta">
-                    {p.weight} · {inr(p.price)}
+                    {p.weight ? `${p.weight} · ` : ""}{priceText(p)}
                   </div>
                   <div className="qty">
                     <button type="button" data-qty={p.id} data-d="-1" aria-label={`Decrease ${p.name}`} onClick={() => change(p.id, -1)}>
@@ -53,7 +53,7 @@ export function CartDrawer() {
                   </div>
                 </div>
                 <div className="ci-right">
-                  {inr(p.price * q)}
+                  {priceText(p, q)}
                   <button
                     type="button"
                     data-rm={p.id}
@@ -81,8 +81,9 @@ export function CartDrawer() {
         <div className="drawer-ft">
           <div className="total">
             <span>Subtotal</span>
-            <span>{inr(total)}</span>
+            <span>{lines.length && lines.every((l) => l.p.price == null) ? "On request" : inr(total)}</span>
           </div>
+          {lines.some((l) => l.p.price == null) ? <small>Prices for some items are on request and will be confirmed with your order.</small> : null}
           {lines.length ? (
             waLink() ? (
               <>

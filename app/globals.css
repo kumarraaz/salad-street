@@ -733,3 +733,22 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 .ci-name{display:block;text-decoration:none;color:inherit}
 .ci-name:hover{color:var(--g6)}
 @media (max-width:560px){.pd-actions{flex-wrap:nowrap;gap:8px}.pd-actions .btn{flex:1 1 auto;min-width:0;padding:0 14px}.pd-actions .qty button{width:34px}}
+
+/* ---------- Transparent product cutouts inside cards (show whole leaf, no crop) ---------- */
+.media.cutout{background:radial-gradient(circle at 50% 58%,#FFFFFF 0%,#F4F2E8 72%)}
+.media.cutout::before{display:none}
+.media.cutout img{object-fit:contain;padding:9%;filter:drop-shadow(0 12px 12px rgba(23,63,21,.16))}
+.pp.por{font-size:15px;font-weight:600;color:var(--g6)}
+.pd-price{display:block}
+/* Shop by Product sits directly on top of Fresh Picks: one visual block, two sections */
+.shop-by{padding-bottom:clamp(36px,4vw,56px)}
+.picks-sec{padding-top:clamp(44px,5vw,64px)}
+.shop-by .cat small{display:block;margin-top:2px}
+@media (max-width:700px){
+  .cat-track{grid-auto-columns:calc((100% - 14px) / 2);gap:14px}
+  .cat b{font-size:17px}
+  .cat small{font-size:12px}
+  .cat-go{width:28px;height:28px}
+}
+@media (max-width:700px){.shop-by .cat-go{display:none}.shop-by .cat-meta{padding:0 4px 4px}}
+@media (max-width:1080px){.pd-actions{flex-wrap:nowrap;gap:8px}.pd-actions .btn{flex:1 1 auto;min-width:0;padding:0 14px}}

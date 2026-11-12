@@ -1,4 +1,4 @@
-import { LEAFY } from "@/lib/data";
+import { PRODUCTS } from "@/lib/data";
 import { Cta, Decor, SecTitle } from "./ui";
 
 /* Leafy greens shown as free-floating transparent cutouts (no boxed cards).
@@ -13,7 +13,7 @@ export function UpcomingHarvest({ cls = "" }: { cls?: string }) {
       <div className="wrap">
         <SecTitle id="hv-t" eyebrow="Upcoming Harvest" title="What's Going to Be Available Next Week?" sub="Leafy greens from our farm. Message us to reserve yours." />
         <ul className="hv-track" aria-label="Upcoming leafy greens">
-          {LEAFY.map((l, i) => (
+          {PRODUCTS.map((l, i) => (
             <li className="hv-item" key={l.id} style={{ ["--d" as string]: `${(i % 4) * -1.4}s` }}>
               <span className="hv-glow" aria-hidden="true" />
               {/* eslint-disable-next-line @next/next/no-img-element */}

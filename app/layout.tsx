@@ -14,10 +14,10 @@ export const metadata: Metadata = {
     template: "%s | Salad Street Farms",
   },
   description:
-    "Farm fresh ingredients, ready-to-eat salads and healthy products for your everyday wellness. Shop vegetables, salads and more from Salad Street Farms.",
+    "Farm fresh ingredients, ready-to-eat salads and healthy products for your everyday wellness. Shop salad greens, herbs and microgreens from Salad Street Farms.",
   openGraph: {
     title: "Salad Street Farms",
-    description: "Fresh salads, farm vegetables and family days at the farm.",
+    description: "Fresh salad greens, herbs, microgreens and family days at the farm.",
     type: "website",
   },
 };

@@ -101,7 +101,7 @@ export default function Providers({ children }: { children: ReactNode }) {
     [items],
   );
   const count = useMemo(() => lines.reduce((s, l) => s + l.q, 0), [lines]);
-  const total = useMemo(() => lines.reduce((s, l) => s + l.q * l.p.price, 0), [lines]);
+  const total = useMemo(() => lines.reduce((s, l) => s + l.q * (l.p.price ?? 0), 0), [lines]);
 
   const openCart = useCallback(() => {
     lastFocus.current = document.activeElement as HTMLElement | null;

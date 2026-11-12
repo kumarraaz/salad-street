@@ -17,7 +17,7 @@ export default function CategoriesPage() {
               const n = productsInCategory(c.id);
               return (
                 <Link className="cat" key={c.id} href={`/products?cat=${c.id}`}>
-                  <Media src={c.img} label={c.name} alt={c.name} />
+                  <Media src={c.img} label={c.name} alt={c.name} cls="cutout" />
                   <b>{c.name}</b>
                   <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : "Coming soon"}</small>
                 </Link>

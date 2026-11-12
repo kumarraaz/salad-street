@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { CONFIG, PRODUCTS, inr, waLink } from "@/lib/data";
+import { CONFIG, PRODUCTS, inr, waLink, withWeight } from "@/lib/data";
 import { AVATAR, WA_SVG } from "@/lib/svg";
 import { Icon, RawSvg } from "./ui";
 import { useApp } from "./Providers";
@@ -48,21 +48,21 @@ export default function Floating() {
 
   const answer = (raw: string): ReactNode => {
     const m = raw.toLowerCase();
-    const prod = PRODUCTS.find((p) => m.includes(p.name.toLowerCase()) || m.includes(p.hi));
+    const prod = PRODUCTS.find((p) => m.includes(p.name.toLowerCase()) || m.includes(p.id.replace(/-/g, " ")) || (!!p.hi && m.includes(p.hi)));
     if (prod)
       return (
         <>
-          {prod.name} ({prod.weight}) is {inr(prod.price)}.
+          {prod.price == null ? <>{withWeight(prod)}: price on request. Add it to your cart and we will confirm the price with your order.</> : <>{withWeight(prod)} is {inr(prod.price)}.</>}
           <button className="btn-cart" type="button" data-add={prod.id} onClick={() => addToCart(prod.id)}>
             Add to Cart
           </button>
         </>
       );
     const has = (...w: string[]) => w.some((x) => m.includes(x));
-    if (has("product", "shop", "buy", "vegetable", "price", "menu", "salad"))
+    if (has("product", "shop", "buy", "green", "leaf", "herb", "price", "menu", "salad"))
       return (
         <>
-          We have {PRODUCTS.length} products listed right now, from Red Radish to English Carrot.{" "}
+          We have {PRODUCTS.length} products: {PRODUCTS.map((p) => p.name).join(", ")}.{" "}
           <Link href="/products">See all products</Link> or <Link href="/categories">browse categories</Link>.
         </>
       );

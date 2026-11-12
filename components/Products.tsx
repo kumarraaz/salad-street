@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { CATEGORIES, inr, type Product } from "@/lib/data";
+import { CATEGORIES, priceText, type Product } from "@/lib/data";
 import { Cta, Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
@@ -39,19 +39,19 @@ export function ProductCard({ p }: { p: Product }) {
     <article className="pcard">
       <div className="pimg">
         <Link href={href} tabIndex={-1} aria-hidden="true" className="pimg-link">
-          <Media src={p.img} label={"Product photo · " + p.name} alt="" />
+          <Media src={p.img} label={"Product photo · " + p.name} alt="" cls="cutout" />
         </Link>
         <WishBtn p={p} />
       </div>
       <div className="pbody">
         <h3 className="pn">
           <Link href={href}>
-            {p.name} <span lang="hi">({p.hi})</span>
+            {p.name} {p.hi ? <span lang="hi">({p.hi})</span> : null}
           </Link>
         </h3>
         <p className="pmeta">
-          <span className="pp">{inr(p.price)}</span>
-          <span className="pw">/ {p.weight}</span>
+          <span className={`pp${p.price == null ? " por" : ""}`}>{priceText(p)}</span>
+          {p.weight ? <span className="pw">/ {p.weight}</span> : null}
         </p>
       </div>
       <button
@@ -122,7 +122,7 @@ export function BuyBox({ p }: { p: Product }) {
   return (
     <div className="buybox">
       <p className="pd-price">
-        {inr(p.price)} <span>/ {p.weight}</span>
+        {priceText(p)} {p.weight ? <span>/ {p.weight}</span> : null}
       </p>
       {cat ? (
         <p className="pd-cat">

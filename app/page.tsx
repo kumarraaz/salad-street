@@ -3,7 +3,7 @@ import { BLOGS, FAQS, PRODUCTS } from "@/lib/data";
 import { CtaRow, Decor, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
-import { ReviewCarousel } from "@/components/Rails";
+import { ProductRail, ReviewCarousel } from "@/components/Rails";
 import Founders from "@/components/Founders";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
@@ -22,7 +22,16 @@ export default function HomePage() {
       <FeatureStrip cls="bg-w" />
       <UpcomingHarvest cls="bg-c" />
 
-      <section className="sec deco-sec bg-w" id="our-products" aria-labelledby="pr-t">
+      <section className="sec deco-sec bg-w shop-by" aria-labelledby="sp-t">
+        <Decor k="carrot" cls="cat-carrot" />
+        <Decor k="leaf" cls="corner-tr" />
+        <div className="wrap">
+          <SecTitle id="sp-t" eyebrow="Explore Our Range" title="Shop by Product" />
+          <ProductRail />
+        </div>
+      </section>
+
+      <section className="sec deco-sec bg-s picks-sec" id="our-products" aria-labelledby="pr-t">
         <Decor k="leaf" cls="corner-tl" />
         <Decor k="tomato" cls="pr-tomato" />
         <div className="wrap">
@@ -32,10 +41,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <KitsBanner cls="bg-s" />
-      <FarmStory cls="bg-w" />
+      <KitsBanner cls="bg-w" />
+      <FarmStory cls="bg-c" />
 
-      <section className="sec highlights bg-c" id="day-highlights" aria-labelledby="hl-t">
+      <section className="sec highlights bg-w" id="day-highlights" aria-labelledby="hl-t">
         <Decor k="leaf" cls="corner-tl" />
         <div className="wrap">
           <SecTitle id="hl-t" eyebrow="Visit Our Farm" title="Day Highlights" sub="A day of fresh food, fun and learning for the whole family" />
@@ -44,17 +53,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      <WhySection cls="bg-w" />
-      <Founders cls="bg-s" />
+      <WhySection cls="bg-s" />
+      <Founders cls="bg-w" />
 
-      <section className="sec reviews bg-w" aria-labelledby="rv-t">
+      <section className="sec reviews bg-c" aria-labelledby="rv-t">
         <div className="wrap">
           <SecTitle id="rv-t" title="Loved by Health-Conscious Customers" />
           <ReviewCarousel />
         </div>
       </section>
 
-      <section className="sec bg-c" aria-labelledby="bl-t">
+      <section className="sec bg-w" aria-labelledby="bl-t">
         <div className="wrap">
           <SecTitle id="bl-t" title="From Our Blog" sub="Fresh ideas, healthy living and stories from our farm" />
           <div className="bgrid">
@@ -66,7 +75,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec faq deco-sec bg-w" aria-labelledby="faq-t">
+      <section className="sec faq deco-sec bg-s" aria-labelledby="faq-t">
         <Decor k="carrot" cls="faq-deco l" />
         <Decor k="tomato" cls="faq-deco r" />
         <div className="wrap">
@@ -78,13 +87,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec enquire-sec bg-s" aria-label="Enquiry">
+      <section className="sec enquire-sec bg-w" aria-label="Enquiry">
         <div className="wrap">
           <QueryBlock />
         </div>
       </section>
 
-      <Newsletter cls="bg-w" />
+      <Newsletter cls="bg-c" />
     </>
   );
 }

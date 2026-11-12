@@ -15,7 +15,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
     <>
       <PageHero
         title={c ? c.name : "All Products"}
-        sub="Fresh vegetables, salads and healthy products."
+        sub="Salad greens, herbs and microgreens from our farm."
         trail={c ? [{ label: "Products", href: "/products" }, { label: c.name }] : [{ label: "Products" }]}
         art="bowlH"
       />

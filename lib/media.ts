@@ -3,32 +3,12 @@
    TEMPORARY royalty-free demo assets (Unsplash photos, Pexels video, both free
    to use under their licences). To use a real client photo, drop the file in
    /public/images/... and replace the URL below with its path, e.g.
-   "red-radish": "/images/products/red-radish.webp".
+   "fresh": "/images/why/fresh.webp".
    ===================================================================== */
 
 /** Unsplash photo by id, resized by the Unsplash CDN (auto WebP/AVIF). */
 export const un = (id: string, w = 800, h?: number) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}${h ? `&h=${h}` : ""}&q=75`;
-
-export const PRODUCT_IMG: Record<string, string> = {
-  "red-radish": un("1681307733509-16caf15dcbb1", 640, 480),
-  "sambar-onion": un("1639176267141-2ff48087e1be", 640, 480),
-  onion: un("1618512496248-a07fe83aa8cb", 640, 480),
-  garlic: un("1654727433983-1b72489e291e", 640, 480),
-  "baby-potato": un("1594885270227-c61f9bc1383d", 640, 480),
-  potato: un("1518977676601-b53f82aba655", 640, 480),
-  "sweet-potato": un("1730815048561-45df6f7f331d", 640, 480),
-  "english-carrot": un("1598170845058-32b9d6a5da37", 640, 480),
-};
-
-export const CATEGORY_IMG: Record<string, string> = {
-  "fresh-salads": un("1512621776951-a57141f2eefd", 520, 420),
-  "cut-fruits": un("1519996529931-28324d5a630e", 520, 420),
-  vegetables: un("1597362925123-77861d3fbac7", 520, 420),
-  "salad-dressings": un("1474979266404-7eaacbcd87c5", 520, 420),
-  "healthy-snacks": un("1543158181-1274e5362710", 520, 420),
-  "combo-packs": un("1635341083777-5f93a755e916", 520, 420),
-};
 
 export const BLOG_IMG: Record<string, string> = {
   "5-healthy-salad-ideas": un("1540420773420-3366772f4999", 760, 480),

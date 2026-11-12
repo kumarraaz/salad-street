@@ -36,7 +36,7 @@ export function FeatureStrip({ cls = "" }: { cls?: string }) {
 
 /** "Ready-to-Eat" promo banner with the client's horizontal salad-bowl PNG. */
 export function KitsBanner({ cls = "" }: { cls?: string }) {
-  const n = productsInCategory("fresh-salads");
+  const n = productsInCategory("salad-greens");
   return (
     <section className={`kits-wrap ${cls}`} aria-labelledby="kits-t">
       <div className="wrap">
@@ -57,7 +57,7 @@ export function KitsBanner({ cls = "" }: { cls?: string }) {
                 <Icon k="heart" size={18} /> Healthy
               </li>
             </ul>
-            <Cta label={n ? "Shop Fresh Salads" : "Explore Fresh Salads"} href="/products?cat=fresh-salads" solid />
+            <Cta label={n ? "Shop Salad Greens" : "Explore Products"} href={n ? "/products?cat=salad-greens" : "/products"} solid />
           </div>
           <div className="kits-art">
             <Decor k="bowlH" cls="kits-bowl" />

@@ -13,58 +13,43 @@ export const CONFIG = {
   designedByUrl: "https://webdigitaldevelopment.in",
 };
 
-import { BLOG_IMG, CATEGORY_IMG, PRODUCT_IMG, WHY_IMG } from "./media";
+import { BLOG_IMG, WHY_IMG } from "./media";
 
 /* ============================ DATA ================================== */
 export type Category = { id: string; name: string; img: string };
+/* Only categories that contain the 7 approved products. */
 export const CATEGORIES: Category[] = [
-  { id: "fresh-salads", name: "Fresh Salads", img: "images/categories/fresh-salads.webp" },
-  { id: "cut-fruits", name: "Cut Fruits", img: "images/categories/cut-fruits.webp" },
-  { id: "vegetables", name: "Vegetables", img: "images/categories/vegetables.webp" },
-  { id: "salad-dressings", name: "Salad Dressings", img: "images/categories/salad-dressings.webp" },
-  { id: "healthy-snacks", name: "Healthy Snacks", img: "images/categories/healthy-snacks.webp" },
-  { id: "combo-packs", name: "Combo Packs", img: "images/categories/combo-packs.webp" },
-].map((c) => ({ ...c, img: CATEGORY_IMG[c.id] || c.img }));
+  { id: "salad-greens", name: "Salad Greens", img: "/images/leafy/salad-leaves-mix.png" },
+  { id: "herbs", name: "Herbs", img: "/images/leafy/italian-basil.png" },
+  { id: "microgreens", name: "Microgreens", img: "/images/leafy/microgreens.png" },
+];
 
+/* ============================ PRODUCTS ==============================
+   ONLY these 7 products are sold. Prices and pack weights have NOT been confirmed yet,
+   so they are null / "" and the site shows "Price on request" (nothing is invented).
+   To publish a price, set e.g.  price: 60, weight: "100 g"  and every card, product page,
+   cart and order message updates automatically. No ratings are shown (none supplied).
+   Images: TEMPORARY transparent cutouts in /public/images/leafy/ (replace a file, same
+   name, with the client's own photo). */
 export type Product = {
   id: string;
   name: string;
-  hi: string;
-  weight: string;
-  price: number;
+  hi: string; // Hindi name, shown only when filled in
+  weight: string; // pack size, e.g. "100 g"; empty until confirmed
+  price: number | null; // in rupees; null until confirmed
   cat: string;
   home: boolean;
   img: string;
+  note: string;
 };
-/* Prices/weights are from the approved design — confirm with client before launch. */
 export const PRODUCTS: Product[] = [
-  { id: "red-radish", name: "Red Radish", hi: "लाल मूली", weight: "200 g", price: 50, cat: "vegetables", home: true },
-  { id: "sambar-onion", name: "Sambar Onion", hi: "सांभर प्याज", weight: "250 g", price: 40, cat: "vegetables", home: true },
-  { id: "onion", name: "Onion", hi: "प्याज", weight: "500 g", price: 65, cat: "vegetables", home: true },
-  { id: "garlic", name: "Garlic", hi: "लहसुन", weight: "100 g", price: 45, cat: "vegetables", home: true },
-  { id: "baby-potato", name: "Baby Potato", hi: "छोटा आलू", weight: "1000 g", price: 100, cat: "vegetables", home: true },
-  { id: "potato", name: "Potato", hi: "आलू", weight: "1000 g", price: 90, cat: "vegetables", home: true },
-  { id: "sweet-potato", name: "Sweet Potato", hi: "शकरकंद", weight: "500 g", price: 110, cat: "vegetables", home: true },
-  { id: "english-carrot", name: "English Carrot", hi: "अंग्रेजी गाजर", weight: "500 g", price: 80, cat: "vegetables", home: true },
-  /* SALAD VARIETIES — ready to add once the client confirms weight, price and photo for each.
-     None of the products above are salads, so none were renamed. Add entries like:
-     { id:"classic-garden-salad", name:"Classic Garden Salad", hi:"", weight:"", price:0, cat:"fresh-salads", home:false },
-     Names: Classic Garden Salad, Caesar Salad, Greek Salad, Mediterranean Salad, Fresh Spinach Salad, Kale Salad,
-     Mixed Greens Salad, Avocado Salad, Quinoa Salad, Chickpea Salad, Protein Salad, Seasonal Fresh Salad. */
-].map((p) => ({ ...p, img: PRODUCT_IMG[p.id] || `images/products/${p.id}.webp` }));
-
-/* LEAFY GREENS — display-only showcase (no prices/stock: those are not confirmed yet).
-   Images are TEMPORARY transparent cutouts in /public/images/leafy/<file>.png — replace each
-   file with the client's own product photo (same name) to update the site. */
-export type Leafy = { id: string; name: string; note: string; img: string };
-export const LEAFY: Leafy[] = [
-  { id: "rocket-leaves", name: "Rocket Leaves", note: "Peppery, crisp leaves", img: "/images/leafy/rocket.png" },
-  { id: "italian-basil", name: "Italian Basil", note: "Sweet, aromatic herb", img: "/images/leafy/italian-basil.png" },
-  { id: "lettuce-mix", name: "Lettuce Mix", note: "Soft and crunchy lettuces", img: "/images/leafy/lettuce-mix.png" },
-  { id: "baby-spinach", name: "Baby Spinach", note: "Tender, mild leaves", img: "/images/leafy/baby-spinach.png" },
-  { id: "salad-leaves-mix", name: "Salad Leaves Mix", note: "Red and green salad leaves", img: "/images/leafy/salad-leaves-mix.png" },
-  { id: "mint", name: "Mint", note: "Cool, fresh aroma", img: "/images/leafy/mint.png" },
-  { id: "microgreens", name: "Microgreens", note: "Tiny, tender shoots", img: "/images/leafy/microgreens.png" },
+  { id: "rocket-leaves", name: "Rocket Leaves", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/rocket.png", note: "Peppery, crisp leaves" },
+  { id: "italian-basil", name: "Italian Basil", hi: "", weight: "", price: null, cat: "herbs", home: true, img: "/images/leafy/italian-basil.png", note: "Sweet, aromatic herb" },
+  { id: "lettuce-mix", name: "Lettuce Mix", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/lettuce-mix.png", note: "Soft and crunchy lettuces" },
+  { id: "baby-spinach", name: "Baby Spinach", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/baby-spinach.png", note: "Tender, mild leaves" },
+  { id: "salad-leaves-mix", name: "Salad Leaves Mix", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/salad-leaves-mix.png", note: "Red and green salad leaves" },
+  { id: "mint", name: "Mint", hi: "", weight: "", price: null, cat: "herbs", home: true, img: "/images/leafy/mint.png", note: "Cool, fresh aroma" },
+  { id: "microgreens", name: "Microgreens", hi: "", weight: "", price: null, cat: "microgreens", home: true, img: "/images/leafy/microgreens.png", note: "Tiny, tender shoots" },
 ];
 
 /* Slides 2–4 copy is draft — replace with approved copy.
@@ -117,7 +102,7 @@ export const WHY: Why[] = [
   { id: "fresh", tab: "Fresh Ingredients", icon: "leaf", title: "Farm Fresh Ingredients", text: "We source the freshest fruits and vegetables from trusted farms to bring you the best quality salads and healthy products.", img: "images/why/fresh.webp" },
   { id: "nopres", tab: "No Preservatives", icon: "shield", title: "No Preservatives", text: "Our salads and products are made without added preservatives.", tbc: true, img: "images/why/no-preservatives.webp" },
   { id: "healthy", tab: "Healthy & Nutritious", icon: "heart", title: "Healthy & Nutritious", text: "Wholesome, balanced food made for everyday wellness.", tbc: true, img: "images/why/healthy.webp" },
-  { id: "variety", tab: "Wide Variety", icon: "grid", title: "Wide Variety", text: "Salads, cut fruits, vegetables, dressings, snacks and combo packs in one place.", img: "images/why/variety.webp" },
+  { id: "variety", tab: "Wide Variety", icon: "grid", title: "Wide Variety", text: "Salad greens, herbs and microgreens, all in one place.", img: "images/why/variety.webp" },
 ].map((w) => ({ ...w, img: WHY_IMG[w.id] || w.img }));
 
 /* SAMPLE reviews from the mockup. Replace with genuine, verifiable reviews before launch. */
@@ -159,6 +144,10 @@ export const NAV = [
 
 /* ============================ HELPERS =============================== */
 export const inr = (n: number) => "₹ " + Number(n).toFixed(2);
+/** Price label: the real price, or "Price on request" until one is confirmed. */
+export const priceText = (p: Product, q = 1) => (p.price == null ? "Price on request" : inr(p.price * q));
+/** "Rocket Leaves (100 g)", or just the name while no pack size is confirmed. */
+export const withWeight = (p: Product) => (p.weight ? `${p.name} (${p.weight})` : p.name);
 
 export const waLink = (text = "") =>
   CONFIG.whatsapp ? `https://wa.me/${CONFIG.whatsapp}${text ? "?text=" + encodeURIComponent(text) : ""}` : "";
@@ -168,7 +157,9 @@ export const enquiryText = (d: Record<string, string>) =>
 
 export const orderText = (lines: { p: Product; q: number }[], total: number) =>
   `Hello Salad Street, I'd like to order:\n${lines
-    .map(({ p, q }) => `• ${p.name} (${p.weight}) × ${q} = ${inr(p.price * q)}`)
-    .join("\n")}\nSubtotal: ${inr(total)}`;
+    .map(({ p, q }) => `• ${withWeight(p)} × ${q} = ${priceText(p, q)}`)
+    .join("\n")}\n${
+    lines.some((l) => l.p.price == null) ? `Subtotal of priced items: ${inr(total)} (other prices to be confirmed)` : `Subtotal: ${inr(total)}`
+  }`;
 
 export const productsInCategory = (id: string) => PRODUCTS.filter((p) => p.cat === id).length;

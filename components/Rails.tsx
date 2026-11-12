@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { CATEGORIES, REVIEWS, productsInCategory } from "@/lib/data";
+import { CATEGORIES, PRODUCTS, REVIEWS, productsInCategory } from "@/lib/data";
 import { Icon } from "./ui";
 import Media from "./Media";
 
@@ -78,7 +78,7 @@ export function CategoryRail() {
           const n = productsInCategory(c.id);
           return (
             <Link className="cat" href={`/products?cat=${c.id}`} key={c.id}>
-              <Media src={c.img} label={c.name} alt={c.name} />
+              <Media src={c.img} label={c.name} alt={c.name} cls="cutout" />
               <span className="cat-meta">
                 <span>
                   <b>{c.name}</b>
@@ -95,6 +95,46 @@ export function CategoryRail() {
       <button className="rail-btn" type="button" data-next aria-label="Next categories" disabled={r.nextDis} onClick={r.next}>
         <Icon k="chevR" />
       </button>
+    </div>
+  );
+}
+
+/** "Shop by Product": category-style cards for the 7 products, each linking to its product page. */
+export function ProductRail() {
+  const r = useRail();
+  return (
+    <div className="pslider" data-carousel>
+      <div className="rail">
+        <button className="rail-btn" type="button" aria-label="Previous products" disabled={r.prevDis} onClick={r.prev}>
+          <Icon k="chevL" />
+        </button>
+        <div className="track cat-track" tabIndex={0} aria-label="Shop by product" ref={r.track}>
+          {PRODUCTS.map((p) => (
+            <Link className="cat" href={`/products/${p.id}`} key={p.id}>
+              <Media src={p.img} label={p.name} alt={p.name} cls="cutout" />
+              <span className="cat-meta">
+                <span>
+                  <b>{p.name}</b>
+                  <small>{p.note}</small>
+                </span>
+                <span className="cat-go" aria-hidden="true">
+                  <Icon k="chevR" size={16} />
+                </span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <button className="rail-btn" type="button" aria-label="Next products" disabled={r.nextDis} onClick={r.next}>
+          <Icon k="chevR" />
+        </button>
+      </div>
+      <div className="dots" aria-label="Product pages">
+        {r.pages > 1
+          ? Array.from({ length: r.pages }, (_, k) => (
+              <button type="button" key={k} aria-label={`Page ${k + 1}`} aria-current={k === r.cur} onClick={() => r.go(k)} />
+            ))
+          : null}
+      </div>
     </div>
   );
 }
