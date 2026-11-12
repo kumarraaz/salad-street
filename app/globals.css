@@ -752,3 +752,34 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 }
 @media (max-width:700px){.shop-by .cat-go{display:none}.shop-by .cat-meta{padding:0 4px 4px}}
 @media (max-width:1080px){.pd-actions{flex-wrap:nowrap;gap:8px}.pd-actions .btn{flex:1 1 auto;min-width:0;padding:0 14px}}
+
+/* ---------- Product card v2 (reference: "Fresh Picks" mockup) ----------
+   Soft cream card, large centred cutout, name, price / weight, optional rating, full-width green button. */
+.pcard{background:#FDFCF7;border:1px solid #ECEADF;border-radius:18px;padding:14px;box-shadow:0 6px 18px rgba(23,63,21,.06)}
+.pcard .media,.pcard .media.cutout{aspect-ratio:1/1;border-radius:14px;background:radial-gradient(circle at 50% 55%,#FFFFFF 0%,#FDFCF7 70%)}
+.pcard .media.cutout img{padding:7%;transition:transform .6s var(--ease)}
+.pcard .wish{top:8px;right:8px;width:34px;height:34px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.pcard .pbody{gap:4px;padding:12px 2px 12px}
+.pcard .pn{font-size:16px;font-weight:600;color:#1E2619;min-height:1.4em;line-height:1.4}
+.pcard .pmeta{margin-top:0;gap:5px}
+.pcard .pp{font-size:18px;font-weight:700;color:#1E2619}
+.pcard .pp.por{font-size:15px;font-weight:600;color:var(--g6)}
+.pcard .pw{font-size:15px;font-weight:500;color:#3A4234}
+.prate{display:flex;align-items:center;gap:5px;font-size:13.5px;color:#3A4234;margin-top:2px}
+.prate-star{color:var(--gold);font-size:16px;line-height:1}
+.prate b{font-weight:600}
+.prate span:last-child{color:var(--mu)}
+.pcard .btn-cart{min-height:44px;border-radius:10px;background:linear-gradient(180deg,#43902F 0%,#2F7323 100%);font-size:15px;box-shadow:0 4px 10px rgba(47,115,35,.22)}
+.pcard .btn-cart:hover{background:linear-gradient(180deg,#3B8429 0%,#28651E 100%);box-shadow:0 8px 18px rgba(47,115,35,.3)}
+.pcard .btn-cart:focus-visible{outline:3px solid #9CCB7E;outline-offset:2px}
+@media (hover:hover){.pcard:hover{border-color:#D6E3CB}}
+@media (max-width:700px){
+  .pcard{padding:9px;border-radius:14px}
+  .pcard .pbody{padding:9px 1px 10px}
+  .pcard .pn{font-size:14px;min-height:2.8em}
+  .pcard .pp{font-size:15.5px}
+  .pcard .pp.por{font-size:13px}
+  .pcard .pw{font-size:13px}
+  .prate{font-size:12px}
+  .pcard .btn-cart{min-height:40px;font-size:13.5px;border-radius:9px}
+}

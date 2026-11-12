@@ -9,7 +9,7 @@ import { useApp } from "./Providers";
 import { useRail } from "./Rails";
 
 /* Product cards use only real data from lib/data.ts (name, price, weight, image).
-   No ratings are shown because none have been supplied. */
+   The rating row appears only for products with a genuine `rating` set. */
 
 export const productHref = (p: Product) => `/products/${p.id}`;
 
@@ -53,6 +53,13 @@ export function ProductCard({ p }: { p: Product }) {
           <span className={`pp${p.price == null ? " por" : ""}`}>{priceText(p)}</span>
           {p.weight ? <span className="pw">/ {p.weight}</span> : null}
         </p>
+        {p.rating ? (
+          <p className="prate" aria-label={`Rated ${p.rating} out of 5${p.reviews ? ` from ${p.reviews} reviews` : ""}`}>
+            <span className="prate-star" aria-hidden="true">★</span>
+            <b>{p.rating.toFixed(1)}</b>
+            {p.reviews ? <span>({p.reviews})</span> : null}
+          </p>
+        ) : null}
       </div>
       <button
         className="btn-cart"
@@ -64,7 +71,7 @@ export function ProductCard({ p }: { p: Product }) {
           toast(`${p.name} added to cart`, { label: "View cart", run: openCart });
         }}
       >
-        <Icon k="cart" size={17} /> Add to Cart
+        Add to Cart
       </button>
     </article>
   );

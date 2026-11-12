@@ -41,6 +41,9 @@ export type Product = {
   home: boolean;
   img: string;
   note: string;
+  /** Genuine customer rating (out of 5) and review count. Leave unset until real reviews exist. */
+  rating?: number;
+  reviews?: number;
 };
 export const PRODUCTS: Product[] = [
   { id: "rocket-leaves", name: "Rocket Leaves", hi: "", weight: "", price: null, cat: "salad-greens", home: true, img: "/images/leafy/rocket.png", note: "Peppery, crisp leaves" },
