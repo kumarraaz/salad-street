@@ -2,8 +2,7 @@
 
 import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { CONFIG, REQUIREMENTS, enquiryText, waLink } from "@/lib/data";
-import { Cta, Icon } from "./ui";
-import Media from "./Media";
+import { Cta, Decor, Icon } from "./ui";
 
 const rules: Record<string, (v: string) => true | string> = {
   name: (v) => v.trim().length >= 2 || "Enter your name.",
@@ -149,7 +148,7 @@ export function EnquiryForm({ pfx }: { pfx: string }) {
 export function QueryBlock() {
   return (
     <div className="query">
-      <Media src="images/decor/query-salad.webp" label="Decor · salad bowl" alt="" cls="query-deco" />
+      <Decor k="bowlV" cls="query-deco" />
       <div className="query-in">
         <h2>Have Any Query?</h2>
         <p className="sub">Tell us what you need. We&apos;ll get back to you.</p>

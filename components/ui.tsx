@@ -147,6 +147,34 @@ export function Cta({ label, href, solid = false }: { label: string; href: strin
   );
 }
 
+/* Transparent PNG decorations (public/images/decor). Natural sizes are kept as width/height
+   attributes so the browser reserves the right box and never stretches them. */
+export const DECOR = {
+  leaf: { src: "/images/decor/leaf-corner-decoration.png", w: 68, h: 65 },
+  carrot: { src: "/images/decor/carrot-leaf-decoration.png", w: 160, h: 80 },
+  tomato: { src: "/images/decor/tomato-leaf-decoration.png", w: 164, h: 80 },
+  bowlV: { src: "/images/decor/salad-bowl-vertical.png", w: 429, h: 539 },
+  bowlH: { src: "/images/decor/salad-bowl-horizontal.png", w: 535, h: 443 },
+} as const;
+export type DecorKey = keyof typeof DECOR;
+
+export function Decor({ k, cls = "", float = true }: { k: DecorKey; cls?: string; float?: boolean }) {
+  const d = DECOR[k];
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      className={`decor${float ? " floaty" : ""} ${cls}`}
+      src={d.src}
+      width={d.w}
+      height={d.h}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
+
 export function CtaRow({ label, href }: { label: string; href: string }) {
   return (
     <div className="cta-row">
@@ -156,9 +184,11 @@ export function CtaRow({ label, href }: { label: string; href: string }) {
 }
 
 export type Crumb = { label: string; href?: string };
-export function PageHero({ title, sub = "", trail = [] }: { title: string; sub?: string; trail?: Crumb[] }) {
+export function PageHero({ title, sub = "", trail = [], art }: { title: string; sub?: string; trail?: Crumb[]; art?: DecorKey }) {
   return (
-    <section className="page-hero">
+    <section className={`page-hero${art ? " has-art" : ""}`}>
+      <Decor k="leaf" cls="ph-leaf" />
+      {art ? <Decor k={art} cls={`ph-art ph-${art}`} /> : null}
       <div className="wrap">
         <nav className="crumbs" aria-label="Breadcrumb">
           <Link href="/">Home</Link>

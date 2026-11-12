@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Floating from "@/components/Floating";
 import { CartDrawer, Toast } from "@/components/CartDrawer";
 import { SvgSprite } from "@/components/ui";
+import Motion from "@/components/Motion";
 
 export const metadata: Metadata = {
   title: {
@@ -73,6 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Floating />
           <CartDrawer />
           <Toast />
+          <Motion />
           <noscript>
             <p style={{ padding: "24px", textAlign: "center" }}>Please enable JavaScript to use the Salad Street website.</p>
           </noscript>

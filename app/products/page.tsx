@@ -17,6 +17,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
         title={c ? c.name : "All Products"}
         sub="Fresh vegetables, salads and healthy products."
         trail={c ? [{ label: "Products", href: "/products" }, { label: c.name }] : [{ label: "Products" }]}
+        art="bowlH"
       />
       <section className="sec">
         <div className="wrap">

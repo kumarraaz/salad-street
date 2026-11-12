@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { BLOGS, FAQS, PRODUCTS } from "@/lib/data";
-import { CtaRow, LeafDeco, SecTitle } from "@/components/ui";
+import { CtaRow, Decor, LeafDeco, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
 import { CategoryRail, ReviewCarousel } from "@/components/Rails";
@@ -9,7 +9,6 @@ import Founders from "@/components/Founders";
 import WhyBlock from "@/components/WhyBlock";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
-import Media from "@/components/Media";
 
 export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
 
@@ -19,7 +18,7 @@ export default function HomePage() {
       <Hero />
 
       <section className="sec highlights" id="day-highlights" aria-labelledby="hl-t">
-        <LeafDeco x="2%" y="10%" s={30} r={-20} />
+        <Decor k="leaf" cls="corner-tl" />
         <LeafDeco x="94%" y="14%" s={28} r={30} />
         <LeafDeco x="96%" y="62%" s={24} r={60} op={0.8} />
         <div className="wrap">
@@ -37,7 +36,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec" id="our-products" aria-labelledby="pr-t">
+      <section className="sec deco-sec" id="our-products" aria-labelledby="pr-t">
+        <Decor k="carrot" cls="pr-carrot" />
+        <Decor k="bowlH" cls="pr-bowl" />
         <div className="wrap">
           <SecTitle id="pr-t" title="Salad Street Products" sub="Explore our fresh and healthy range of products" />
           <ProductGrid list={PRODUCTS.filter((p) => p.home).slice(0, 8)} />
@@ -57,7 +58,8 @@ export default function HomePage() {
         <QueryBlock />
       </section>
 
-      <section className="sec" aria-labelledby="rv-t">
+      <section className="sec deco-sec" aria-labelledby="rv-t">
+        <Decor k="leaf" cls="corner-tr" />
         <div className="wrap">
           <div className="sec-title">
             <h2 id="rv-t">What Our Customers Say</h2>
@@ -80,8 +82,8 @@ export default function HomePage() {
       </section>
 
       <section className="sec faq" aria-labelledby="faq-t" style={{ paddingTop: "20px" }}>
-        <Media src="images/decor/carrot.webp" label="Decor · carrot & leaves" alt="" cls="faq-deco l" />
-        <Media src="images/decor/tomatoes.webp" label="Decor · tomatoes & leaves" alt="" cls="faq-deco r" />
+        <Decor k="carrot" cls="faq-deco l" />
+        <Decor k="tomato" cls="faq-deco r" />
         <div className="wrap">
           <div className="faq-in">
             <p className="eyebrow">Frequently asked questions</p>

@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Categories" };
 export default function CategoriesPage() {
   return (
     <>
-      <PageHero title="All Categories" sub="Choose a category to browse its products." trail={[{ label: "Categories" }]} />
+      <PageHero title="All Categories" sub="Choose a category to browse its products." trail={[{ label: "Categories" }]} art="bowlH" />
       <section className="sec">
         <div className="wrap">
           <div className="pgrid">

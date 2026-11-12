@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "About Us" };
 export default function AboutPage() {
   return (
     <>
-      <PageHero title="About Salad Street" sub="The people and the promise behind our food." trail={[{ label: "About Us" }]} />
+      <PageHero title="About Salad Street" sub="The people and the promise behind our food." trail={[{ label: "About Us" }]} art="bowlV" />
       <section aria-label="Founders">
         <Founders />
       </section>
