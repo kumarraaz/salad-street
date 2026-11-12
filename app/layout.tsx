@@ -39,6 +39,8 @@ function Marquee() {
       <div className="marquee" id="marquee">
         <span>{msg}</span>
         <span aria-hidden="true">{msg}</span>
+        <span aria-hidden="true">{msg}</span>
+        <span aria-hidden="true">{msg}</span>
       </div>
     </div>
   );
