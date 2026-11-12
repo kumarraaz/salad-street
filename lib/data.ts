@@ -51,23 +51,33 @@ export const PRODUCTS: Product[] = [
      Mixed Greens Salad, Avocado Salad, Quinoa Salad, Chickpea Salad, Protein Salad, Seasonal Fresh Salad. */
 ].map((p) => ({ ...p, img: `images/products/${p.id}.webp` }));
 
-/* Slides 2–3 copy is draft — replace with approved copy. */
-export type Slide = { lines: [string, [string, string], string]; text: string; img: string };
+/* Slides 2–4 copy is draft — replace with approved copy.
+   Banners: full-width hero backgrounds (2048px) with a 1024px `-sm` version for phones. */
+export type Slide = { lines: [string, [string, string], string]; text: string; img: string; imgSm: string };
 export const SLIDES: Slide[] = [
   {
     lines: ["Fresh", ["Salads", " for a"], "Healthier You"],
     text: "Farm fresh ingredients, ready-to-eat salads, and healthy products for your everyday wellness.",
-    img: "images/hero/slide-1.png",
+    img: "images/hero/banner-1.webp",
+    imgSm: "images/hero/banner-1-sm.webp",
   },
   {
     lines: ["Farm", ["to Bowl,", ""], "Every Day"],
     text: "Grown at our farm, prepared fresh and ready to eat.",
-    img: "images/hero/slide-2.png",
+    img: "images/hero/banner-2.webp",
+    imgSm: "images/hero/banner-2-sm.webp",
   },
   {
     lines: ["Picked", ["Fresh", " for"], "Your Table"],
     text: "Seasonal vegetables and salads, picked and packed with care.",
-    img: "images/hero/slide-3.png",
+    img: "images/hero/banner-3.webp",
+    imgSm: "images/hero/banner-3-sm.webp",
+  },
+  {
+    lines: ["Green", ["Goodness,", ""], "Naturally"],
+    text: "Fragrant herbs and leafy greens, grown fresh at our farm for your kitchen.",
+    img: "images/hero/banner-4.webp",
+    imgSm: "images/hero/banner-4-sm.webp",
   },
 ];
 

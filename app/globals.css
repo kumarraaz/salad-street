@@ -37,7 +37,7 @@ main:focus{outline:none}
 
 /* ---------- Announcement ---------- */
 .announce{background:var(--g8);color:#fff;font-size:13px;font-weight:500;overflow:hidden;white-space:nowrap}
-.marquee{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marquee{display:flex;width:max-content;animation:marq 28s linear infinite}
 .announce:hover .marquee{animation-play-state:paused}
 .marquee span{padding:9px 28px}
 .marquee b{color:#F5C518;font-weight:600}
@@ -80,14 +80,19 @@ main:focus{outline:none}
 
 /* ---------- Hero ---------- */
 .hero{position:relative;background:linear-gradient(90deg,#EDF5E5 0%,#F7FBF3 45%,#fff 70%);overflow:hidden}
-/* Hero/slider background — supplied PNG only (put the file at images/hero/hero-bg.png). The gradient above shows only if the PNG is missing. */
-.hero.ss-hero-bg{background-image:url("/images/hero/hero-bg.png"),linear-gradient(90deg,#EDF5E5 0%,#F7FBF3 45%,#fff 70%);background-size:cover,auto;background-position:center,center;background-repeat:no-repeat}
 .slides{display:grid}
-.slide{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s}
+.slide{position:relative;grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .8s ease,visibility .8s}
 .slide.active{opacity:1;visibility:visible}
-.slide .slide-in{transform:translateX(16px);transition:transform .5s cubic-bezier(.22,.61,.36,1)}
-.slide.active .slide-in{transform:none}
-.slide-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);align-items:center;gap:24px;min-height:440px;padding-inline:calc(var(--gut) + 64px)}
+.slide .slide-in{opacity:0;transform:translateX(-18px);transition:opacity .6s ease .15s,transform .7s cubic-bezier(.22,.61,.36,1) .15s}
+.slide.active .slide-in{opacity:1;transform:none}
+.slide-in{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);align-items:center;gap:24px;min-height:clamp(440px,34vw,640px);padding-inline:calc(var(--gut) + 64px);padding-bottom:28px}
+/* Full-width banner background per slide (images/hero/banner-N.webp; -sm version on phones). The produce sits on the right, the soft left side carries the copy. */
+.slide-bg{position:absolute;inset:0;background-color:#EDF5E5;background-image:linear-gradient(90deg,rgba(247,251,243,.62) 0%,rgba(247,251,243,.28) 38%,rgba(247,251,243,0) 58%),var(--bg);background-size:cover;background-position:right center;background-repeat:no-repeat;transform:scale(1.04);transition:transform 4s ease-out}
+.slide.active .slide-bg{transform:none}
+.hero-dots{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:3;display:flex;gap:10px}
+.hero-dot{width:10px;height:10px;padding:0;border-radius:999px;border:2px solid var(--g9);background:rgba(255,255,255,.8);cursor:pointer;transition:width .3s ease,background-color .3s ease}
+.hero-dot.on{width:28px;background:var(--g9)}
+.hero-dot:focus-visible{outline:2px solid var(--g5);outline-offset:3px}
 .hero-copy{padding-block:40px}
 .hero-h{font-size:clamp(36px,4.5vw,62px);line-height:1.04;font-weight:700;color:var(--g9);letter-spacing:-.01em}
 .hero-h span{display:block}
@@ -96,11 +101,6 @@ main:focus{outline:none}
 .feats{display:flex;flex-wrap:wrap;gap:14px 28px;margin-top:26px}
 .feat{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;line-height:1.3;color:#222}
 .feat i{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--g6);color:#fff;flex:none}
-.hero-art{position:relative;aspect-ratio:1.55;min-height:300px}
-.hero-art>svg{position:absolute;inset:6% 4% 0 0;width:92%;height:94%}
-.hero-art .media{position:absolute;inset:0;background:transparent}
-.hero-art .media::before{display:none}
-.lettering{position:absolute;right:2%;top:12%;z-index:2;font-family:'Caveat',cursive;font-size:clamp(26px,3vw,42px);line-height:1;color:var(--g5);transform:rotate(-12deg);text-align:left}
 .hero-arrow{position:absolute;top:50%;margin-top:-26px;z-index:3;width:52px;height:52px;border-radius:50%;border:0;background:#fff;box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;color:#222}
 .hero-arrow:hover{background:var(--sage)}
 .hero-prev{left:24px}.hero-next{right:24px}
@@ -395,11 +395,13 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .cat-track{grid-auto-columns:calc((100% - 3 * 20px) / 4)}
 }
 @media (max-width:820px){
-  .slide-in{grid-template-columns:1fr;min-height:0;padding-inline:var(--gut);gap:0;padding-bottom:76px}
+  .slide-in{grid-template-columns:1fr;min-height:0;padding-inline:var(--gut);gap:0;padding-bottom:150px}
   .hero-copy{padding:32px 0 8px}
-  .hero-art{min-height:0;aspect-ratio:1.6;max-height:300px;order:2}
+  /* Phones/tablets: copy sits over a light wash at the top, the produce shows through at the bottom. */
+  .slide-bg{background-image:linear-gradient(180deg,rgba(247,251,243,.9) 0%,rgba(247,251,243,.78) 45%,rgba(247,251,243,.15) 78%,rgba(247,251,243,0) 100%),var(--bg-sm);background-position:78% bottom}
   .hero-arrow{top:auto;bottom:16px;margin-top:0;width:46px;height:46px}
-  .hero-prev{left:calc(50% - 54px);right:auto}.hero-next{left:calc(50% + 8px);right:auto}
+  .hero-prev{left:var(--gut);right:auto}.hero-next{right:var(--gut);left:auto}
+  .hero-dots{bottom:34px}
   .leaf-deco{display:none}
   .founders{grid-template-columns:1fr}
   .founder{min-height:320px}
@@ -452,7 +454,7 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .pp{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){
-  .cat:hover .media img,.cat:hover .media::before,.cat:focus-visible .media img,.cat:focus-visible .media::before,.pcard:hover .media img,.pcard:hover .media::before,.slide .slide-in{transform:none}
+  .cat:hover .media img,.cat:hover .media::before,.cat:focus-visible .media img,.cat:focus-visible .media::before,.pcard:hover .media img,.pcard:hover .media::before,.slide .slide-in,.slide-bg{transform:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .marquee{animation:none;width:auto;justify-content:center}
   .marquee span[aria-hidden]{display:none}

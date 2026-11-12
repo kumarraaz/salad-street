@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, type ElementType } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ElementType } from "react";
 import { SLIDES } from "@/lib/data";
-import { ILL } from "@/lib/svg";
-import { Cta, Icon, LeafDeco, RawSvg } from "./ui";
-import Media from "./Media";
+import { Cta, Icon } from "./ui";
+
+const AUTOPLAY_MS = 3000;
+const url = (p: string) => `url("${p.startsWith("/") ? p : "/" + p}")`;
 
 export default function Hero() {
   const [i, setI] = useState(0);
   const [live, setLive] = useState("");
   const idx = useRef(0);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const hovered = useRef(false);
   const x0 = useRef<number | null>(null);
   const n = SLIDES.length;
 
@@ -25,23 +27,40 @@ export default function Hero() {
   };
   const start = () => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduced && !timer.current && n > 1) timer.current = setInterval(() => set(idx.current + 1), 6500);
+    if (!reduced && !timer.current && n > 1) timer.current = setInterval(() => set(idx.current + 1), AUTOPLAY_MS);
+  };
+  /* Manual navigation restarts the 3s countdown instead of stopping autoplay for good
+     (touch devices never fire mouseleave, so a hard stop would freeze the slider). */
+  const go = (k: number) => {
+    stop();
+    set(k);
+    if (!hovered.current) start();
   };
 
   useEffect(() => {
     start();
-    return stop;
+    const vis = () => (document.hidden ? stop() : !hovered.current && start());
+    document.addEventListener("visibilitychange", vis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", vis);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section
-      className="hero ss-hero-bg"
+      className="hero hero-banner"
       aria-roledescription="carousel"
       aria-label="Featured"
-      onMouseEnter={stop}
-      onFocus={stop}
-      onMouseLeave={start}
+      onMouseEnter={() => {
+        hovered.current = true;
+        stop();
+      }}
+      onMouseLeave={() => {
+        hovered.current = false;
+        start();
+      }}
       onPointerDown={(e) => {
         x0.current = e.clientX;
       }}
@@ -49,14 +68,9 @@ export default function Hero() {
         if (x0.current === null) return;
         const dx = e.clientX - x0.current;
         x0.current = null;
-        if (Math.abs(dx) > 50) {
-          stop();
-          set(idx.current + (dx < 0 ? 1 : -1));
-        }
+        if (Math.abs(dx) > 50) go(idx.current + (dx < 0 ? 1 : -1));
       }}
     >
-      <LeafDeco x="46%" y="8%" s={34} r={-30} />
-      <LeafDeco x="38%" y="72%" s={26} r={40} op={0.8} />
       <div className="slides">
         {SLIDES.map((s, k) => {
           const H = (k ? "h2" : "h1") as ElementType;
@@ -71,6 +85,11 @@ export default function Hero() {
               aria-hidden={active ? undefined : "true"}
               inert={!active}
             >
+              <div
+                className="slide-bg"
+                style={{ "--bg": url(s.img), "--bg-sm": url(s.imgSm) } as CSSProperties}
+                aria-hidden="true"
+              />
               <div className="slide-in">
                 <div className="hero-copy">
                   <H className="hero-h">
@@ -106,42 +125,29 @@ export default function Hero() {
                     </span>
                   </div>
                 </div>
-                <div className="hero-art">
-                  <RawSvg html={ILL.bowl} />
-                  <Media src={s.img} label="" alt="Fresh salad bowl" />
-                  <p className="lettering" aria-hidden="true">
-                    Good Food
-                    <br />
-                    &nbsp;&nbsp;Good Mood
-                  </p>
-                </div>
               </div>
             </div>
           );
         })}
       </div>
-      <button
-        className="hero-arrow hero-prev"
-        type="button"
-        aria-label="Previous slide"
-        onClick={() => {
-          stop();
-          set(idx.current - 1);
-        }}
-      >
+      <button className="hero-arrow hero-prev" type="button" aria-label="Previous slide" onClick={() => go(idx.current - 1)}>
         <Icon k="chevL" size={22} />
       </button>
-      <button
-        className="hero-arrow hero-next"
-        type="button"
-        aria-label="Next slide"
-        onClick={() => {
-          stop();
-          set(idx.current + 1);
-        }}
-      >
+      <button className="hero-arrow hero-next" type="button" aria-label="Next slide" onClick={() => go(idx.current + 1)}>
         <Icon k="chevR" size={22} />
       </button>
+      <div className="hero-dots">
+        {SLIDES.map((_, k) => (
+          <button
+            key={k}
+            type="button"
+            className={`hero-dot ${k === i ? "on" : ""}`}
+            aria-label={`Go to slide ${k + 1}`}
+            aria-current={k === i ? "true" : undefined}
+            onClick={() => go(k)}
+          />
+        ))}
+      </div>
       <p className="sr" aria-live="polite" data-hero-live>
         {live}
       </p>
