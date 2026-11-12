@@ -53,6 +53,20 @@ export const PRODUCTS: Product[] = [
      Mixed Greens Salad, Avocado Salad, Quinoa Salad, Chickpea Salad, Protein Salad, Seasonal Fresh Salad. */
 ].map((p) => ({ ...p, img: PRODUCT_IMG[p.id] || `images/products/${p.id}.webp` }));
 
+/* LEAFY GREENS — display-only showcase (no prices/stock: those are not confirmed yet).
+   Images are TEMPORARY transparent cutouts in /public/images/leafy/<file>.png — replace each
+   file with the client's own product photo (same name) to update the site. */
+export type Leafy = { id: string; name: string; note: string; img: string };
+export const LEAFY: Leafy[] = [
+  { id: "rocket-leaves", name: "Rocket Leaves", note: "Peppery, crisp leaves", img: "/images/leafy/rocket.png" },
+  { id: "italian-basil", name: "Italian Basil", note: "Sweet, aromatic herb", img: "/images/leafy/italian-basil.png" },
+  { id: "lettuce-mix", name: "Lettuce Mix", note: "Soft and crunchy lettuces", img: "/images/leafy/lettuce-mix.png" },
+  { id: "baby-spinach", name: "Baby Spinach", note: "Tender, mild leaves", img: "/images/leafy/baby-spinach.png" },
+  { id: "salad-leaves-mix", name: "Salad Leaves Mix", note: "Red and green salad leaves", img: "/images/leafy/salad-leaves-mix.png" },
+  { id: "mint", name: "Mint", note: "Cool, fresh aroma", img: "/images/leafy/mint.png" },
+  { id: "microgreens", name: "Microgreens", note: "Tiny, tender shoots", img: "/images/leafy/microgreens.png" },
+];
+
 /* Slides 2–4 copy is draft — replace with approved copy.
    Banners: full-width hero backgrounds (2048px) with a 1024px `-sm` version for phones. */
 export type Slide = { lines: [string, [string, string], string]; text: string; img: string; imgSm: string };

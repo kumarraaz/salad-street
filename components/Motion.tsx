@@ -15,6 +15,8 @@ const SEL = [
   ".why",
   ".why-item",
   ".fitem",
+  ".hv-item",
+  ".pk-item",
   ".kits",
   ".farm-copy",
   ".farm-media",

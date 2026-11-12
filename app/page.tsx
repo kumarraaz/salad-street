@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { BLOGS, FAQS, PRODUCTS } from "@/lib/data";
+import { BLOGS, FAQS } from "@/lib/data";
 import { CtaRow, Decor, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
-import { CategoryRail, ReviewCarousel } from "@/components/Rails";
-import { ProductGrid } from "@/components/Products";
+import { ReviewCarousel } from "@/components/Rails";
 import Founders from "@/components/Founders";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
 import { FarmStory, FeatureStrip, KitsBanner, WhySection } from "@/components/Sections";
 import { Newsletter } from "@/components/SectionsClient";
+import { FreshPicks, UpcomingHarvest } from "@/components/Leafy";
 
 export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
 
@@ -19,24 +19,8 @@ export default function HomePage() {
       <Hero />
       <FeatureStrip />
 
-      <section className="sec deco-sec" aria-labelledby="cat-t">
-        <Decor k="carrot" cls="cat-carrot" />
-        <Decor k="leaf" cls="corner-tr" />
-        <div className="wrap">
-          <SecTitle id="cat-t" eyebrow="Explore Our Range" title="Shop by Category" />
-          <CategoryRail />
-        </div>
-      </section>
-
-      <section className="sec deco-sec tint" id="our-products" aria-labelledby="pr-t">
-        <Decor k="leaf" cls="corner-tl" />
-        <Decor k="tomato" cls="pr-tomato" />
-        <div className="wrap">
-          <SecTitle id="pr-t" eyebrow="Our Bestsellers" title="Fresh Picks for a Healthy Lifestyle" />
-          <ProductGrid list={PRODUCTS.filter((p) => p.home).slice(0, 8)} />
-          <CtaRow label="View All Products" href="/products" />
-        </div>
-      </section>
+      <UpcomingHarvest />
+      <FreshPicks />
 
       <KitsBanner />
       <FarmStory />
