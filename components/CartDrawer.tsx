@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { inr, orderText, waLink, priceText } from "@/lib/data";
+import { baseId, inr, orderText, waLink, priceText } from "@/lib/data";
 import { Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
@@ -36,7 +36,7 @@ export function CartDrawer() {
               <li className="cart-item" key={p.id}>
                 <Media src={p.img} label="" alt="" cls="cutout" />
                 <div>
-                  <Link className="ci-name" href={`/products/${p.id}`} onClick={closeCart}>
+                  <Link className="ci-name" href={`/products/${baseId(p.id)}`} onClick={closeCart}>
                     {p.name} {p.hi ? <span lang="hi">({p.hi})</span> : null}
                   </Link>
                   <div className="ci-meta">

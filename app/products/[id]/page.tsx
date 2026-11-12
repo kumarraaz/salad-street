@@ -4,6 +4,7 @@ import { CATEGORIES, PRODUCTS, withWeight } from "@/lib/data";
 import { CtaRow, PageHero, SecTitle, Tbc } from "@/components/ui";
 import Media from "@/components/Media";
 import { BuyBox, ProductSlider } from "@/components/Products";
+import PackShop from "@/components/PackShop";
 
 export function generateStaticParams() {
   return PRODUCTS.map((p) => ({ id: p.id }));
@@ -55,6 +56,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
         </section>
       ) : null}
+      <PackShop cls="bg-s" />
     </>
   );
 }

@@ -11,6 +11,7 @@ import { FarmStory, FeatureStrip, KitsBanner, WhySection } from "@/components/Se
 import { Newsletter } from "@/components/SectionsClient";
 import { UpcomingHarvest } from "@/components/Leafy";
 import { ProductSlider } from "@/components/Products";
+import PackShop from "@/components/PackShop";
 
 export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
 
@@ -40,6 +41,8 @@ export default function HomePage() {
           <CtaRow label="View All Products" href="/products" />
         </div>
       </section>
+
+      <PackShop cls="bg-c" />
 
       <KitsBanner cls="bg-w" />
       <FarmStory cls="bg-c" />

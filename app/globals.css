@@ -823,3 +823,45 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .hv-next{right:-10px}
 }
 @media (prefers-reduced-motion:reduce){.hv-pic img{animation:none}.hv-card:hover,.hv-card:hover .hv-pic img{transform:none}}
+
+/* ---------- Shop Our Packs (packaging photos, price, pack size, rating) ---------- */
+.pk-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.pk-card{display:flex;flex-direction:column;min-width:0;background:#fff;border:1px solid #ECEADF;border-radius:18px;padding:12px;box-shadow:0 6px 18px rgba(23,63,21,.06);transition:transform .4s var(--ease),box-shadow .4s ease,border-color .3s}
+.pk-img{position:relative;border-radius:14px;overflow:hidden;background:#F6F4EC;aspect-ratio:5/4}
+.pk-img a{display:block;width:100%;height:100%}
+.pk-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.pk-card .wish{top:8px;right:8px;width:34px;height:34px}
+.pk-body{display:flex;flex-direction:column;gap:6px;padding:12px 2px;flex:1}
+.pk-name{font-size:16px;font-weight:600;line-height:1.35;color:#1E2619}
+.pk-name a{color:inherit;text-decoration:none;transition:color .2s}
+.pk-name a:hover{color:var(--g6)}
+.pk-rate{display:flex;align-items:center;gap:6px;font-size:13px;color:#3A4234}
+.pk-stars{display:inline-flex;gap:1px;font-size:15px;line-height:1;color:#D9D6C8}
+.pk-stars .on{color:var(--gold)}
+.pk-rate small{color:var(--mu);font-size:12.5px}
+.pk-price{display:flex;align-items:baseline;gap:6px;margin-top:auto}
+.pk-price b{font-size:19px;font-weight:700;color:#1E2619}
+.pk-price span{font-size:14.5px;color:#3A4234}
+.pk-sizes{display:flex;flex-wrap:wrap;gap:6px}
+.pk-sizes button{min-height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--bd);background:#fff;color:var(--g9);font:600 12.5px/1 inherit;font-family:inherit;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+.pk-sizes button[aria-pressed="true"]{background:var(--g6);border-color:var(--g6);color:#fff}
+.pk-card .btn-cart{min-height:44px;border-radius:10px;background:linear-gradient(180deg,#43902F 0%,#2F7323 100%);font-size:15px;box-shadow:0 4px 10px rgba(47,115,35,.22)}
+.pk-card .btn-cart:hover{background:linear-gradient(180deg,#3B8429 0%,#28651E 100%)}
+@media (hover:hover){
+  .pk-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:#D6E3CB}
+  .pk-card:hover .pk-img img{transform:scale(1.06)}
+}
+@media (max-width:1080px){.pk-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
+@media (max-width:700px){
+  .pk-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .pk-card{padding:8px;border-radius:14px}
+  .pk-body{padding:9px 1px;gap:5px}
+  .pk-name{font-size:14px;min-height:2.7em}
+  .pk-stars{font-size:13px}
+  .pk-rate small{font-size:11px}
+  .pk-price b{font-size:16px}
+  .pk-price span{font-size:12.5px}
+  .pk-sizes button{min-height:28px;padding:0 9px;font-size:11.5px}
+  .pk-card .btn-cart{min-height:40px;font-size:13px;border-radius:9px}
+}
+@media (prefers-reduced-motion:reduce){.pk-card:hover,.pk-card:hover .pk-img img{transform:none}}

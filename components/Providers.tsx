@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { PRODUCTS, type Product } from "@/lib/data";
+import { cartProduct, type Product } from "@/lib/data";
 
 type ToastAction = { label: string; run: () => void };
 type ToastState = { text: string; action?: ToastAction; show: boolean };
@@ -96,7 +96,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   const lines = useMemo<CartLine[]>(
     () =>
       Object.entries(items)
-        .map(([id, q]) => ({ p: PRODUCTS.find((x) => x.id === id) as Product, q }))
+        .map(([id, q]) => ({ p: cartProduct(id) as Product, q }))
         .filter((l) => l.p),
     [items],
   );
