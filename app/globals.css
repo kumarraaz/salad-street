@@ -865,3 +865,23 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .pk-card .btn-cart{min-height:40px;font-size:13px;border-radius:9px}
 }
 @media (prefers-reduced-motion:reduce){.pk-card:hover,.pk-card:hover .pk-img img{transform:none}}
+
+/* ---------- Cart checkout (delivery details + payment method) ---------- */
+.checkout{flex:1;overflow-y:auto;padding:12px 18px 16px;display:grid;align-content:start;gap:14px}
+.checkout fieldset{border:0;margin:0;padding:0;display:grid;gap:10px}
+.checkout legend{font-family:var(--serif);font-size:18px;color:var(--g9);margin-bottom:6px;padding:0}
+.checkout label{display:grid;gap:5px;font-size:13px;font-weight:500;color:#3A4234}
+.checkout input:not([type=radio]),.checkout textarea{width:100%;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;color:var(--tx);background:#fff;transition:border-color .2s,box-shadow .2s}
+.checkout input:focus,.checkout textarea:focus{outline:0;border-color:var(--g6);box-shadow:0 0 0 3px rgba(61,124,39,.15)}
+.checkout textarea{resize:vertical}
+.co-opt{display:flex!important;grid-template-columns:none;align-items:flex-start;gap:10px!important;border:1px solid var(--bd);border-radius:12px;padding:12px;cursor:pointer;transition:border-color .2s,background-color .2s}
+.co-opt:has(input:checked){border-color:var(--g6);background:#F3F8EE}
+.co-opt.off{opacity:.55;cursor:not-allowed}
+.co-opt input{margin-top:3px;accent-color:var(--g6);width:16px;height:16px;flex:none}
+.co-opt b{display:block;font-size:14px;color:#1E2619}
+.co-opt small{display:block;font-size:12px;font-weight:400;color:var(--mu);margin-top:2px}
+.co-sum{display:grid;gap:6px;background:var(--bg-cream);border-radius:12px;padding:12px;font-size:13px}
+.co-sum div{display:flex;justify-content:space-between;gap:10px}
+.co-back{justify-self:start;display:inline-flex;align-items:center;gap:4px;border:0;background:none;color:var(--g6);font:600 13px/1 inherit;font-family:inherit;cursor:pointer;padding:4px 0}
+.co-done p{font-size:14.5px;line-height:1.6;color:var(--tx)}
+.co-done .btn{width:100%;justify-content:center}

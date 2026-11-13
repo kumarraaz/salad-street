@@ -8,7 +8,15 @@ export function ContactRows() {
         <Icon k="phone" size={18} />
         <span>
           {CONFIG.phoneDisplay ? (
-            <a href={`tel:${CONFIG.phoneTel}`}>{CONFIG.phoneDisplay}</a>
+            <>
+              <a href={`tel:${CONFIG.phoneTel}`}>{CONFIG.phoneDisplay}</a>
+              {CONFIG.phone2Display ? (
+                <>
+                  {" · "}
+                  <a href={`tel:${CONFIG.phone2Tel}`}>{CONFIG.phone2Display}</a>
+                </>
+              ) : null}
+            </>
           ) : (
             <Tbc t="Phone number to be confirmed" on />
           )}

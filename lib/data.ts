@@ -3,9 +3,12 @@
    "to be confirmed" state instead of invented information.
    ===================================================================== */
 export const CONFIG = {
-  phoneDisplay: "", // e.g. "+91 98xxx xxxxx"
-  phoneTel: "", // e.g. "+9198xxxxxxxx"
-  whatsapp: "", // digits only incl. country code, e.g. "9198xxxxxxxx"
+  phoneDisplay: "+91 88269 54654",
+  phoneTel: "+918826954654",
+  phone2Display: "+91 98718 77387",
+  phone2Tel: "+919871877387",
+  whatsapp: "918826954654", // digits only incl. country code
+  upi: "", // UPI ID for online payment, e.g. "saladstreet@okicici"; the UPI option appears at checkout once this is set
   email: "", // e.g. "hello@saladstreet.in"
   address: "", // full postal address
   formEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx" (POST JSON)

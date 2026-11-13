@@ -87,7 +87,7 @@ export default function Floating() {
         </>
       );
     if (has("contact", "call", "phone", "whatsapp", "email", "address", "talk")) {
-      const bits = [CONFIG.phoneDisplay && "📞 " + CONFIG.phoneDisplay, CONFIG.email && "✉️ " + CONFIG.email].filter(Boolean);
+      const bits = [CONFIG.phoneDisplay && "📞 " + CONFIG.phoneDisplay, CONFIG.phone2Display && "📞 " + CONFIG.phone2Display, CONFIG.whatsapp && "WhatsApp +" + CONFIG.whatsapp, CONFIG.email && "✉️ " + CONFIG.email].filter(Boolean);
       return (
         <>
           You can reach us here: {bits.join(" · ") || "contact details are on our contact page"}.{" "}
