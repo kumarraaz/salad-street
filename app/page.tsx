@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
-import { BLOGS, FAQS, PRODUCTS } from "@/lib/data";
+import { BLOGS, FAQS } from "@/lib/data";
 import { CtaRow, Decor, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
-import { ProductRail, ReviewCarousel } from "@/components/Rails";
+import { ReviewCarousel } from "@/components/Rails";
 import Founders from "@/components/Founders";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
 import { FarmStory, FeatureStrip, KitsBanner, WhySection } from "@/components/Sections";
 import { Newsletter } from "@/components/SectionsClient";
-import { UpcomingHarvest } from "@/components/Leafy";
-import { ProductSlider } from "@/components/Products";
 import PackShop from "@/components/PackShop";
+import VisionMission from "@/components/VisionMission";
 
 export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
 
@@ -21,30 +20,10 @@ export default function HomePage() {
       <Hero />
       {/* Alternating section tones: bg-w (white) · bg-c (warm cream #F7F5EA) · bg-s (light sage #EDF3E8) */}
       <FeatureStrip cls="bg-w" />
-      <UpcomingHarvest cls="bg-c" />
+      <PackShop cls="bg-c" id="our-products" />
+      <VisionMission cls="bg-w" />
 
-      <section className="sec deco-sec bg-w shop-by" aria-labelledby="sp-t">
-        <Decor k="carrot" cls="cat-carrot" />
-        <Decor k="leaf" cls="corner-tr" />
-        <div className="wrap">
-          <SecTitle id="sp-t" eyebrow="Explore Our Range" title="Shop by Product" />
-          <ProductRail />
-        </div>
-      </section>
-
-      <section className="sec deco-sec bg-s picks-sec" id="our-products" aria-labelledby="pr-t">
-        <Decor k="leaf" cls="corner-tl" />
-        <Decor k="tomato" cls="pr-tomato" />
-        <div className="wrap">
-          <SecTitle id="pr-t" eyebrow="Shop Fresh" title="Fresh Picks from Our Farm" />
-          <ProductSlider list={PRODUCTS.filter((p) => p.home)} label="Products" />
-          <CtaRow label="View All Products" href="/products" />
-        </div>
-      </section>
-
-      <PackShop cls="bg-c" />
-
-      <KitsBanner cls="bg-w" />
+      <KitsBanner cls="bg-s" />
       <FarmStory cls="bg-c" />
 
       <section className="sec highlights bg-w" id="day-highlights" aria-labelledby="hl-t">

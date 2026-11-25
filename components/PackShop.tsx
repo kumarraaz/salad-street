@@ -48,6 +48,9 @@ function PackCard({ p }: { p: Product }) {
         <Link href={href} tabIndex={-1} aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={img} alt="" width={900} height={720} loading="lazy" decoding="async" />
+          {/* Hover reveal: the fresh leaves inside the pack */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="hv-alt cut" src={p.img} alt="" width={720} height={560} loading="lazy" decoding="async" />
         </Link>
         <button
           className={`wish${saved ? " on" : ""}`}
@@ -94,10 +97,10 @@ function PackCard({ p }: { p: Product }) {
   );
 }
 
-export default function PackShop({ cls = "bg-c", exclude }: { cls?: string; exclude?: string }) {
+export default function PackShop({ cls = "bg-c", exclude, id }: { cls?: string; exclude?: string; id?: string }) {
   const list = PRODUCTS.filter((p) => p.id !== exclude);
   return (
-    <section className={`sec deco-sec pk-sec ${cls}`} aria-labelledby="pk-t">
+    <section className={`sec deco-sec pk-sec ${cls}`} id={id} aria-labelledby="pk-t">
       <Decor k="leaf" cls="corner-tl" />
       <Decor k="leaf" cls="corner-tr" />
       <div className="wrap">

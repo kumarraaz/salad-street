@@ -40,6 +40,11 @@ export function ProductCard({ p }: { p: Product }) {
       <div className="pimg">
         <Link href={href} tabIndex={-1} aria-hidden="true" className="pimg-link">
           <Media src={p.img} label={"Product photo · " + p.name} alt="" cls="cutout" />
+          {p.pack ? (
+            // Hover reveal: the packaged product
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="hv-alt" src={p.pack} alt="" width={900} height={720} loading="lazy" decoding="async" />
+          ) : null}
         </Link>
         <WishBtn p={p} />
       </div>
