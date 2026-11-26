@@ -4,6 +4,26 @@ import { useState, type FormEvent } from "react";
 import { CONFIG } from "@/lib/data";
 import { Decor, Icon } from "./ui";
 
+/** Farm photo with a play icon. The video is only requested when the visitor presses play. */
+export function FarmPhotoVideo({ poster, video, alt }: { poster: string; video: string; alt: string }) {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className="farm-media">
+      {playing ? (
+        <video src={video} poster={poster} controls autoPlay playsInline muted preload="none" aria-label="Video of the farm (no speech)" />
+      ) : (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={poster} alt={alt} loading="lazy" decoding="async" width={1100} height={720} />
+          <button className="play" type="button" onClick={() => setPlaying(true)} aria-label="Play farm video">
+            <Icon k="play" size={30} />
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
 /** Newsletter sign-up. Posts to CONFIG.formEndpoint when one is configured; otherwise says so honestly. */
 export function Newsletter({ cls = "" }: { cls?: string }) {
   const [msg, setMsg] = useState<{ ok: boolean; t: string } | null>(null);

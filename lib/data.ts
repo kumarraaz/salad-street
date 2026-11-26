@@ -125,7 +125,6 @@ export const FOUNDERS: Founder[] = [
 export type Why = { id: string; tab: string; icon: string; title: string; text: string; tbc?: boolean; img: string };
 export const WHY: Why[] = [
   { id: "fresh", tab: "Fresh Ingredients", icon: "leaf", title: "Farm Fresh Ingredients", text: "Grown at our own farm, picked fresh and packed with care to bring you the best quality salad greens, herbs and microgreens.", img: "images/why/fresh.webp" },
-  { id: "nopres", tab: "No Preservatives", icon: "shield", title: "No Preservatives", text: "Our salads and products are made without added preservatives.", tbc: true, img: "images/why/no-preservatives.webp" },
   { id: "healthy", tab: "Healthy & Nutritious", icon: "heart", title: "Healthy & Nutritious", text: "Wholesome, balanced food made for everyday wellness.", tbc: true, img: "images/why/healthy.webp" },
   { id: "variety", tab: "Wide Variety", icon: "grid", title: "Wide Variety", text: "Salad greens, herbs and microgreens, all in one place.", img: "images/why/variety.webp" },
 ].map((w) => ({ ...w, img: WHY_IMG[w.id] || w.img }));
@@ -146,7 +145,6 @@ export const BLOGS: Blog[] = [
 export type Faq = { q: string; a: string; tbc?: boolean };
 export const FAQS: Faq[] = [
   { q: "Are your salads really fresh?", a: "Yes. Our greens are grown at our own farm, picked fresh and packed with care." },
-  { q: "Do you use preservatives?", a: "No. Our salads and products are made without added preservatives.", tbc: true },
   { q: "Can I customize my salad?", a: "Tell us what you would like through the enquiry form and we will let you know what is possible." },
   { q: "Do you offer bulk or corporate orders?", a: "Send your requirement through the enquiry form, choosing “Bulk / corporate order”, and our team will get back to you." },
 ];

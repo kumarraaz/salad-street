@@ -3,6 +3,8 @@ import { CATEGORIES, WHY } from "@/lib/data";
 import { Cta, Decor, Icon, SecTitle, Tbc } from "./ui";
 import fs from "node:fs";
 import path from "node:path";
+import { FARM_VIDEO_FALLBACK, SCENE } from "@/lib/media";
+import { FarmPhotoVideo } from "./SectionsClient";
 
 /* All copy below re-uses wording already approved on the site (hero, Why Choose Us, FAQ).
    Nothing here adds new claims about delivery times, certifications or ratings. */
@@ -47,7 +49,7 @@ export const hasFarmVideo = fs.existsSync(path.join(process.cwd(), "public", FAR
 export function FarmStory({ cls = "" }: { cls?: string }) {
   return (
     <section className={`sec farm ${cls}`} aria-labelledby="farm-t">
-      <div className={`wrap farm-in${hasFarmImg ? "" : " solo"}`}>
+      <div className="wrap farm-in">
         <div className="farm-copy">
           <p className="script">Our Farm, Your Freshness</p>
           <h2 id="farm-t">From Our Farm to Your Plate</h2>
@@ -67,12 +69,11 @@ export function FarmStory({ cls = "" }: { cls?: string }) {
           </ul>
           <Cta label="About Us" href="/about" solid />
         </div>
-        {hasFarmImg ? (
-          <div className="farm-media">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={FARM_IMG} alt="Salad Street farm" loading="lazy" decoding="async" width={1100} height={720} />
-          </div>
-        ) : null}
+        <FarmPhotoVideo
+          poster={hasFarmImg ? FARM_IMG : SCENE.farm}
+          alt={hasFarmImg ? "Salad Street farm" : "Rows of fresh lettuce growing in a greenhouse"}
+          video={hasFarmVideo ? FARM_VIDEO : FARM_VIDEO_FALLBACK}
+        />
       </div>
     </section>
   );

@@ -51,7 +51,7 @@ function RecipeModal({ r, onClose, video }: { r: Recipe; onClose: () => void; vi
           <Icon k="close" size={22} />
         </button>
         <h3 id="rc-title" className="story-sub">{r.name}</h3>
-        {video && r.video ? <RecipeVideo src={r.video} title={r.name} /> : null}
+        {video ? r.video ? <RecipeVideo src={r.video} title={r.name} /> : <p className="rc-novideo"><Icon k="play" size={16} /> The video for this recipe will be added soon.</p> : null}
         <p className="rc-meta">
           <Icon k="clock" size={16} /> {r.time} · Uses: {names(r.uses)}
         </p>
@@ -84,11 +84,9 @@ export default function Recipes({ cls = "" }: { cls?: string }) {
             <article className="pk-card rc-card" key={r.id}>
               <div className="pk-img" style={tint(r.uses[0]) ? ({ "--tint": tint(r.uses[0]) } as React.CSSProperties) : undefined}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                {r.video ? (
-                  <button className="rc-play" type="button" onClick={() => setOpen({ r, video: true })} aria-label={`Watch ${r.name} video`}>
-                    <Icon k="play" size={26} />
-                  </button>
-                ) : null}
+                <button className="rc-play" type="button" onClick={() => setOpen({ r, video: true })} aria-label={`Watch ${r.name} video`}>
+                  <Icon k="play" size={26} />
+                </button>
                 <img className="rc-photo" src={r.img} alt={`${names(r.uses.slice(0, 1))} from Salad Street Farms`} width={720} height={540} loading="lazy" decoding="async" />
               </div>
               <div className="pk-body">
@@ -98,15 +96,13 @@ export default function Recipes({ cls = "" }: { cls?: string }) {
                 </p>
                 <p className="rc-uses">Uses: {names(r.uses)}</p>
               </div>
-              <div className={`rc-actions${r.video ? " two" : ""}`}>
+              <div className="rc-actions two">
                 <button className="btn btn-outline btn-sm rc-open" type="button" onClick={() => setOpen({ r, video: false })} aria-haspopup="dialog">
                   View Recipe <Icon k="arrow" size={16} />
                 </button>
-                {r.video ? (
-                  <button className="btn btn-solid btn-sm rc-open" type="button" onClick={() => setOpen({ r, video: true })} aria-haspopup="dialog">
-                    <Icon k="play" size={16} /> Watch Video
-                  </button>
-                ) : null}
+                <button className="btn btn-solid btn-sm rc-open" type="button" onClick={() => setOpen({ r, video: true })} aria-haspopup="dialog">
+                  <Icon k="play" size={16} /> Watch Video
+                </button>
               </div>
             </article>
           ))}

@@ -49,5 +49,18 @@ export default function NextWeek({ cls = "" }: { cls?: string }) {
 }
 
 export function ComingSoon({ cls = "" }: { cls?: string }) {
+  // No new products named yet: show the section with a WhatsApp sign-up instead of product cards.
+  if (!COMING_SOON.length)
+    return (
+      <section className={`sec pk-sec ${cls}`} aria-labelledby="cs-t">
+        <div className="wrap cs-empty">
+          <SecTitle id="cs-t" eyebrow="New on the Farm" title="Coming Soon Products" />
+          <p>New farm-fresh products are on their way. Be the first to know when they arrive.</p>
+          <a className="btn btn-solid" href={`https://wa.me/918826954654?text=${encodeURIComponent("Notify me about new Salad Street products")}`} target="_blank" rel="noopener">
+            <Icon k="wa" size={18} /> Notify me on WhatsApp
+          </a>
+        </div>
+      </section>
+    );
   return <SoonGrid id="cs-t" eyebrow="New on the Farm" title="Coming Soon Products" badge="Coming Soon" items={COMING_SOON} cls={cls} />;
 }

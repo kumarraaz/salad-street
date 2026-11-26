@@ -1380,3 +1380,14 @@ section.bg-s{background:var(--bg-sage)}
 .rc-actions .rc-open{margin:0;padding:0 10px}
 .rc-video{aspect-ratio:16/9;margin:8px 0 6px;border-radius:12px;overflow:hidden;background:#104312}
 .rc-video iframe,.rc-video video{display:block;width:100%;height:100%;border:0}
+
+/* ---------- Bowl in enquiry, farm section, coming soon, recipe note ---------- */
+.query-bowl{position:absolute;right:4%;bottom:-24px;width:210px;height:auto;pointer-events:none;filter:drop-shadow(0 16px 18px rgba(16,67,18,.16))}
+.why-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.farm .farm-media{border-radius:16px;overflow:hidden}
+.cs-empty{display:grid;justify-items:center;text-align:center;gap:14px}
+.cs-empty>p{max-width:52ch;color:#4A5244}
+.cs-empty .sec-title{margin-bottom:0}
+.rc-novideo{display:flex;align-items:center;gap:8px;margin:8px 0 4px;padding:12px 14px;border-radius:12px;background:#F1F8EA;color:#104312;font-size:14px;font-weight:500}
+@media (max-width:820px){.query-bowl{display:none}}
+@media (max-width:700px){.why-grid{grid-template-columns:1fr}}

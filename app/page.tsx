@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import { Fragment, type ReactNode } from "react";
 import { CONFIG, FAQS, PRODUCTS, REVIEWS } from "@/lib/data";
-import { CtaRow, SecTitle, Wave } from "@/components/ui";
+import { CtaRow, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards } from "@/components/Cards";
 import { ReviewCarousel } from "@/components/Rails";
 import Founders from "@/components/Founders";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
-import { FeatureStrip, WhySection, FARM_IMG, hasFarmImg, hasFarmVideo, FARM_VIDEO } from "@/components/Sections";
+import { FarmStory, FeatureStrip, WhySection } from "@/components/Sections";
 import { Newsletter } from "@/components/SectionsClient";
 import PackShop from "@/components/PackShop";
 import OurStory from "@/components/OurStory";
 import NextWeek, { ComingSoon, nextWeekItems } from "@/components/NextWeek";
-import FarmVideo from "@/components/FarmVideo";
 import Recipes from "@/components/Recipes";
-import { COMING_SOON } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: { absolute: `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms` },
@@ -35,18 +33,17 @@ const productLd = {
   })),
 };
 
-type Tone = "w" | "c" | "s";
-const TONES: Tone[] = ["w", "c", "s"];
+/* Plain full-width backgrounds, alternating white and cream. */
+const TONES = ["w", "c"] as const;
 
 export default function HomePage() {
-  /* Sections in order. Hidden ones (no data) are dropped first, so the tones always alternate
-     white → cream #FBF6EC → sage #F1F8EA, joined by wavy dividers. */
+  /* Sections in order. Hidden ones (no data) are dropped first, so white and cream always alternate. */
   const blocks: ((cls: string) => ReactNode)[] = [
     (c) => <FeatureStrip cls={c} />,
     (c) => <PackShop cls={c} id="our-products" />,
     ...(nextWeekItems.length ? [(c: string) => <NextWeek cls={c} />] : []),
-    ...(COMING_SOON.length ? [(c: string) => <ComingSoon cls={c} />] : []),
-    ...(hasFarmVideo ? [(c: string) => <FarmVideo cls={c} src={FARM_VIDEO} poster={hasFarmImg ? FARM_IMG : undefined} />] : []),
+    (c) => <ComingSoon cls={c} />,
+    (c) => <FarmStory cls={c} />,
     (c) => <OurStory cls={c} />,
     (c) => (
       <section className={`sec highlights ${c}`} id="day-highlights" aria-labelledby="hl-t">
@@ -98,10 +95,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd).replace(/</g, "\\u003c") }} />
       <Hero />
       {blocks.map((b, i) => (
-        <Fragment key={i}>
-          {i ? <Wave from={TONES[(i - 1) % 3]} to={TONES[i % 3]} /> : null}
-          {b(`bg-${TONES[i % 3]}`)}
-        </Fragment>
+        <Fragment key={i}>{b(`bg-${TONES[i % 2]}`)}</Fragment>
       ))}
     </>
   );

@@ -2,7 +2,7 @@
 
 import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { CONFIG, REQUIREMENTS, enquiryText, waLink } from "@/lib/data";
-import { Cta, Decor, Icon } from "./ui";
+import { Cta, Icon } from "./ui";
 
 const rules: Record<string, (v: string) => true | string> = {
   name: (v) => v.trim().length >= 2 || "Enter your name.",
@@ -155,7 +155,8 @@ export function QueryBlock() {
         <div className="contact-cta">
           <Cta label="Contact Us" href="/contact" />
         </div>
-        <Decor k="bowlH" cls="query-deco" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="query-bowl" src="/images/query/salad-bowl.png" alt="" aria-hidden="true" width={535} height={443} loading="lazy" decoding="async" />
       </div>
       <div className="query-in">
         <EnquiryForm pfx="q" />
