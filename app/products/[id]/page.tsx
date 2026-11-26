@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CATEGORIES, PRODUCTS, withWeight } from "@/lib/data";
-import { CtaRow, PageHero, SecTitle, Tbc } from "@/components/ui";
+import { CATEGORIES, CONFIG, PRODUCTS, withWeight } from "@/lib/data";
+import { CtaRow, PageHero, SecTitle } from "@/components/ui";
 import Media from "@/components/Media";
 import { BuyBox, ProductSlider } from "@/components/Products";
 import PackShop from "@/components/PackShop";
@@ -13,7 +13,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const p = PRODUCTS.find((x) => x.id === id);
-  return p ? { title: withWeight(p), description: `${p.name}: ${p.note.toLowerCase()}. Fresh from Salad Street Farms.` } : {};
+  return p
+    ? {
+        title: withWeight(p),
+        description: `${p.name}: ${p.note.toLowerCase()}. Fresh from Salad Street Farms.`,
+        alternates: { canonical: `/products/${p.id}` },
+        openGraph: { url: `/products/${p.id}`, images: [{ url: "/images/og.jpg", width: 1200, height: 630 }] },
+      }
+    : {};
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -25,6 +32,21 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const related = [...PRODUCTS.filter((x) => x.id !== p.id && x.cat === p.cat), ...PRODUCTS.filter((x) => x.id !== p.id && x.cat !== p.cat)];
   return (
     <>
+      {/* Structured data: name, price, pack size only (no ratings). */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: p.name,
+            image: `${CONFIG.siteUrl}${p.pack || (p.img.startsWith("/") ? p.img : "/" + p.img)}`,
+            brand: { "@type": "Brand", name: "Salad Street Farms" },
+            ...(p.weight ? { weight: { "@type": "QuantitativeValue", value: parseFloat(p.weight), unitCode: "GRM" } } : {}),
+            ...(p.price != null ? { offers: { "@type": "Offer", price: p.price, priceCurrency: "INR", url: `${CONFIG.siteUrl}/products/${p.id}` } } : {}),
+          }).replace(/</g, "\\u003c"),
+        }}
+      />
       <PageHero
         title={p.name}
         sub={p.note}
@@ -41,9 +63,6 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             </h2>
             <p className="pd-weight">{p.note}{p.weight ? ` · Pack size: ${p.weight}` : ""}</p>
             <BuyBox p={p} />
-            <p className="pd-note">
-              <Tbc t="Product description, storage tips and shelf life to be supplied by Salad Street." on />
-            </p>
           </div>
         </div>
       </section>

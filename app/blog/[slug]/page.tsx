@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BLOGS } from "@/lib/data";
-import { Cta, PageHero, Tbc } from "@/components/ui";
+import { Cta, PageHero } from "@/components/ui";
 import Media from "@/components/Media";
 
 export const dynamicParams = false;
@@ -26,9 +26,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <article className="article">
             <Media src={b.img} label={"Blog cover · " + b.title} alt={b.title} />
             <p>{b.excerpt}</p>
-            <p>
-              <Tbc t="Full article content to be supplied by Salad Street." on />
-            </p>
             <Cta label="Back to all blogs" href="/blog" />
           </article>
         </div>

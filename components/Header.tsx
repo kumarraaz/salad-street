@@ -92,9 +92,6 @@ export default function Header() {
             <span className="sr">Language</span>
             <select aria-label="Language" defaultValue="en">
               <option value="en">English</option>
-              <option value="hi" disabled>
-                हिन्दी (coming soon)
-              </option>
             </select>
           </label>
           <Link className="icon-btn hide-m" href="/account" aria-label="My account">
@@ -144,9 +141,6 @@ export default function Header() {
             ) : null}
           </Fragment>
         ))}
-        <Link className="m-link" href="/blog">
-          Recipes
-        </Link>
         <div className="m-row">
           <Link className="btn btn-outline btn-sm" href="/account">
             <Icon k="user" size={18} />
@@ -160,7 +154,6 @@ export default function Header() {
             <Icon k="globe" size={18} />
             <select aria-label="Language" defaultValue="English">
               <option>English</option>
-              <option disabled>हिन्दी (coming soon)</option>
             </select>
           </label>
         </div>

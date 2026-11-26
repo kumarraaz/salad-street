@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES, priceText, type Product } from "@/lib/data";
+import { CATEGORIES, per100, priceText, waOrderLink, type Product } from "@/lib/data";
 import { Cta, Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
@@ -82,6 +82,15 @@ export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataA
   );
 }
 
+/** "Order on WhatsApp" link for one pack (opens a pre-filled chat). */
+export function WaOrder({ name, weight, price }: { name: string; weight?: string; price?: number | null }) {
+  return (
+    <a className="btn-wa" href={waOrderLink(name, weight, price)} target="_blank" rel="noopener" aria-label={`Order ${name}${weight ? " " + weight : ""} on WhatsApp`}>
+      Order on WhatsApp
+    </a>
+  );
+}
+
 export function ProductCard({ p }: { p: Product }) {
   const { add, toast, openCart } = useApp();
   const href = productHref(p);
@@ -109,6 +118,7 @@ export function ProductCard({ p }: { p: Product }) {
           <span className={`pp${p.price == null ? " por" : ""}`}>{priceText(p)}</span>
           {p.weight ? <span className="pw">/ {p.weight}</span> : null}
         </p>
+        {per100(p.price, p.weight) ? <p className="p100">{per100(p.price, p.weight)}</p> : null}
         {p.rating ? (
           <p className="prate" aria-label={`Rated ${p.rating} out of 5${p.reviews ? ` from ${p.reviews} reviews` : ""}`}>
             <span className="prate-star" aria-hidden="true">★</span>
@@ -126,6 +136,7 @@ export function ProductCard({ p }: { p: Product }) {
           toast(`${p.name} added to cart`, { label: "View cart", run: openCart });
         }}
       />
+      <WaOrder name={p.name} weight={p.weight} price={p.price} />
     </article>
   );
 }
@@ -184,6 +195,7 @@ export function BuyBox({ p }: { p: Product }) {
       <p className="pd-price">
         {priceText(p)} {p.weight ? <span>/ {p.weight}</span> : null}
       </p>
+      {per100(p.price, p.weight) ? <p className="p100">{per100(p.price, p.weight)}</p> : null}
       {cat ? (
         <p className="pd-cat">
           Category: <Link href={`/products?cat=${cat.id}`}>{cat.name}</Link>

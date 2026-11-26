@@ -19,7 +19,7 @@ export default function CategoriesPage() {
                 <Link className="cat" key={c.id} href={`/products?cat=${c.id}`}>
                   <Media src={c.img} label={c.name} alt={c.name} cls="cutout" />
                   <b>{c.name}</b>
-                  <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : "Coming soon"}</small>
+                  <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : null}</small>
                 </Link>
               );
             })}

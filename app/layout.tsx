@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
+import { CONFIG } from "@/lib/data";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import Header from "@/components/Header";
@@ -8,18 +10,45 @@ import { CartDrawer, Toast } from "@/components/CartDrawer";
 import { SvgSprite } from "@/components/ui";
 import Motion from "@/components/Motion";
 
+const SITE_TITLE = `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms`;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(CONFIG.siteUrl),
   title: {
-    default: "Salad Street Farms | Fresh Salads for a Healthier You",
+    default: SITE_TITLE,
     template: "%s | Salad Street Farms",
   },
+  alternates: { canonical: "./" },
   description:
     "Farm fresh ingredients, ready-to-eat salads and healthy products for your everyday wellness. Shop salad greens, herbs and microgreens from Salad Street Farms.",
   openGraph: {
-    title: "Salad Street Farms",
-    description: "Fresh salad greens, herbs, microgreens and family days at the farm.",
+    title: SITE_TITLE,
+    description: "Fresh salad greens, herbs and microgreens from Salad Street Farms.",
     type: "website",
+    url: "./",
+    siteName: "Salad Street Farms",
+    images: [{ url: "/images/og.jpg", width: 1200, height: 630, alt: "Fresh salad greens from Salad Street Farms" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: "Fresh salad greens, herbs and microgreens from Salad Street Farms.",
+    images: ["/images/og.jpg"],
+  },
+};
+
+/* LocalBusiness structured data: only confirmed fields (no ratings, no invented address). */
+const businessLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Salad Street Farms",
+  url: CONFIG.siteUrl,
+  image: `${CONFIG.siteUrl}/images/og.jpg`,
+  telephone: CONFIG.phoneTel || undefined,
+  email: CONFIG.email || undefined,
+  address: CONFIG.address || undefined,
+  areaServed: CONFIG.city || undefined,
+  sameAs: Object.values(CONFIG.social).filter(Boolean),
 };
 
 export const viewport: Viewport = {
@@ -28,15 +57,22 @@ export const viewport: Viewport = {
   themeColor: "#104312",
 };
 
+/* Announcement bar. The offer appears only when CONFIG.offerCode and CONFIG.offerTerms are both set. */
 function Marquee() {
+  const offer = CONFIG.offerCode && CONFIG.offerTerms;
   const msg = (
     <>
-      ★ Get <b>10% OFF</b> on your first order &nbsp;|&nbsp; Fresh · Healthy · Ready to Eat &nbsp;|&nbsp; Shop Fresh, Eat Better. &nbsp;|&nbsp;
-      Discover Your Favourites ★
+      ★{" "}
+      {offer ? (
+        <>
+          {CONFIG.offerTerms} with code <b>{CONFIG.offerCode}</b> &nbsp;|&nbsp;{" "}
+        </>
+      ) : null}
+      Fresh · Healthy · Ready to Eat &nbsp;|&nbsp; Shop Fresh, Eat Better. &nbsp;|&nbsp; Discover Your Favourites ★
     </>
   );
   return (
-    <div className="announce" role="region" aria-label="Offers">
+    <div className="announce" role="region" aria-label={offer ? "Offers" : "Announcements"}>
       <div className="marquee" id="marquee">
         <span>{msg}</span>
         <span aria-hidden="true">{msg}</span>
@@ -58,6 +94,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap"
           rel="stylesheet"
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd).replace(/</g, "\\u003c") }} />
       </head>
       <body>
         <Providers>
@@ -79,6 +116,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <p style={{ padding: "24px", textAlign: "center" }}>Please enable JavaScript to use the Salad Street website.</p>
           </noscript>
         </Providers>
+        {CONFIG.ga4 ? (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${CONFIG.ga4}`} strategy="afterInteractive" />
+            <Script id="ga4" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","${CONFIG.ga4}");`}
+            </Script>
+          </>
+        ) : null}
       </body>
     </html>
   );

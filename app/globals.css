@@ -1173,3 +1173,20 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   /* (animations/transitions are already cut to ~0ms by the global reduced-motion rule) */
   .pcard,.pk-card,.btt,.btt[data-show="1"],.tr-body,.btn .ico,.link-arrow .ico,.pk-img>a>img:first-child,.pcard .media img{transform:none!important}
 }
+
+/* ---------- Client-data driven elements ---------- */
+.p100{font-size:12.5px;color:#5E6B57;margin-top:-2px}
+.pd-price+.p100{margin:-6px 0 10px}
+.btn-wa{display:flex;align-items:center;justify-content:center;min-height:40px;margin-top:8px;border:1.5px solid #4B781E;border-radius:10px;color:#104312;background:#fff;font-weight:600;font-size:14px;text-decoration:none;transition:background-color .25s var(--me),color .25s var(--me)}
+@media (hover:hover){.btn-wa:hover{background:#F1F8EA}}
+.btn-wa:focus-visible{outline:3px solid #7CC24A;outline-offset:2px}
+.dstrip{text-align:center;margin:-8px auto 22px;font-size:14px;font-weight:500;color:#104312}
+.flegal a{font-weight:500}
+.founder-card.no-photo{grid-template-columns:1fr}
+.founder-card.no-photo .founder-body{padding:10px}
+.farm-in.solo{grid-template-columns:1fr;max-width:760px;text-align:center}
+.farm-in.solo .checks{justify-content:center}
+.farm-in.solo .farm-copy p{margin-inline:auto}
+.policy-note{font-size:16px;color:#3A4234}
+.policy-note a{color:var(--g6);font-weight:600}
+@media (max-width:700px){.btn-wa{font-size:13px;min-height:38px}}

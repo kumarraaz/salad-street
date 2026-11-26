@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BLOGS, FAQS } from "@/lib/data";
+import { BLOGS, CONFIG, FAQS, PRODUCTS, REVIEWS } from "@/lib/data";
 import { CtaRow, Decor, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
@@ -12,11 +12,28 @@ import { Newsletter } from "@/components/SectionsClient";
 import PackShop from "@/components/PackShop";
 import VisionMission from "@/components/VisionMission";
 
-export const metadata: Metadata = { title: "Fresh Salads for a Healthier You" };
+export const metadata: Metadata = {
+  title: { absolute: `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms` },
+  alternates: { canonical: "/" },
+};
+
+/* Structured data for the product list: name, price, pack size only (no ratings). */
+const productLd = {
+  "@context": "https://schema.org",
+  "@graph": PRODUCTS.map((p) => ({
+    "@type": "Product",
+    name: p.name,
+    url: `${CONFIG.siteUrl}/products/${p.id}`,
+    brand: { "@type": "Brand", name: "Salad Street Farms" },
+    ...(p.weight ? { weight: { "@type": "QuantitativeValue", value: parseFloat(p.weight), unitCode: "GRM" } } : {}),
+    ...(p.price != null ? { offers: { "@type": "Offer", price: p.price, priceCurrency: "INR" } } : {}),
+  })),
+};
 
 export default function HomePage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd).replace(/</g, "\\u003c") }} />
       <Hero />
       {/* Alternating section tones: bg-w (white) · bg-c (warm cream #F7F5EA) · bg-s (light sage #EDF3E8) */}
       <FeatureStrip cls="bg-w" />
@@ -38,12 +55,15 @@ export default function HomePage() {
       <WhySection cls="bg-s" />
       <Founders cls="bg-w" />
 
-      <section className="sec reviews bg-c" aria-labelledby="rv-t">
-        <div className="wrap">
-          <SecTitle id="rv-t" title="Loved by Health-Conscious Customers" />
-          <ReviewCarousel />
-        </div>
-      </section>
+      {/* Shown only once genuine reviews exist in lib/data.ts */}
+      {REVIEWS.length ? (
+        <section className="sec reviews bg-c" aria-labelledby="rv-t">
+          <div className="wrap">
+            <SecTitle id="rv-t" title="Loved by Health-Conscious Customers" />
+            <ReviewCarousel />
+          </div>
+        </section>
+      ) : null}
 
       <section className="sec bg-w" aria-labelledby="bl-t">
         <div className="wrap">

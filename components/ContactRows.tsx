@@ -1,13 +1,15 @@
 import { CONFIG } from "@/lib/data";
-import { Icon, Tbc } from "./ui";
+import { Icon } from "./ui";
 
+/* Rows with no confirmed value are hidden. */
 export function ContactRows() {
   return (
     <>
+      {CONFIG.phoneDisplay ? (
       <div className="info-row">
         <Icon k="phone" size={18} />
         <span>
-          {CONFIG.phoneDisplay ? (
+          {(
             <>
               <a href={`tel:${CONFIG.phoneTel}`}>{CONFIG.phoneDisplay}</a>
               {CONFIG.phone2Display ? (
@@ -17,21 +19,24 @@ export function ContactRows() {
                 </>
               ) : null}
             </>
-          ) : (
-            <Tbc t="Phone number to be confirmed" on />
           )}
         </span>
       </div>
-      <div className="info-row">
-        <Icon k="mail" size={18} />
-        <span>
-          {CONFIG.email ? <a href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a> : <Tbc t="Email to be confirmed" on />}
-        </span>
-      </div>
-      <div className="info-row">
-        <Icon k="pin" size={18} />
-        <span>{CONFIG.address ? CONFIG.address : <Tbc t="Address to be confirmed" on />}</span>
-      </div>
+      ) : null}
+      {CONFIG.email ? (
+        <div className="info-row">
+          <Icon k="mail" size={18} />
+          <span>
+            <a href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a>
+          </span>
+        </div>
+      ) : null}
+      {CONFIG.address ? (
+        <div className="info-row">
+          <Icon k="pin" size={18} />
+          <span>{CONFIG.address}</span>
+        </div>
+      ) : null}
     </>
   );
 }

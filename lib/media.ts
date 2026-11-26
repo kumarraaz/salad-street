@@ -25,16 +25,9 @@ export const WHY_IMG: Record<string, string> = {
 };
 
 export const SCENE = {
-  /** "From Our Farm to Your Plate" image + video poster */
-  farm: un("1708796705570-33fd29ef67d0", 1100, 720),
   /** Green "farm process" band background */
   harvest: un("1519897831810-a9a01aceccd1", 1600, 700),
   /** Newsletter band side images */
   greens: un("1572449043416-55f4685c9bb7", 600, 600),
 };
 
-/** Temporary farm video (Pexels #3195351, free licence). Loaded only when the visitor presses play. */
-export const FARM_VIDEO = {
-  src: "https://videos.pexels.com/video-files/3195351/3195351-hd_1280_720_25fps.mp4",
-  credit: "Video: Pressmaster / Pexels (temporary)",
-};

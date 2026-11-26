@@ -82,7 +82,7 @@ export function CategoryRail() {
               <span className="cat-meta">
                 <span>
                   <b>{c.name}</b>
-                  <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : "Coming soon"}</small>
+                  <small>{n ? `${n} ${n === 1 ? "product" : "products"}` : null}</small>
                 </span>
                 <span className="cat-go" aria-hidden="true">
                   <Icon k="chevR" size={16} />

@@ -125,14 +125,10 @@ export function Logo({ w, h, label = true }: { w: number; h: number; label?: boo
   );
 }
 
+/** Plain text. (Formerly marked "to be confirmed"; placeholder markers are no longer shown on the site.) */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function Tbc({ t, on }: { t: string; on?: boolean }) {
-  return on ? (
-    <span className="tbc" title="To be confirmed by Salad Street">
-      {t}
-    </span>
-  ) : (
-    <>{t}</>
-  );
+  return <>{t}</>;
 }
 
 /** Section heading from the design: optional script-style eyebrow, serif title flanked by leaves. */

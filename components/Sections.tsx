@@ -2,7 +2,8 @@ import Link from "next/link";
 import { CATEGORIES, WHY } from "@/lib/data";
 import { SCENE } from "@/lib/media";
 import { Cta, Decor, Icon, SecTitle, Tbc } from "./ui";
-import { FarmVideo } from "./SectionsClient";
+import fs from "node:fs";
+import path from "node:path";
 
 /* All copy below re-uses wording already approved on the site (hero, Why Choose Us, FAQ).
    Nothing here adds new claims about delivery times, certifications or ratings. */
@@ -36,17 +37,20 @@ export function FeatureStrip({ cls = "" }: { cls?: string }) {
 
 export { default as KitsBanner } from "./KitsBanner";
 
-/** "From Our Farm to Your Plate" story with play-on-demand farm video. */
+/* Real farm photo: shown only once /public/images/farm/farm.webp exists (checked at build time). */
+const FARM_IMG = "/images/farm/farm.webp";
+const hasFarmImg = fs.existsSync(path.join(process.cwd(), "public", FARM_IMG));
+
+/** "From Our Farm to Your Plate" story with the farm photo. */
 export function FarmStory({ cls = "" }: { cls?: string }) {
   return (
     <section className={`sec farm ${cls}`} aria-labelledby="farm-t">
-      <div className="wrap farm-in">
+      <div className={`wrap farm-in${hasFarmImg ? "" : " solo"}`}>
         <div className="farm-copy">
           <p className="script">Our Farm, Your Freshness</p>
           <h2 id="farm-t">From Our Farm to Your Plate</h2>
           <p>
-            Grown at our farm, prepared fresh and ready to eat. We source the freshest fruits and vegetables to bring you the best quality
-            salads and healthy products.
+            Grown at our own farm, prepared fresh and ready to eat, to bring you the best quality salad greens, herbs and microgreens.
           </p>
           <ul className="checks">
             <li>
@@ -61,7 +65,12 @@ export function FarmStory({ cls = "" }: { cls?: string }) {
           </ul>
           <Cta label="About Us" href="/about" solid />
         </div>
-        <FarmVideo poster={SCENE.farm} />
+        {hasFarmImg ? (
+          <div className="farm-media">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={FARM_IMG} alt="Salad Street farm" loading="lazy" decoding="async" width={1100} height={720} />
+          </div>
+        ) : null}
       </div>
     </section>
   );

@@ -1,31 +1,8 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { CONFIG } from "@/lib/data";
-import { FARM_VIDEO } from "@/lib/media";
 import { Decor, Icon } from "./ui";
-
-/** Farm image with a play button. The video file is only requested when the visitor presses play. */
-export function FarmVideo({ poster }: { poster: string }) {
-  const [playing, setPlaying] = useState(false);
-  const ref = useRef<HTMLVideoElement>(null);
-  return (
-    <div className="farm-media">
-      {playing ? (
-        <video ref={ref} src={FARM_VIDEO.src} poster={poster} controls autoPlay playsInline muted preload="none" aria-label="Video of our farm (no speech)" />
-      ) : (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={poster} alt="Rows of fresh lettuce growing in a greenhouse" loading="lazy" decoding="async" width={1100} height={720} />
-          <button className="play" type="button" onClick={() => setPlaying(true)} aria-label="Play farm video">
-            <Icon k="play" size={30} />
-          </button>
-        </>
-      )}
-      <small className="credit">{FARM_VIDEO.credit}</small>
-    </div>
-  );
-}
 
 /** Newsletter sign-up. Posts to CONFIG.formEndpoint when one is configured; otherwise says so honestly. */
 export function Newsletter({ cls = "" }: { cls?: string }) {

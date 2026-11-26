@@ -1,6 +1,6 @@
 /* =====================================================================
-   CONFIG — fill with VERIFIED client details. Empty values show a clear
-   "to be confirmed" state instead of invented information.
+   CONFIG — fill with VERIFIED client details. Any empty value hides the element that
+   would show it; nothing is invented.
    ===================================================================== */
 export const CONFIG = {
   phoneDisplay: "+91 88269 54654",
@@ -13,6 +13,17 @@ export const CONFIG = {
   address: "", // full postal address
   formEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx" (POST JSON)
   social: { instagram: "", youtube: "", facebook: "", linkedin: "" } as Record<string, string>,
+  fssai: "", // FSSAI licence number
+  city: "", // city / delivery areas, e.g. "Greater Noida & Noida"
+  minOrder: "", // e.g. "₹299"
+  deliveryFee: "", // e.g. "Free above ₹499"
+  deliveryDays: "", // e.g. "Mon–Sat"
+  payment: "", // e.g. "UPI / Cash on delivery"
+  offerCode: "", // e.g. "FRESH10"
+  offerTerms: "", // e.g. "10% off your first order"
+  footerLine: "", // short footer blurb
+  ga4: "", // GA4 measurement ID, e.g. "G-XXXXXXX"
+  siteUrl: "https://www.saladstreet.in",
   designedByUrl: "https://webdigitaldevelopment.in",
 };
 
@@ -101,28 +112,24 @@ export const HIGHLIGHTS: Highlight[] = [
   { id: "sow", title: "Sow & Grow", text: "Kids sow a seed in a planter and take it home to grow.", ill: "sow", icon: "sprout" },
 ];
 
-/* Bios from the approved design. Full bios: client to supply (bioFull). */
+/* Bios from the approved design. bioFull / img stay empty until the client supplies them (then shown). */
 export type Founder = { id: string; name: string; bio: string; bioFull: string; img: string };
 export const FOUNDERS: Founder[] = [
-  { id: "mamata", name: "Mamata", bio: "Mamata drives our vision of fresh, healthy and sustainable food for every home.", bioFull: "", img: "images/founders/mamata.webp" },
-  { id: "bhardwaj", name: "Bhardwaj", bio: "Bhardwaj looks after product development, quality and community initiatives.", bioFull: "", img: "images/founders/bhardwaj.webp" },
+  { id: "mamata", name: "Mamata", bio: "Mamata drives our vision of fresh, healthy and sustainable food for every home.", bioFull: "", img: "" },
+  { id: "bhardwaj", name: "Bhardwaj", bio: "Bhardwaj looks after product development, quality and community initiatives.", bioFull: "", img: "" },
 ];
 
 export type Why = { id: string; tab: string; icon: string; title: string; text: string; tbc?: boolean; img: string };
 export const WHY: Why[] = [
-  { id: "fresh", tab: "Fresh Ingredients", icon: "leaf", title: "Farm Fresh Ingredients", text: "We source the freshest fruits and vegetables from trusted farms to bring you the best quality salads and healthy products.", img: "images/why/fresh.webp" },
+  { id: "fresh", tab: "Fresh Ingredients", icon: "leaf", title: "Farm Fresh Ingredients", text: "Grown at our own farm, picked fresh and packed with care to bring you the best quality salad greens, herbs and microgreens.", img: "images/why/fresh.webp" },
   { id: "nopres", tab: "No Preservatives", icon: "shield", title: "No Preservatives", text: "Our salads and products are made without added preservatives.", tbc: true, img: "images/why/no-preservatives.webp" },
   { id: "healthy", tab: "Healthy & Nutritious", icon: "heart", title: "Healthy & Nutritious", text: "Wholesome, balanced food made for everyday wellness.", tbc: true, img: "images/why/healthy.webp" },
   { id: "variety", tab: "Wide Variety", icon: "grid", title: "Wide Variety", text: "Salad greens, herbs and microgreens, all in one place.", img: "images/why/variety.webp" },
 ].map((w) => ({ ...w, img: WHY_IMG[w.id] || w.img }));
 
-/* SAMPLE reviews from the mockup. Replace with genuine, verifiable reviews before launch. */
+/* Genuine, verifiable customer reviews only. Empty = the reviews section is hidden. */
 export type Review = { name: string; text: string; stars: number; sample?: boolean; img?: string };
-export const REVIEWS: Review[] = [
-  { name: "Priya Sharma", text: "Super fresh and delicious salads! Perfect for my busy lifestyle.", stars: 5, sample: true },
-  { name: "Rahul Mehta", text: "Love the quality and packaging. Truly healthy and tasty.", stars: 5, sample: true },
-  { name: "Anjali Verma", text: "Best salad brand in India! Fresh, crunchy and so convenient.", stars: 5, sample: true },
-];
+export const REVIEWS: Review[] = [];
 
 export type Blog = { slug: string; title: string; excerpt: string; img: string };
 export const BLOGS: Blog[] = [
@@ -135,12 +142,10 @@ export const BLOGS: Blog[] = [
 /* Answers in tbc:true need client confirmation. */
 export type Faq = { q: string; a: string; tbc?: boolean };
 export const FAQS: Faq[] = [
-  { q: "Are your salads really fresh?", a: "Yes. Our salads are made with farm fresh ingredients and prepared ready to eat." },
+  { q: "Are your salads really fresh?", a: "Yes. Our greens are grown at our own farm, picked fresh and packed with care." },
   { q: "Do you use preservatives?", a: "No. Our salads and products are made without added preservatives.", tbc: true },
-  { q: "What areas do you deliver to?", a: "Delivery areas are being finalised. Send us your pin code through the enquiry form and we will confirm.", tbc: true },
-  { q: "How long do the products stay fresh?", a: "Shelf life depends on the product. Storage guidance will be listed on each product.", tbc: true },
-  { q: "Can I customize my salad?", a: "Tell us what you would like through the enquiry form and we will let you know what is possible.", tbc: true },
-  { q: "Do you offer bulk or corporate orders?", a: "Send your requirement through the enquiry form, choosing “Bulk / corporate order”, and our team will get back to you.", tbc: true },
+  { q: "Can I customize my salad?", a: "Tell us what you would like through the enquiry form and we will let you know what is possible." },
+  { q: "Do you offer bulk or corporate orders?", a: "Send your requirement through the enquiry form, choosing “Bulk / corporate order”, and our team will get back to you." },
 ];
 export const REQUIREMENTS = ["Product enquiry", "Bulk / corporate order", "Farm visit / Day Highlights", "Feedback", "Other"];
 
@@ -148,7 +153,6 @@ export const NAV = [
   { label: "Home", href: "/", dd: false },
   { label: "About Us", href: "/about", dd: false },
   { label: "Our Products", href: "/products", dd: true },
-  { label: "Recipes", href: "/blog", dd: false },
   { label: "Blog", href: "/blog", dd: false },
   { label: "Contact Us", href: "/contact", dd: false },
 ];
@@ -160,6 +164,18 @@ export const priceText = (p: Product, q = 1) => (p.price == null ? "Price on req
 /** "Rocket Leaves (100 g)", or just the name while no pack size is confirmed. */
 export const withWeight = (p: Product) => (p.weight ? `${p.name} (${p.weight})` : p.name);
 
+/** "₹60 per 100 g" from a price and a pack size like "200 g"; null if either is missing. */
+export const per100 = (price?: number | null, weight?: string) => {
+  const g = weight ? parseFloat(weight) * (/kg/i.test(weight) ? 1000 : 1) : 0;
+  if (price == null || !g) return null;
+  const v = (price / g) * 100;
+  return `₹${Number.isInteger(v) ? v : v.toFixed(2)} per 100 g`;
+};
+
+/** WhatsApp order link for one product pack. */
+export const waOrderLink = (name: string, weight?: string, price?: number | null) =>
+  `https://wa.me/918826954654?text=${encodeURIComponent(`Hi, I want ${name}${weight ? " " + weight : ""}${price != null ? " ₹" + price : ""}`)}`;
+
 export const waLink = (text = "") =>
   CONFIG.whatsapp ? `https://wa.me/${CONFIG.whatsapp}${text ? "?text=" + encodeURIComponent(text) : ""}` : "";
 
@@ -170,7 +186,7 @@ export const orderText = (lines: { p: Product; q: number }[], total: number) =>
   `Hello Salad Street, I'd like to order:\n${lines
     .map(({ p, q }) => `• ${withWeight(p)} × ${q} = ${priceText(p, q)}`)
     .join("\n")}\n${
-    lines.some((l) => l.p.price == null) ? `Subtotal of priced items: ${inr(total)} (other prices to be confirmed)` : `Subtotal: ${inr(total)}`
+    lines.some((l) => l.p.price == null) ? `Subtotal of priced items: ${inr(total)} (other prices on request)` : `Subtotal: ${inr(total)}`
   }`;
 
 /** Cart keys are "<id>" for the default pack or "<id>~<variant key>" for another pack size. */

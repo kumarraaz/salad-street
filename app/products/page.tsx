@@ -3,8 +3,9 @@ import Link from "next/link";
 import { CATEGORIES, PRODUCTS } from "@/lib/data";
 import { PageHero } from "@/components/ui";
 import { ProductGrid } from "@/components/Products";
+import { DeliveryStrip } from "@/components/PackShop";
 
-export const metadata: Metadata = { title: "Products" };
+export const metadata: Metadata = { title: "Products", alternates: { canonical: "/products" } };
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ cat?: string | string[] }> }) {
   const sp = await searchParams;
@@ -21,6 +22,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Pro
       />
       <section className="sec">
         <div className="wrap">
+          <DeliveryStrip />
           <nav className="chips" aria-label="Filter by category">
             <Link className="chip" href="/products" aria-current={!c}>
               All ({PRODUCTS.length})

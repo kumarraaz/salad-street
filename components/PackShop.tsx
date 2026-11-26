@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useRef, useState } from "react";
-import { PRODUCTS, inr, type Product } from "@/lib/data";
+import { CONFIG, PRODUCTS, inr, per100, type Product } from "@/lib/data";
 import { Decor, Icon, SecTitle } from "./ui";
 import { useApp } from "./Providers";
-import { AddButton, Dew } from "./Products";
+import { AddButton, Dew, WaOrder } from "./Products";
 import { leafBurst } from "./fx";
 
 /* Packaged products with price, pack size and rating.
@@ -87,6 +87,7 @@ function PackCard({ p }: { p: Product }) {
           <b key={price ?? "na"} className="pk-pv">{price == null ? "Price on request" : inr(price)}</b>
           {weight ? <span>/ {weight}</span> : null}
         </p>
+        {per100(price, weight) ? <p className="p100">{per100(price, weight)}</p> : null}
         {sizes.length ? (
           <div className={`pk-sizes${ind ? " has-ind" : ""}`} role="group" aria-label={`${p.name} pack size`} ref={group}>
             {ind ? <span className="pk-ind" aria-hidden="true" style={{ width: ind.w, height: ind.h, transform: `translate(${ind.x}px,${ind.y}px)` }} /> : null}
@@ -108,8 +109,15 @@ function PackCard({ p }: { p: Product }) {
           toast(`${p.name}${weight ? ` (${weight})` : ""} added to cart`, { label: "View cart", run: openCart });
         }}
       />
+      <WaOrder name={p.name} weight={weight} price={price} />
     </article>
   );
+}
+
+/** Delivery facts strip: only the values the client has confirmed in CONFIG; nothing renders if none are set. */
+export function DeliveryStrip() {
+  const items = [CONFIG.city, CONFIG.minOrder && `Min. order ${CONFIG.minOrder}`, CONFIG.deliveryFee && `Delivery ${CONFIG.deliveryFee}`, CONFIG.deliveryDays, CONFIG.payment].filter(Boolean);
+  return items.length ? <p className="dstrip">{items.join(" · ")}</p> : null;
 }
 
 export default function PackShop({ cls = "bg-c", exclude, id }: { cls?: string; exclude?: string; id?: string }) {
@@ -120,6 +128,7 @@ export default function PackShop({ cls = "bg-c", exclude, id }: { cls?: string; 
       <Decor k="leaf" cls="corner-tr" />
       <div className="wrap">
         <SecTitle id="pk-t" eyebrow="Shop Our Packs" title="Farm Fresh, Ready-to-Eat Salad Greens" />
+        <DeliveryStrip />
         <div className="pk-grid">
           {list.map((p) => (
             <PackCard key={p.id} p={p} />

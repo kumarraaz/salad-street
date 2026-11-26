@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES, CONFIG } from "@/lib/data";
-import { Logo, Tbc } from "./ui";
+import { Logo } from "./ui";
 import { ContactRows } from "./ContactRows";
 
 function Soc({ k, cls, label, children }: { k: string; cls: string; label: string; children: React.ReactNode }) {
@@ -21,10 +21,7 @@ export default function Footer() {
             <Link className="foot-logo" href="/" aria-label="Salad Street Farms — home">
               <Logo w={102} h={76} />
             </Link>
-            <p>
-              Bringing fresh, healthy and delicious salads to your everyday life.{" "}
-              <Tbc t="A brand by two sisters, for a healthier tomorrow." on />
-            </p>
+            {CONFIG.footerLine ? <p>{CONFIG.footerLine}</p> : null}
             {Object.values(CONFIG.social).some(Boolean) ? (
             <div className="social">
               <Soc k="instagram" cls="ig" label="Instagram">
@@ -61,7 +58,6 @@ export default function Footer() {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/products">Our Products</Link></li>
-              <li><Link href="/blog">Recipes</Link></li>
               <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/contact">Contact Us</Link></li>
             </ul>
@@ -80,11 +76,15 @@ export default function Footer() {
             <h3>Contact Us</h3>
             <div style={{ display: "grid", gap: "12px" }}>
               <ContactRows />
+              {CONFIG.fssai ? <div className="info-row">FSSAI Lic. No. {CONFIG.fssai}</div> : null}
             </div>
           </div>
         </div>
         <div className="fbar">
           <span>© {new Date().getFullYear()} Salad Street. All Rights Reserved.</span>
+          <span className="flegal">
+            <Link href="/terms">Terms</Link> · <Link href="/privacy">Privacy</Link> · <Link href="/refund">Refund Policy</Link>
+          </span>
           <span>
             Designed by{" "}
             <a href={CONFIG.designedByUrl} target="_blank" rel="noopener">
