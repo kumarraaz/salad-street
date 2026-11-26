@@ -77,6 +77,16 @@ export default function Footer() {
             <div style={{ display: "grid", gap: "12px" }}>
               <ContactRows />
               {CONFIG.fssai ? <div className="info-row">FSSAI Lic. No. {CONFIG.fssai}</div> : null}
+              {/* Map of the confirmed address (shown once CONFIG.address is set) */}
+              {CONFIG.address ? (
+                <iframe
+                  className="fmap"
+                  title="Salad Street Farms on Google Maps"
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(CONFIG.address)}&output=embed`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : null}
             </div>
           </div>
         </div>

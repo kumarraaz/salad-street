@@ -155,7 +155,7 @@ export function QueryBlock() {
         <div className="contact-cta">
           <Cta label="Contact Us" href="/contact" />
         </div>
-        <Decor k="bowlV" cls="query-deco" />
+        <Decor k="bowlH" cls="query-deco" />
       </div>
       <div className="query-in">
         <EnquiryForm pfx="q" />
