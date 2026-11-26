@@ -1205,9 +1205,9 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 /* Fraunces is loaded at 600 only, so every serif heading renders at 600 */
 .hero-h,.sec-title h2,.page-hero h1,.story-sub,.why-item h3,.vm-card h3,.founder-body h3,.newsletter h2,.query h2,.pk-link h3{font-weight:600;letter-spacing:-.015em}
 
-/* Section tones: white → cream (with very light grain) → sage */
+/* Section tones: white → cream (plain) → sage */
 section.bg-w{background:#fff}
-section.bg-c{background-color:var(--bg-cream);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+section.bg-c{background:var(--bg-cream)}
 section.bg-s{background:var(--bg-sage)}
 
 /* Wavy dividers */
@@ -1345,3 +1345,38 @@ section.bg-s{background:var(--bg-sage)}
   .fv-media{order:-1}
 }
 @media (max-width:560px){.rc-grid{grid-template-columns:1fr}}
+
+/* ---------- Vision & Mission feature panel ---------- */
+.vmx{position:relative;overflow:hidden;margin:0 0 clamp(40px,5vw,64px);padding:clamp(26px,4vw,52px);border-radius:16px;background:#104312;color:#F1F8EA;box-shadow:var(--sh)}
+.vmx-head{position:relative;text-align:center;margin-bottom:26px}
+.vmx-head .script{color:#7CC24A}
+.vmx-head .story-sub{color:#fff;margin:2px 0 0}
+.vmx-grid{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.vmx-card{display:flex;flex-direction:column;gap:12px;padding:clamp(20px,2.6vw,30px);border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(241,248,234,.16);transition:transform .35s var(--me),background-color .35s var(--me)}
+.vmx-tag{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:6px 12px;border-radius:999px;background:#7CC24A;color:#104312;font-size:13px;font-weight:600}
+.vmx-quote{font-family:var(--serif);font-weight:600;font-size:clamp(21px,2.1vw,28px);line-height:1.2;color:#fff}
+.vmx-quote::before{content:"\201C";color:#7CC24A;margin-right:2px}
+.vmx-quote::after{content:"\201D";color:#7CC24A;margin-left:2px}
+.vmx-card p:not(.vmx-quote){font-size:14.5px;line-height:1.65;color:#D6E8C8}
+.vmx-lead{position:relative;text-align:center;margin:30px 0 16px;font-size:15px;color:#D6E8C8}
+.vmx-pillars{position:relative;list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.vmx-pillars li{position:relative;display:grid;gap:6px;align-content:start;padding:18px 18px 18px;border-radius:16px;background:#F1F8EA;color:#2F3A2B;transition:transform .35s var(--me)}
+.vmx-num{position:absolute;right:14px;top:10px;font-family:var(--serif);font-weight:600;font-size:26px;line-height:1;color:#CFE3BF}
+.vmx-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#fff;color:#4B781E;margin-bottom:4px}
+.vmx-pillars b{color:#104312;font-size:15px}
+.vmx-pillars li>span:last-child{font-size:13.5px;line-height:1.55;color:#4A5244}
+@media (hover:hover){.vmx-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.1)}.vmx-pillars li:hover{transform:translateY(-4px)}}
+@media (max-width:900px){.vmx-grid{grid-template-columns:1fr}.vmx-pillars{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.vmx-pillars{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.vmx-card:hover,.vmx-pillars li:hover{transform:none}}
+
+/* ---------- Recipe video ---------- */
+.rc-card .pk-img{position:relative}
+.rc-play{position:absolute;left:50%;top:50%;z-index:2;width:58px;height:58px;margin:-29px 0 0 -29px;border:0;border-radius:50%;background:#104312;color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(16,67,18,.25);transition:transform .25s var(--me)}
+.rc-play .ico{margin-left:3px}
+@media (hover:hover){.rc-play:hover{transform:scale(1.08)}}
+.rc-actions{display:grid;gap:8px;margin-top:auto}
+.rc-actions.two{grid-template-columns:1fr 1fr}
+.rc-actions .rc-open{margin:0;padding:0 10px}
+.rc-video{aspect-ratio:16/9;margin:8px 0 6px;border-radius:12px;overflow:hidden;background:#104312}
+.rc-video iframe,.rc-video video{display:block;width:100%;height:100%;border:0}

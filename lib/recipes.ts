@@ -10,6 +10,9 @@ export type Recipe = {
   time: string;
   uses: string[];
   img: string;
+  /** Optional recipe video: a YouTube link or an MP4 in /public (e.g. "/videos/pesto.mp4").
+      The "Watch Video" button appears only when this is set. */
+  video?: string;
   ingredients: string[];
   steps: string[];
 };

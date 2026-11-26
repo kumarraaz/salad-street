@@ -1,21 +1,22 @@
-import { NEXT_WEEK } from "@/lib/data";
+import { COMING_SOON, NEXT_WEEK, PRODUCTS, type SoonItem } from "@/lib/data";
 import { Icon, SecTitle } from "./ui";
 
-/* "Available Next Week": same card style as the products, no Add to Cart.
-   Renders nothing while lib/data.ts NEXT_WEEK is empty. */
-export default function NextWeek({ cls = "" }: { cls?: string }) {
-  if (!NEXT_WEEK.length) return null;
+/* "Available Next Week" and "Coming Soon Products": same card style as the products,
+   a small badge and a "Notify me on WhatsApp" button, no Add to Cart. Each section hides when its list is empty. */
+
+function SoonGrid({ id, eyebrow, title, badge, items, cls }: { id: string; eyebrow: string; title: string; badge: string; items: SoonItem[]; cls: string }) {
+  if (!items.length) return null;
   return (
-    <section className={`sec pk-sec ${cls}`} aria-labelledby="nw-t">
+    <section className={`sec pk-sec ${cls}`} aria-labelledby={id}>
       <div className="wrap">
-        <SecTitle id="nw-t" eyebrow="Coming Soon" title="Available Next Week" />
+        <SecTitle id={id} eyebrow={eyebrow} title={title} />
         <div className="pk-grid">
-          {NEXT_WEEK.map((p) => (
+          {items.map((p) => (
             <article className="pk-card nw-card" key={p.name}>
               <div className="pk-img" style={p.tint ? ({ "--tint": p.tint } as React.CSSProperties) : undefined}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="pk-photo" src={p.img} alt={`${p.name}${p.weight ? ` ${p.weight}` : ""}, coming soon from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
-                <span className="pbadge">Coming Soon</span>
+                <img className="pk-photo" src={p.img} alt={`${p.name}${p.weight ? ` ${p.weight}` : ""} pack from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
+                <span className="pbadge">{badge}</span>
               </div>
               <div className="pk-body">
                 <h3 className="pk-name">{p.name}</h3>
@@ -26,6 +27,7 @@ export default function NextWeek({ cls = "" }: { cls?: string }) {
                 href={`https://wa.me/918826954654?text=${encodeURIComponent(`Notify me when ${p.name} is available`)}`}
                 target="_blank"
                 rel="noopener"
+                aria-label={`Notify me on WhatsApp when ${p.name} is available`}
               >
                 <Icon k="wa" size={17} /> Notify me on WhatsApp
               </a>
@@ -35,4 +37,17 @@ export default function NextWeek({ cls = "" }: { cls?: string }) {
       </div>
     </section>
   );
+}
+
+/** Next-week items come from existing products (ids in NEXT_WEEK). */
+export const nextWeekItems: SoonItem[] = NEXT_WEEK.map((id) => PRODUCTS.find((p) => p.id === id))
+  .filter((p): p is NonNullable<typeof p> => !!p)
+  .map((p) => ({ name: p.name, weight: p.weight, img: p.pack || p.img, tint: p.tint }));
+
+export default function NextWeek({ cls = "" }: { cls?: string }) {
+  return <SoonGrid id="nw-t" eyebrow="Fresh Harvest Ahead" title="Available Next Week" badge="Next Week" items={nextWeekItems} cls={cls} />;
+}
+
+export function ComingSoon({ cls = "" }: { cls?: string }) {
+  return <SoonGrid id="cs-t" eyebrow="New on the Farm" title="Coming Soon Products" badge="Coming Soon" items={COMING_SOON} cls={cls} />;
 }

@@ -12,10 +12,10 @@ import { FeatureStrip, WhySection, FARM_IMG, hasFarmImg, hasFarmVideo, FARM_VIDE
 import { Newsletter } from "@/components/SectionsClient";
 import PackShop from "@/components/PackShop";
 import OurStory from "@/components/OurStory";
-import NextWeek from "@/components/NextWeek";
+import NextWeek, { ComingSoon, nextWeekItems } from "@/components/NextWeek";
 import FarmVideo from "@/components/FarmVideo";
 import Recipes from "@/components/Recipes";
-import { NEXT_WEEK } from "@/lib/data";
+import { COMING_SOON } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: { absolute: `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms` },
@@ -44,7 +44,8 @@ export default function HomePage() {
   const blocks: ((cls: string) => ReactNode)[] = [
     (c) => <FeatureStrip cls={c} />,
     (c) => <PackShop cls={c} id="our-products" />,
-    ...(NEXT_WEEK.length ? [(c: string) => <NextWeek cls={c} />] : []),
+    ...(nextWeekItems.length ? [(c: string) => <NextWeek cls={c} />] : []),
+    ...(COMING_SOON.length ? [(c: string) => <ComingSoon cls={c} />] : []),
     ...(hasFarmVideo ? [(c: string) => <FarmVideo cls={c} src={FARM_VIDEO} poster={hasFarmImg ? FARM_IMG : undefined} />] : []),
     (c) => <OurStory cls={c} />,
     (c) => (

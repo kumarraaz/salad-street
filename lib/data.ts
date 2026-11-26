@@ -205,10 +205,14 @@ export const cartProduct = (key: string): Product | undefined => {
 export const productsInCategory = (id: string) => PRODUCTS.filter((p) => p.cat === id).length;
 
 /* ============================ AVAILABLE NEXT WEEK ====================
-   Products arriving next week. Fill only with confirmed items; empty = section hidden.
+   Product ids (from PRODUCTS) available next week, as confirmed by the client. Empty = section hidden. */
+export const NEXT_WEEK: string[] = ["rocket-leaves", "italian-basil", "lettuce-mix", "baby-spinach", "salad-leaves-mix", "mint", "microgreens"];
+
+/* ============================ COMING SOON ===========================
+   New products not on sale yet. Fill only with confirmed items; empty = section hidden.
    Example: { name: "Red Amaranth", weight: "100 g", img: "/images/packs/red-amaranth.webp" } */
-export type NextWeekItem = { name: string; weight?: string; img: string; tint?: string };
-export const NEXT_WEEK: NextWeekItem[] = [];
+export type SoonItem = { name: string; weight?: string; img: string; tint?: string };
+export const COMING_SOON: SoonItem[] = [];
 
 /* ============================ DELIVERY CALENDAR =====================
    Dates customers cannot reserve at checkout (holidays, farm closures), as "YYYY-MM-DD".

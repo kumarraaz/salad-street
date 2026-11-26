@@ -46,29 +46,42 @@ export default function OurStory({ cls = "" }: { cls?: string }) {
           <Cta label="About Us" href="/about" solid />
         </Row>
 
-        <Row img="/images/packs/salad-leaves-mix-200g.webp" alt="Salad Street Farms Salad Leaves Mix pack" w={900} h={720} flip>
-          <p className="script">Our Vision</p>
-          <h3 className="story-sub">{VISION.title}</h3>
-          <p>{VISION.text}</p>
-          <p className="script st-k2">Our Mission</p>
-          <h3 className="story-sub sm">{MISSION.title}</h3>
-          <p>{MISSION.text}</p>
-        </Row>
-
-        <Row img="/images/packs/lettuce-mix.webp" alt="Salad Street Farms Lettuce Mix pack" w={900} h={720}>
-          <p className="script">What we believe in</p>
-          <h3 className="story-sub">Keeping the journey of food simple and transparent</h3>
-          <ul className="st-points st-pillars">
-            {PILLARS.map((p) => (
+        {/* Vision & Mission: dark-green feature panel with quote cards + numbered beliefs */}
+        <div className="vmx" id="vision-mission-home">
+          <div className="vmx-head">
+            <p className="script">What drives us</p>
+            <h3 className="story-sub">Our Vision &amp; Mission</h3>
+          </div>
+          <div className="vmx-grid">
+            <article className="vmx-card">
+              <span className="vmx-tag">
+                <Icon k="eye" size={18} /> Our Vision
+              </span>
+              <p className="vmx-quote">{VISION.title}</p>
+              <p>{VISION.text}</p>
+            </article>
+            <article className="vmx-card">
+              <span className="vmx-tag">
+                <Icon k="target" size={18} /> Our Mission
+              </span>
+              <p className="vmx-quote">{MISSION.title}</p>
+              <p>{MISSION.text}</p>
+            </article>
+          </div>
+          <p className="vmx-lead">We believe in keeping the journey of food simple and transparent:</p>
+          <ol className="vmx-pillars">
+            {PILLARS.map((p, i) => (
               <li key={p.title}>
-                <Icon k={p.icon} size={18} />
-                <span>
-                  <b>{p.title}</b> {p.text}
+                <span className="vmx-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="vmx-ic">
+                  <Icon k={p.icon} size={20} />
                 </span>
+                <b>{p.title}</b>
+                <span>{p.text}</span>
               </li>
             ))}
-          </ul>
-        </Row>
+          </ol>
+        </div>
 
         <FarmProcess />
         <p className="vm-tag">At Salad Street Farms, we are not just growing greens; we are growing a healthier tomorrow.</p>

@@ -8,8 +8,29 @@ import { Icon, SecTitle } from "./ui";
 const names = (ids: string[]) => ids.map((id) => PRODUCTS.find((p) => p.id === id)?.name).filter(Boolean).join(", ");
 const tint = (id: string) => PRODUCTS.find((p) => p.id === id)?.tint;
 
+/** YouTube link → privacy-friendly embed URL; anything else is treated as a video file. */
+const ytId = (u: string) => u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/)?.[1];
+
+function RecipeVideo({ src, title }: { src: string; title: string }) {
+  const id = ytId(src);
+  return (
+    <div className="rc-video">
+      {id ? (
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+          title={`${title} video`}
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowFullScreen
+        />
+      ) : (
+        <video src={src} controls autoPlay playsInline preload="metadata" aria-label={`${title} video`} />
+      )}
+    </div>
+  );
+}
+
 /** Recipe modal: ingredients + steps. Esc, the close button or the backdrop closes it; focus returns to the card. */
-function RecipeModal({ r, onClose }: { r: Recipe; onClose: () => void }) {
+function RecipeModal({ r, onClose, video }: { r: Recipe; onClose: () => void; video: boolean }) {
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
@@ -30,6 +51,7 @@ function RecipeModal({ r, onClose }: { r: Recipe; onClose: () => void }) {
           <Icon k="close" size={22} />
         </button>
         <h3 id="rc-title" className="story-sub">{r.name}</h3>
+        {video && r.video ? <RecipeVideo src={r.video} title={r.name} /> : null}
         <p className="rc-meta">
           <Icon k="clock" size={16} /> {r.time} · Uses: {names(r.uses)}
         </p>
@@ -51,7 +73,7 @@ function RecipeModal({ r, onClose }: { r: Recipe; onClose: () => void }) {
 }
 
 export default function Recipes({ cls = "" }: { cls?: string }) {
-  const [open, setOpen] = useState<Recipe | null>(null);
+  const [open, setOpen] = useState<{ r: Recipe; video: boolean } | null>(null);
   const close = useCallback(() => setOpen(null), []);
   return (
     <section className={`sec recipes ${cls}`} aria-labelledby="rc-t">
@@ -62,6 +84,11 @@ export default function Recipes({ cls = "" }: { cls?: string }) {
             <article className="pk-card rc-card" key={r.id}>
               <div className="pk-img" style={tint(r.uses[0]) ? ({ "--tint": tint(r.uses[0]) } as React.CSSProperties) : undefined}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
+                {r.video ? (
+                  <button className="rc-play" type="button" onClick={() => setOpen({ r, video: true })} aria-label={`Watch ${r.name} video`}>
+                    <Icon k="play" size={26} />
+                  </button>
+                ) : null}
                 <img className="rc-photo" src={r.img} alt={`${names(r.uses.slice(0, 1))} from Salad Street Farms`} width={720} height={540} loading="lazy" decoding="async" />
               </div>
               <div className="pk-body">
@@ -71,14 +98,21 @@ export default function Recipes({ cls = "" }: { cls?: string }) {
                 </p>
                 <p className="rc-uses">Uses: {names(r.uses)}</p>
               </div>
-              <button className="btn btn-outline btn-sm rc-open" type="button" onClick={() => setOpen(r)} aria-haspopup="dialog">
-                View Recipe <Icon k="arrow" size={16} />
-              </button>
+              <div className={`rc-actions${r.video ? " two" : ""}`}>
+                <button className="btn btn-outline btn-sm rc-open" type="button" onClick={() => setOpen({ r, video: false })} aria-haspopup="dialog">
+                  View Recipe <Icon k="arrow" size={16} />
+                </button>
+                {r.video ? (
+                  <button className="btn btn-solid btn-sm rc-open" type="button" onClick={() => setOpen({ r, video: true })} aria-haspopup="dialog">
+                    <Icon k="play" size={16} /> Watch Video
+                  </button>
+                ) : null}
+              </div>
             </article>
           ))}
         </div>
       </div>
-      {open ? <RecipeModal r={open} onClose={close} /> : null}
+      {open ? <RecipeModal r={open.r} video={open.video} onClose={close} /> : null}
     </section>
   );
 }
