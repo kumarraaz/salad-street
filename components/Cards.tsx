@@ -8,7 +8,7 @@ export function HighlightCards() {
   return (
     <div className="hl-grid">
       {HIGHLIGHTS.map((h) => (
-        <article className="hl-card" key={h.id}>
+        <article className={`hl-card hl-${h.id}`} key={h.id}>
           <div className="hl-ill">
             <RawSvg html={ILL[h.ill]} />
           </div>

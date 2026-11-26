@@ -1,67 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { productsInCategory } from "@/lib/data";
 import { Cta, Decor, Icon } from "./ui";
 
-/* "Ready-to-Eat" promo banner: animated on entering the viewport, with pointer parallax
-   on the artwork. Copy is unchanged; motion is skipped for prefers-reduced-motion. */
+/* "Ready-to-Eat" promo banner. Entrance runs when the shared observer in Motion.tsx adds `is-in`
+   to `.kits`; no pointer parallax. Copy is unchanged; motion is skipped for prefers-reduced-motion. */
 
 const TITLE = "Fresh Salads";
 
 export default function KitsBanner({ cls = "" }: { cls?: string }) {
   const n = productsInCategory("salad-greens");
-  const box = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      el.classList.add("is-in");
-      return;
-    }
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          el.classList.add("is-in");
-          io.disconnect();
-        }
-      },
-      { threshold: 0.25 }
-    );
-    io.observe(el);
-
-    // Pointer parallax (desktop only)
-    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return () => io.disconnect();
-    let raf = 0;
-    const move = (ev: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      const x = (ev.clientX - r.left) / r.width - 0.5;
-      const y = (ev.clientY - r.top) / r.height - 0.5;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        el.style.setProperty("--mx", x.toFixed(3));
-        el.style.setProperty("--my", y.toFixed(3));
-      });
-    };
-    const leave = () => {
-      el.style.setProperty("--mx", "0");
-      el.style.setProperty("--my", "0");
-    };
-    el.addEventListener("pointermove", move);
-    el.addEventListener("pointerleave", leave);
-    return () => {
-      io.disconnect();
-      cancelAnimationFrame(raf);
-      el.removeEventListener("pointermove", move);
-      el.removeEventListener("pointerleave", leave);
-    };
-  }, []);
-
   return (
     <section className={`kits-wrap ${cls}`} aria-labelledby="kits-t">
       <div className="wrap">
-        <div className="kits kx" ref={box}>
+        <div className="kits kx">
           <span className="kx-blob kx-b1" aria-hidden="true" />
           <span className="kx-blob kx-b2" aria-hidden="true" />
           <span className="kx-blob kx-b3" aria-hidden="true" />

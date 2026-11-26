@@ -94,10 +94,14 @@ export function WhySection({ cls = "" }: { cls?: string }) {
           ))}
         </div>
       </div>
-      <div className="process" data-parallax="0.12" style={{ ["--bg" as string]: `url("${SCENE.harvest}")` }}>
+      <div className="process" style={{ ["--bg" as string]: `url("${SCENE.harvest}")` }}>
         <div className="wrap process-in">
           <h2>The Salad Street Farm Process</h2>
           <ol className="steps">
+            {/* Motion: dashed path that draws through the four steps */}
+            <svg className="steps-line" viewBox="0 0 100 2" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M12.5 1H87.5" pathLength="1" />
+            </svg>
             {steps.map((s, i) => (
               <li key={s.t}>
                 <span className="step-ic">

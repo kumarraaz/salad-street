@@ -961,7 +961,7 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 @media (prefers-reduced-motion:reduce){.vm-card:hover,.vm-pillars li:hover,.vm-brand li:hover,.vm-pillars li:hover .vm-pi{transform:none}}
 
 /* ---------- Ready-to-eat banner: premium motion ---------- */
-.kx{--mx:0;--my:0;isolation:isolate;background:linear-gradient(120deg,#F7F2DF 0%,#FBF9F1 45%,#E9F4DF 100%);box-shadow:0 30px 60px -30px rgba(23,63,21,.28),inset 0 1px 0 #fff}
+.kx{isolation:isolate;background:linear-gradient(120deg,#F7F2DF 0%,#FBF9F1 45%,#E9F4DF 100%);box-shadow:0 30px 60px -30px rgba(23,63,21,.28),inset 0 1px 0 #fff}
 .kx-blob{position:absolute;z-index:-1;border-radius:50%;filter:blur(50px);opacity:.55;pointer-events:none;animation:kxBlob 16s ease-in-out infinite alternate}
 .kx-b1{width:340px;height:340px;left:-90px;top:-120px;background:#CFE8B4}
 .kx-b2{width:300px;height:300px;right:8%;bottom:-140px;background:#F4DFA0;animation-duration:19s;animation-delay:-6s}
@@ -991,7 +991,6 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 @keyframes kxGlow{0%,100%{box-shadow:0 8px 18px rgba(61,124,39,.25),0 0 0 0 rgba(93,187,70,.45)}50%{box-shadow:0 10px 24px rgba(61,124,39,.32),0 0 0 12px rgba(93,187,70,0)}}
 
 /* artwork */
-.kx .kits-art{transform:translate3d(calc(var(--mx)*-18px),calc(var(--my)*-14px),0);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .kx-bowl{position:relative;z-index:1;display:grid;place-items:center;width:100%;opacity:0;transform:scale(.7) rotate(-18deg)}
 .kx.is-in .kx-bowl{animation:kxBowlIn 1.2s .2s cubic-bezier(.2,.9,.25,1.15) both}
 .kx.is-in .kx-bowl .kits-bowl{animation:kxFloat 6s 1.4s ease-in-out infinite}
@@ -1006,7 +1005,7 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
 @keyframes kxSpin{to{rotate:360deg}}
 .kx-glow{position:absolute;z-index:0;left:50%;top:58%;width:60%;height:22%;translate:-50% 0;border-radius:50%;background:radial-gradient(rgba(23,63,21,.22),transparent 70%);filter:blur(10px);animation:kxShadow 6s 1.4s ease-in-out infinite}
 @keyframes kxShadow{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(.85);opacity:.6}}
-.kx-orb{position:absolute;z-index:2;opacity:0;transform:translate3d(calc(var(--mx)*var(--z,30px)),calc(var(--my)*var(--z,30px)),0);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.kx-orb{position:absolute;z-index:2;opacity:0}
 .kx-orb .decor{position:static;display:block;width:100%;filter:drop-shadow(0 10px 12px rgba(23,63,21,.2))}
 .kx-o1{width:90px;left:2%;top:6%;--z:40px}
 .kx-o2{width:96px;right:0;bottom:8%;--z:-34px}
@@ -1040,4 +1039,137 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .kx *,.kx{animation:none!important;transition:none!important}
   .kx .kx-in,.kx .kx-pop,.kx .kx-ch,.kx-bowl,.kx-ring,.kx-orb{opacity:1!important;transform:none!important;filter:none!important}
   .kx-spark,.kx-shine{display:none}
+}
+
+/* ===================== Motion layer (palette #104312 #4B781E #7CC24A #F1F8EA) ===================== */
+:root{--me:cubic-bezier(.22,.61,.36,1);--mp:cubic-bezier(.34,1.56,.64,1)}
+
+/* Motion: scroll reveal — fade-up 18px, 70ms stagger (shared observer in Motion.tsx) */
+[data-rv="0"]{translate:0 18px}
+[data-rv="1"]{transition:opacity .5s var(--me) var(--rvd,0ms),translate .5s var(--me) var(--rvd,0ms)}
+
+/* Motion: hero lines fade-up in turn; two leaves float slowly */
+.slide.active .hero-h>span,.slide.active .hero-p,.slide.active .hero-ctas{animation:mUp .55s var(--me) backwards}
+.slide.active .hero-h>span:nth-child(2){animation-delay:.08s}
+.slide.active .hero-h>span:nth-child(3){animation-delay:.16s}
+.slide.active .hero-p{animation-delay:.24s}
+.slide.active .hero-ctas{animation-delay:.32s}
+.hero-leaf2{right:3%;bottom:16%;width:40px;z-index:2;opacity:.85;transform:scaleX(-1);animation-delay:-3.5s}
+@keyframes mUp{from{opacity:0;transform:translateY(18px)}}
+
+/* Motion: buttons — arrow nudges 4px, outline buttons fill left→right */
+.btn .ico,.link-arrow .ico{transition:transform .25s var(--me)}
+.btn-outline{position:relative;isolation:isolate;overflow:hidden}
+.btn-outline::before{content:"";position:absolute;inset:0;z-index:-1;background:#104312;transform:scaleX(0);transform-origin:left;transition:transform .35s var(--me)}
+.btn-outline:hover{background-color:rgba(255,255,255,.85);color:var(--g9)}
+.btn-outline:focus-visible{color:#fff}
+.btn-outline:focus-visible::before{transform:scaleX(1)}
+.btn:focus-visible .ico,.link-arrow:focus-visible .ico{transform:translateX(4px)}
+@media (hover:hover){
+  .btn-outline:hover{color:#fff}
+  .btn-outline:hover::before{transform:scaleX(1)}
+  .btn:hover .ico,.link-arrow:hover .ico{transform:translateX(4px)}
+}
+@media (hover:none){.btn:active,.btn-cart:active,.icon-btn:active,.wish:active,.pk-sizes button:active{transform:scale(.97)}}
+
+/* Motion: nav underline grows from centre, dropdown fade + slide */
+.nav>a::after,.nav .dd>button::after{transition:transform .3s var(--me)}
+.nav>a:focus-visible::after,.nav .dd>button:focus-visible::after{transform:scaleX(1)}
+.dd-menu{transition:opacity .25s var(--me),transform .25s var(--me),visibility .25s}
+
+/* Motion: product cards — lift, image zoom, dew sparkles, leaf sway */
+.pcard,.pk-card{transition:transform .4s var(--me),box-shadow .4s var(--me),border-color .4s var(--me)}
+.pcard .media img,.pk-img>a>img:first-child{transition:transform .5s var(--me)}
+.hv-alt{transition:clip-path .55s var(--me),transform .55s var(--me)}
+.dew{position:absolute;inset:0;z-index:2;pointer-events:none}
+.dew i{position:absolute;width:6px;height:6px;border-radius:50%;background:#F1F8EA;box-shadow:0 0 6px 2px #7CC24A;opacity:0}
+.dew i:nth-child(1){left:18%;top:22%}
+.dew i:nth-child(2){left:76%;top:36%;--dd:.12s}
+.dew i:nth-child(3){left:36%;top:74%;--dd:.24s}
+.dew svg{position:absolute;left:10px;bottom:10px;width:18px;height:18px;fill:#7CC24A;opacity:0;transform-origin:10% 90%}
+.pcard:has(:focus-visible),.pk-card:has(:focus-visible){transform:translateY(-6px);box-shadow:0 18px 34px -12px rgba(75,120,30,.38)}
+.pcard:has(:focus-visible) .dew i,.pk-card:has(:focus-visible) .dew i{animation:mDew .55s var(--me) var(--dd,0s)}
+.pcard:has(:focus-visible) .dew svg,.pk-card:has(:focus-visible) .dew svg{animation:mSway .55s var(--mp) forwards}
+@media (hover:hover){
+  .pcard:hover,.pk-card:hover{transform:translateY(-6px);box-shadow:0 18px 34px -12px rgba(75,120,30,.38)}
+  .pcard:hover .media img,.pk-card:hover .pk-img>a>img:first-child{transform:scale(1.06)}
+  .pcard:hover .dew i,.pk-card:hover .dew i{animation:mDew .55s var(--me) var(--dd,0s)}
+  .pcard:hover .dew svg,.pk-card:hover .dew svg{animation:mSway .55s var(--mp) forwards}
+}
+@keyframes mDew{0%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.6)}}
+@keyframes mSway{0%{opacity:0;transform:rotate(-24deg)}60%{opacity:1;transform:rotate(12deg)}100%{opacity:1;transform:none}}
+
+/* Motion: Add to Cart → "Added ✓" with a self-drawing tick */
+.pcard .btn-cart,.pk-card .btn-cart{display:grid;place-items:center}
+.btn-cart .ac-a,.btn-cart .ac-b{grid-area:1/1;transition:opacity .25s var(--me),transform .25s var(--me)}
+.btn-cart .ac-b{display:inline-flex;align-items:center;gap:6px;opacity:0;transform:translateY(8px)}
+.btn-cart.is-added .ac-a{opacity:0;transform:translateY(-8px)}
+.btn-cart.is-added .ac-b{opacity:1;transform:none}
+.ac-b svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s var(--me) .12s}
+.is-added .ac-b svg{stroke-dashoffset:0}
+.fly-clone{position:fixed;z-index:90;width:40px;height:40px;border-radius:50%;object-fit:contain;background:#F1F8EA;box-shadow:0 6px 14px rgba(16,67,18,.25);pointer-events:none}
+.leaf-bit{position:fixed;z-index:90;width:8px;height:8px;border-radius:0 80% 0 80%;background:#7CC24A;pointer-events:none}
+
+/* Motion: weight pills — sliding active background, price fades to the new value */
+.pk-sizes{position:relative}
+.pk-sizes button{position:relative;z-index:1}
+.pk-ind{position:absolute;left:0;top:0;border-radius:999px;background:#4B781E;transition:transform .3s var(--me)}
+.pk-sizes.has-ind button[aria-pressed="true"]{background:transparent;border-color:#4B781E}
+.pk-pv{animation:mFade .3s var(--me)}
+@keyframes mFade{from{opacity:0;transform:translateY(4px)}}
+.pk-new{display:inline-block;padding:3px 10px;border-radius:999px;background:#F1F8EA;border:1px solid #7CC24A;color:#104312;font-size:11.5px;font-weight:700;letter-spacing:.04em;line-height:1.2}
+
+/* Motion: feature badges / why-choose — icon pops on reveal, wiggles on hover */
+[data-rv="1"].fitem .fi-ic,[data-rv="1"].why-item .why-ic{animation:mPop .45s var(--mp) calc(var(--rvd,0ms) + .12s) backwards}
+@media (hover:hover){.fitem:hover .fi-ic,.why-item:hover .why-ic{animation:mWig .5s var(--me)}}
+@keyframes mPop{from{opacity:0;transform:scale(.5)}}
+@keyframes mWig{30%{transform:rotate(-12deg) scale(1.08)}60%{transform:rotate(8deg)}}
+
+/* Motion: farm process — dashed path draws, icons pop in turn, "Grow" sprout grows */
+.steps{position:relative}
+.steps li{z-index:1}
+.steps-line{position:absolute;left:0;top:32px;width:100%;height:2px;overflow:visible;pointer-events:none;transform:scaleX(0);transform-origin:left;transition:transform .55s var(--me) .1s}
+.steps-line path{fill:none;stroke:#7CC24A;stroke-width:2;stroke-dasharray:1.4 1}
+.process-in.is-in .steps-line{transform:none}
+.process-in.is-in .step-ic{animation:mPop .4s var(--mp) backwards}
+.process-in.is-in li:nth-of-type(1) .step-ic{animation-delay:.1s}
+.process-in.is-in li:nth-of-type(2) .step-ic{animation-delay:.25s}
+.process-in.is-in li:nth-of-type(3) .step-ic{animation-delay:.4s}
+.process-in.is-in li:nth-of-type(4) .step-ic{animation-delay:.55s}
+.process-in.is-in li:nth-of-type(1) .step-ic svg{transform-origin:50% 100%;animation:mGrow .5s var(--me) .3s backwards}
+@keyframes mGrow{from{transform:scaleY(0)}}
+@media (max-width:820px){.steps-line{display:none}}
+
+/* Motion: day highlights — tractor nudges forward */
+.tr-body{transition:transform .45s var(--me)}
+@media (hover:hover){.hl-tractor:hover .tr-body{transform:translateX(8px)}}
+
+/* Motion: FAQ — smooth open, + turns into × */
+.acc-panel{transition:grid-template-rows .4s var(--me)}
+.acc-btn .pm{transition:transform .3s var(--me)}
+.acc-btn[aria-expanded="true"] .pm{transform:rotate(45deg)}
+.acc-btn[aria-expanded="true"] .pm::after{transform:rotate(90deg)}
+
+/* Motion: inputs — green focus glow */
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#4B781E;box-shadow:0 0 0 4px rgba(124,194,74,.3)}
+.nl-form:focus-within{box-shadow:0 0 0 4px rgba(124,194,74,.45)}
+
+/* Motion: empty cart — bowl bobs a few times */
+.empty-bowl{display:block;margin:0 auto 10px;animation:mBob .5s var(--me) 4 alternate}
+@keyframes mBob{to{transform:translateY(-6px)}}
+
+/* Motion: back-to-top with scroll-progress ring (bottom-left, above the assistant launcher) */
+.btt{position:fixed;left:24px;bottom:98px;z-index:55;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:#fff;box-shadow:0 6px 16px rgba(16,67,18,.18);cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s var(--me),transform .3s var(--me)}
+.btt[data-show="1"]{opacity:1;transform:none;pointer-events:auto}
+.btt svg{display:block;width:100%;height:100%;fill:none;stroke-linecap:round}
+.btt circle{stroke:#F1F8EA;stroke-width:3}
+.btt .btt-p{stroke:#4B781E;stroke-dasharray:100;stroke-dashoffset:var(--p,100);transform:rotate(-90deg);transform-origin:center}
+.btt path{stroke:#104312;stroke-width:2.4;stroke-linejoin:round}
+@media (hover:hover){.btt[data-show="1"]:hover{transform:translateY(-3px)}}
+@media (max-width:820px){.hero-leaf2{display:none}}
+
+/* Motion: reduced motion → no movement */
+@media (prefers-reduced-motion:reduce){
+  /* (animations/transitions are already cut to ~0ms by the global reduced-motion rule) */
+  .pcard,.pk-card,.btt,.btt[data-show="1"],.tr-body,.btn .ico,.link-arrow .ico,.pk-img>a>img:first-child,.pcard .media img{transform:none!important}
 }

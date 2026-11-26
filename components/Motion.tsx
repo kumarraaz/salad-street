@@ -17,6 +17,7 @@ const SEL = [
   ".fitem",
   ".hv-item",
   ".pk-item",
+  ".pk-card",
   ".kits",
   ".farm-copy",
   ".farm-media",
@@ -49,6 +50,13 @@ export default function Motion() {
       requestAnimationFrame(() => {
         ticking = false;
         if (hdr) hdr.dataset.scrolled = window.scrollY > 8 ? "1" : "0";
+        /* Motion: back-to-top progress ring */
+        const btt = document.getElementById("btt");
+        if (btt) {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          btt.style.setProperty("--p", String(max > 0 ? 100 - (window.scrollY / max) * 100 : 100));
+          btt.dataset.show = window.scrollY > 600 ? "1" : "0";
+        }
         if (reduced) return;
         /* Parallax: [data-parallax="0.15"] gets --py (px) while on screen; CSS applies it with `translate`. */
         const vh = window.innerHeight;
@@ -67,15 +75,20 @@ export default function Motion() {
   }, []);
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
     const root = document.getElementById("app");
     if (!root) return;
+    /* Motion: no observer (or reduced motion) → everything is simply "in" */
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      root.querySelectorAll(SEL).forEach((el) => el.classList.add("is-in"));
+      return;
+    }
 
     const pending = new Set<HTMLElement>();
     const reveal = (el: HTMLElement) => {
       if (!pending.delete(el)) return;
       io.unobserve(el);
       el.dataset.rv = "1";
+      el.classList.add("is-in");
       // Hand the element back to its own CSS transitions once the reveal has played.
       setTimeout(() => el.removeAttribute("data-rv"), 1400);
     };
@@ -107,10 +120,13 @@ export default function Motion() {
       root.querySelectorAll<HTMLElement>(SEL).forEach((el) => {
         if (el.dataset.rvSeen) return;
         el.dataset.rvSeen = "1";
-        if (el.getBoundingClientRect().top < vh * 0.92) return; // already visible: leave as is
+        if (el.getBoundingClientRect().top < vh * 0.92) {
+          el.classList.add("is-in"); // already visible: no reveal, just mark it
+          return;
+        }
         const sibs = el.parentElement ? Array.from(el.parentElement.children).filter((c) => c.matches(SEL)) : [];
         const i = Math.max(0, sibs.indexOf(el));
-        el.style.setProperty("--rvd", `${Math.min(i, 5) * 80}ms`);
+        el.style.setProperty("--rvd", `${Math.min(i, 5) * 70}ms`);
         el.dataset.rv = "0";
         pending.add(el);
         io.observe(el);
@@ -128,5 +144,14 @@ export default function Motion() {
     };
   }, [pathname]);
 
-  return null;
+  return (
+    /* Motion: back-to-top with scroll-progress ring (bottom-left, above the assistant launcher) */
+    <button id="btt" className="btt" type="button" aria-label="Back to top" data-show="0" onClick={() => window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" })}>
+      <svg viewBox="0 0 44 44" aria-hidden="true">
+        <circle cx="22" cy="22" r="19" pathLength="100" />
+        <circle className="btt-p" cx="22" cy="22" r="19" pathLength="100" />
+        <path d="M22 29V15m-6 6 6-6 6 6" />
+      </svg>
+    </button>
+  );
 }

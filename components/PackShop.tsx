@@ -1,31 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { PRODUCTS, inr, type Product } from "@/lib/data";
 import { Decor, Icon, SecTitle } from "./ui";
 import { useApp } from "./Providers";
+import { AddButton, Dew } from "./Products";
+import { leafBurst } from "./fx";
 
 /* Packaged products with price, pack size and rating.
-   Stars are filled only from a genuine `rating` in lib/data.ts; until then they show as empty with "No reviews yet". */
+   Stars appear only for a genuine `rating` in lib/data.ts; until then the card shows a small "New" pill. */
 
 function Stars({ p }: { p: Product }) {
-  const r = p.rating ?? 0;
+  if (!p.rating)
+    return (
+      <p className="pk-rate">
+        <span className="pk-new">New</span>
+      </p>
+    );
+  const r = p.rating;
   return (
-    <p className="pk-rate" aria-label={p.rating ? `Rated ${r} out of 5${p.reviews ? ` from ${p.reviews} reviews` : ""}` : "No reviews yet"}>
+    <p className="pk-rate" aria-label={`Rated ${r} out of 5${p.reviews ? ` from ${p.reviews} reviews` : ""}`}>
       <span className="pk-stars" aria-hidden="true">
         {[1, 2, 3, 4, 5].map((n) => (
           <span key={n} className={n <= Math.round(r) ? "on" : ""}>★</span>
         ))}
       </span>
-      {p.rating ? (
-        <>
-          <b>{r.toFixed(1)}</b>
-          {p.reviews ? <small>({p.reviews})</small> : null}
-        </>
-      ) : (
-        <small>No reviews yet</small>
-      )}
+      <b>{r.toFixed(1)}</b>
+      {p.reviews ? <small>({p.reviews})</small> : null}
     </p>
   );
 }
@@ -41,23 +43,37 @@ function PackCard({ p }: { p: Product }) {
   const key = v ? `${p.id}~${v.key}` : p.id;
   const href = `/products/${p.id}`;
   const saved = wish.includes(p.id);
-  const sizes = p.variants?.length ? [{ key: "", weight: p.weight }, ...p.variants] : [];
+  const sizes = p.variants?.length ? [{ key: "", weight: p.weight, price: p.price }, ...p.variants] : [];
+
+  /* Motion: sliding background behind the active weight pill */
+  const group = useRef<HTMLDivElement>(null);
+  const [ind, setInd] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  useLayoutEffect(() => {
+    const b = group.current?.querySelector<HTMLElement>('button[aria-pressed="true"]');
+    if (b) setInd({ x: b.offsetLeft, y: b.offsetTop, w: b.offsetWidth, h: b.offsetHeight });
+  }, [vk, sizes.length]);
+
   return (
     <article className="pk-card">
       <div className="pk-img">
-        <Link href={href} tabIndex={-1} aria-hidden="true">
+        <Link href={href} tabIndex={-1}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={img} alt="" width={900} height={720} loading="lazy" decoding="async" />
+          <img src={img} alt={`${p.name}${weight ? ` ${weight}` : ""} pack from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
           {/* Hover reveal: the fresh leaves inside the pack */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="hv-alt cut" src={p.img} alt="" width={720} height={560} loading="lazy" decoding="async" />
+          <img className="hv-alt cut" src={p.img} alt="" aria-hidden="true" width={720} height={560} loading="lazy" decoding="async" />
+          <Dew />
         </Link>
         <button
           className={`wish${saved ? " on" : ""}`}
           type="button"
           aria-pressed={saved}
           aria-label={saved ? `Remove ${p.name} from wishlist` : `Save ${p.name} to wishlist`}
-          onClick={() => toast(toggleWish(p.id) ? `${p.name} saved to wishlist` : `${p.name} removed from wishlist`)}
+          onClick={(e) => {
+            const now = toggleWish(p.id);
+            if (now) leafBurst(e.currentTarget);
+            toast(now ? `${p.name} saved to wishlist` : `${p.name} removed from wishlist`);
+          }}
         >
           <Icon k="heart" size={18} />
         </button>
@@ -68,31 +84,30 @@ function PackCard({ p }: { p: Product }) {
         </h3>
         <Stars p={p} />
         <p className="pk-price">
-          <b>{price == null ? "Price on request" : inr(price)}</b>
+          <b key={price ?? "na"} className="pk-pv">{price == null ? "Price on request" : inr(price)}</b>
           {weight ? <span>/ {weight}</span> : null}
         </p>
         {sizes.length ? (
-          <div className="pk-sizes" role="group" aria-label={`${p.name} pack size`}>
+          <div className={`pk-sizes${ind ? " has-ind" : ""}`} role="group" aria-label={`${p.name} pack size`} ref={group}>
+            {ind ? <span className="pk-ind" aria-hidden="true" style={{ width: ind.w, height: ind.h, transform: `translate(${ind.x}px,${ind.y}px)` }} /> : null}
             {sizes.map((s) => (
               <button type="button" key={s.key || "default"} aria-pressed={s.key === vk} onClick={() => setVk(s.key)}>
                 {s.weight}
+                {s.price != null ? ` · ₹${s.price}` : ""}
               </button>
             ))}
           </div>
         ) : null}
       </div>
-      <button
-        className="btn-cart"
-        type="button"
-        data-add={key}
-        aria-label={`Add ${p.name}${weight ? ` ${weight}` : ""} to cart`}
-        onClick={() => {
+      <AddButton
+        dataAdd={key}
+        img={img}
+        label={`Add ${p.name}${weight ? ` ${weight}` : ""} to cart`}
+        onAdd={() => {
           add(key);
           toast(`${p.name}${weight ? ` (${weight})` : ""} added to cart`, { label: "View cart", run: openCart });
         }}
-      >
-        <Icon k="cart" size={17} /> Add to Cart
-      </button>
+      />
     </article>
   );
 }

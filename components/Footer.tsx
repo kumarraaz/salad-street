@@ -9,11 +9,7 @@ function Soc({ k, cls, label, children }: { k: string; cls: string; label: strin
     <a className={cls} href={href} target="_blank" rel="noopener" aria-label={label}>
       {children}
     </a>
-  ) : (
-    <a className={cls} href="#" data-missing="social" aria-label={label}>
-      {children}
-    </a>
-  );
+  ) : null; // no profile URL yet → hide the icon instead of linking to "#"
 }
 
 export default function Footer() {
@@ -29,6 +25,7 @@ export default function Footer() {
               Bringing fresh, healthy and delicious salads to your everyday life.{" "}
               <Tbc t="A brand by two sisters, for a healthier tomorrow." on />
             </p>
+            {Object.values(CONFIG.social).some(Boolean) ? (
             <div className="social">
               <Soc k="instagram" cls="ig" label="Instagram">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" aria-hidden="true">
@@ -56,6 +53,7 @@ export default function Footer() {
                 </svg>
               </Soc>
             </div>
+            ) : null}
           </div>
           <div className="fcol">
             <h3>Quick Links</h3>

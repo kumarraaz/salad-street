@@ -171,9 +171,15 @@ Payment: ${method}`;
         ) : (
           <div className="cart-list">
             <div className="empty" style={{ marginTop: "20px" }}>
+              {/* Motion: small bobbing bowl */}
+              <svg className="empty-bowl" viewBox="0 0 64 48" width="64" height="48" aria-hidden="true">
+                <path d="M22 18c-2-7 3-12 9-10 2-6 10-6 12 0 6-1 9 5 6 10z" fill="#7CC24A" />
+                <path d="M30 17c0-5 3-8 7-9" stroke="#4B781E" strokeWidth="2" fill="none" strokeLinecap="round" />
+                <path d="M6 20h52c0 14-11 24-26 24S6 34 6 20z" fill="#F1F8EA" stroke="#4B781E" strokeWidth="2.4" />
+              </svg>
               <p>Your cart is empty.</p>
               <Link className="btn btn-solid btn-sm" href="/products" data-close-cart onClick={closeCart}>
-                Browse products
+                Shop fresh greens
               </Link>
             </div>
           </div>

@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CATEGORIES, priceText, type Product } from "@/lib/data";
 import { Cta, Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
 import { useRail } from "./Rails";
+import { flyToCart, leafBurst } from "./fx";
 
 /* Product cards use only real data from lib/data.ts (name, price, weight, image).
    The rating row appears only for products with a genuine `rating` set. */
@@ -22,12 +23,61 @@ function WishBtn({ p }: { p: Product }) {
       type="button"
       aria-pressed={saved}
       aria-label={saved ? `Remove ${p.name} from wishlist` : `Save ${p.name} to wishlist`}
-      onClick={() => {
+      onClick={(e) => {
         const now = toggleWish(p.id);
+        if (now) leafBurst(e.currentTarget);
         toast(now ? `${p.name} saved to wishlist` : `${p.name} removed from wishlist`);
       }}
     >
       <Icon k="heart" size={18} />
+    </button>
+  );
+}
+
+/* Motion: hover dew — 3 sparkle dots + a small leaf, shown once on hover/focus */
+export function Dew() {
+  return (
+    <span className="dew" aria-hidden="true">
+      <i />
+      <i />
+      <i />
+      <svg viewBox="0 0 24 24">
+        <path d="M4 20C4 10 10.5 3.5 21 3.5c0 10.5-6.5 16.5-17 16.5z" />
+      </svg>
+    </span>
+  );
+}
+
+/* Motion: Add to Cart → squish, "Added ✓" with a self-drawing tick (reverts after 1.6s), image flies to the cart */
+export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataAdd: string; img?: string; onAdd: () => void }) {
+  const [added, setAdded] = useState(false);
+  const t = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(t.current), []);
+  return (
+    <button
+      className={`btn-cart${added ? " is-added" : ""}`}
+      type="button"
+      data-add={dataAdd}
+      aria-label={label}
+      onClick={(e) => {
+        const btn = e.currentTarget;
+        onAdd();
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
+          btn.animate([{ transform: "scale(1)" }, { transform: "scale(.94,.9)" }, { transform: "scale(1)" }], { duration: 300, easing: "cubic-bezier(.34,1.56,.64,1)" });
+        const frame = btn.closest("article")?.querySelector(".pimg, .pk-img") ?? null;
+        requestAnimationFrame(() => flyToCart(frame, img));
+        setAdded(true);
+        clearTimeout(t.current);
+        t.current = setTimeout(() => setAdded(false), 1600);
+      }}
+    >
+      <span className="ac-a">Add to Cart</span>
+      <span className="ac-b" aria-hidden="true">
+        Added
+        <svg viewBox="0 0 16 16">
+          <path d="M3 8.5l3 3 7-7" pathLength="1" />
+        </svg>
+      </span>
     </button>
   );
 }
@@ -38,13 +88,14 @@ export function ProductCard({ p }: { p: Product }) {
   return (
     <article className="pcard">
       <div className="pimg">
-        <Link href={href} tabIndex={-1} aria-hidden="true" className="pimg-link">
-          <Media src={p.img} label={"Product photo · " + p.name} alt="" cls="cutout" />
+        <Link href={href} tabIndex={-1} className="pimg-link">
+          <Media src={p.img} label={"Product photo · " + p.name} alt={`${p.name}${p.weight ? ` (${p.weight})` : ""}, fresh from Salad Street Farms`} cls="cutout" />
           {p.pack ? (
             // Hover reveal: the packaged product
             // eslint-disable-next-line @next/next/no-img-element
-            <img className="hv-alt" src={p.pack} alt="" width={900} height={720} loading="lazy" decoding="async" />
+            <img className="hv-alt" src={p.pack} alt="" aria-hidden="true" width={900} height={720} loading="lazy" decoding="async" />
           ) : null}
+          <Dew />
         </Link>
         <WishBtn p={p} />
       </div>
@@ -66,18 +117,15 @@ export function ProductCard({ p }: { p: Product }) {
           </p>
         ) : null}
       </div>
-      <button
-        className="btn-cart"
-        type="button"
-        data-add={p.id}
-        aria-label={`Add ${p.name} to cart`}
-        onClick={() => {
+      <AddButton
+        dataAdd={p.id}
+        img={p.img}
+        label={`Add ${p.name} to cart`}
+        onAdd={() => {
           add(p.id);
           toast(`${p.name} added to cart`, { label: "View cart", run: openCart });
         }}
-      >
-        Add to Cart
-      </button>
+      />
     </article>
   );
 }

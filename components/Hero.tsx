@@ -51,7 +51,6 @@ export default function Hero() {
   return (
     <section
       className="hero hero-banner"
-      data-parallax="0.08"
       aria-roledescription="carousel"
       aria-label="Featured"
       onMouseEnter={() => {
@@ -73,6 +72,7 @@ export default function Hero() {
       }}
     >
       <Decor k="leaf" cls="hero-leaf" />
+      <Decor k="leaf" cls="hero-leaf2" />
       <div className="slides">
         {SLIDES.map((s, k) => {
           const H = (k ? "h2" : "h1") as ElementType;
@@ -102,11 +102,12 @@ export default function Hero() {
                     </svg>
                   </p>
                   <H className="hero-h">
-                    <span>{s.lines[0]}</span>
+                    {/* Real spaces between the block lines so the heading reads as words */}
+                    <span>{s.lines[0]}</span>{" "}
                     <span>
                       {s.lines[1][0]}
                       <span className="light">{s.lines[1][1]}</span>
-                    </span>
+                    </span>{" "}
                     <span>{s.lines[2]}</span>
                   </H>
                   <p className="hero-p">{s.text}</p>
