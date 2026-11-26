@@ -10,7 +10,7 @@ export function FarmVideo({ poster }: { poster: string }) {
   const [playing, setPlaying] = useState(false);
   const ref = useRef<HTMLVideoElement>(null);
   return (
-    <div className="farm-media" data-parallax="0.06">
+    <div className="farm-media">
       {playing ? (
         <video ref={ref} src={FARM_VIDEO.src} poster={poster} controls autoPlay playsInline muted preload="none" aria-label="Video of our farm (no speech)" />
       ) : (
