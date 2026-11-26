@@ -53,7 +53,7 @@ export const BRAND_PILLARS = [
   { title: "Sustainability", text: "Smarter farming with responsible water use" },
 ];
 
-function VmCards({ full = false }: { full?: boolean }) {
+export function VmCards({ full = false }: { full?: boolean }) {
   return (
     <div className="vm-cards">
       <article className="vm-card vm-vision">
@@ -78,7 +78,7 @@ function VmCards({ full = false }: { full?: boolean }) {
   );
 }
 
-function Pillars() {
+export function Pillars() {
   return (
     <>
       <p className="vm-lead">We believe in keeping the journey of food simple and transparent:</p>

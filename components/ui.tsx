@@ -37,6 +37,7 @@ export const P: Record<string, string> = {
   basket: '<path d="M3 10h18l-2 10H5z"/><path d="m8 10 4-6 4 6M9 14v3M15 14v3"/>',
   truck: '<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
   sparkle: "M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18",
+  wa: '<path d="M3.5 20.5l1.4-4.2A8.5 8.5 0 1 1 8.1 19.4z"/><path d="M9 8.8c0 3.400 2.800 6.200 6.200 6.200l1.100-1.700-2.100-1.100-1 .9a4 4 0 0 1-2.300-2.300l.9-1-1.100-2.100z"/>',
 };
 
 export function Icon({ k, size = 20 }: { k: string; size?: number }) {
@@ -66,8 +67,8 @@ export function Icon({ k, size = 20 }: { k: string; size?: number }) {
 export function LeafFill({ size = 28 }: { size?: number }) {
   return (
     <svg className="ico" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 20C4 10 10.5 3.5 21 3.5c0 10.5-6.5 16.5-17 16.5z" fill="#6DB53F" />
-      <path d="M4 20 13.5 10.5" stroke="#2E7D32" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M4 20C4 10 10.5 3.5 21 3.5c0 10.5-6.5 16.5-17 16.5z" fill="none" stroke="#4B781E" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M4 20 13.5 10.5" stroke="#4B781E" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -83,8 +84,8 @@ export function LeafDeco({ x, y, s, r, op = 1 }: { x: string; y: string; s: numb
   };
   return (
     <svg className="leaf-deco" style={style} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 20C4 10 10.5 3.5 21 3.5c0 10.5-6.5 16.5-17 16.5z" fill="#6DB53F" />
-      <path d="M4 20 13.5 10.5" stroke="#3E8E2A" strokeWidth="1.4" />
+      <path d="M4 20C4 10 10.5 3.5 21 3.5c0 10.5-6.5 16.5-17 16.5z" fill="none" stroke="#7CC24A" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M4 20 13.5 10.5" stroke="#7CC24A" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -142,6 +143,17 @@ export function SecTitle({ title, sub, id, eyebrow, as: H = "h2" }: { title: str
         <LeafFill />
       </H>
       {sub ? <p className="sec-sub">{sub}</p> : null}
+    </div>
+  );
+}
+
+/** Wavy divider between two section tones (w = white, c = cream, s = sage). Fixed height: no layout shift. */
+export function Wave({ from, to }: { from: "w" | "c" | "s"; to: "w" | "c" | "s" }) {
+  return (
+    <div className={`wave wv-${from} wv-to-${to}`} aria-hidden="true">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" width="1440" height="48">
+        <path d="M0 22C180 4 360 4 540 18s360 30 540 22 270-26 360-28V48H0z" />
+      </svg>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type ElementType } from "react";
-import { SLIDES } from "@/lib/data";
+import { CONFIG, SLIDES } from "@/lib/data";
 import { Cta, Decor, Icon } from "./ui";
 
-const AUTOPLAY_MS = 3000;
+const AUTOPLAY_MS = 4000;
 const url = (p: string) => `url("${p.startsWith("/") ? p : "/" + p}")`;
 
 export default function Hero() {
@@ -29,7 +29,7 @@ export default function Hero() {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduced && !timer.current && n > 1) timer.current = setInterval(() => set(idx.current + 1), AUTOPLAY_MS);
   };
-  /* Manual navigation restarts the 3s countdown instead of stopping autoplay for good
+  /* Manual navigation restarts the 4s countdown instead of stopping autoplay for good
      (touch devices never fire mouseleave, so a hard stop would freeze the slider). */
   const go = (k: number) => {
     stop();
@@ -94,13 +94,6 @@ export default function Hero() {
               />
               <div className="slide-in">
                 <div className="hero-copy">
-                  <p className="hero-eyebrow">
-                    Farm Fresh, Everyday
-                    <svg width="64" height="18" viewBox="0 0 64 18" aria-hidden="true">
-                      <path d="M2 14C18 6 34 4 52 7" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                      <path d="M50 8c3-5 8-6 12-5-2 4-6 6-12 5z" fill="currentColor" />
-                    </svg>
-                  </p>
                   <H className="hero-h">
                     {/* Real spaces between the block lines so the heading reads as words */}
                     <span>{s.lines[0]}</span>{" "}
@@ -113,7 +106,11 @@ export default function Hero() {
                   <p className="hero-p">{s.text}</p>
                   <div className="hero-ctas">
                     <Cta label="Shop Now" href="/products" solid />
-                    <Cta label="Explore Our Farm" href="/highlights" />
+                    {CONFIG.city ? (
+                      <span className="hero-city">
+                        <Icon k="pin" size={15} /> Delivering in {CONFIG.city}
+                      </span>
+                    ) : null}
                   </div>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { CONFIG, PRODUCTS, inr, per100, type Product } from "@/lib/data";
 import { Decor, Icon, SecTitle } from "./ui";
 import { useApp } from "./Providers";
-import { AddButton, Dew, WaOrder } from "./Products";
+import { AddButton, Badge, Dew, WaOrder } from "./Products";
 import { leafBurst } from "./fx";
 
 /* Packaged products with price, pack size and rating.
@@ -55,15 +55,13 @@ function PackCard({ p }: { p: Product }) {
 
   return (
     <article className="pk-card">
-      <div className="pk-img">
+      <div className="pk-img" style={p.tint ? ({ "--tint": p.tint } as React.CSSProperties) : undefined}>
         <Link href={href} tabIndex={-1}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={img} alt={`${p.name}${weight ? ` ${weight}` : ""} pack from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
-          {/* Hover reveal: the fresh leaves inside the pack */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="hv-alt cut" src={p.img} alt="" aria-hidden="true" width={720} height={560} loading="lazy" decoding="async" />
+          <img className="pk-photo" src={img} alt={`${p.name}${weight ? ` ${weight}` : ""} pack from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
           <Dew />
         </Link>
+        <Badge p={p} />
         <button
           className={`wish${saved ? " on" : ""}`}
           type="button"
@@ -100,6 +98,7 @@ function PackCard({ p }: { p: Product }) {
           </div>
         ) : null}
       </div>
+      <div className="pactions">
       <AddButton
         dataAdd={key}
         img={img}
@@ -110,6 +109,7 @@ function PackCard({ p }: { p: Product }) {
         }}
       />
       <WaOrder name={p.name} weight={weight} price={price} />
+      </div>
     </article>
   );
 }

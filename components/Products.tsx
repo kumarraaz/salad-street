@@ -48,6 +48,11 @@ export function Dew() {
   );
 }
 
+/** Badge on the image, only when the product data sets one (e.g. "Bestseller"). */
+export function Badge({ p }: { p: Product }) {
+  return p.badge ? <span className="pbadge">{p.badge}</span> : null;
+}
+
 /* Motion: Add to Cart → squish, "Added ✓" with a self-drawing tick (reverts after 1.6s), image flies to the cart */
 export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataAdd: string; img?: string; onAdd: () => void }) {
   const [added, setAdded] = useState(false);
@@ -71,7 +76,11 @@ export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataA
         t.current = setTimeout(() => setAdded(false), 1600);
       }}
     >
-      <span className="ac-a">Add to Cart</span>
+      <span className="ac-a">
+        <Icon k="cart" size={17} />
+        <span className="lbl-lg">Add to Cart</span>
+        <span className="lbl-sm">Add</span>
+      </span>
       <span className="ac-b" aria-hidden="true">
         Added
         <svg viewBox="0 0 16 16">
@@ -86,7 +95,8 @@ export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataA
 export function WaOrder({ name, weight, price }: { name: string; weight?: string; price?: number | null }) {
   return (
     <a className="btn-wa" href={waOrderLink(name, weight, price)} target="_blank" rel="noopener" aria-label={`Order ${name}${weight ? " " + weight : ""} on WhatsApp`}>
-      Order on WhatsApp
+      <Icon k="wa" size={17} />
+      <span className="lbl-lg">WhatsApp</span>
     </a>
   );
 }
@@ -96,16 +106,17 @@ export function ProductCard({ p }: { p: Product }) {
   const href = productHref(p);
   return (
     <article className="pcard">
-      <div className="pimg">
+      <div className="pimg" style={p.tint ? ({ "--tint": p.tint } as React.CSSProperties) : undefined}>
         <Link href={href} tabIndex={-1} className="pimg-link">
-          <Media src={p.img} label={"Product photo · " + p.name} alt={`${p.name}${p.weight ? ` (${p.weight})` : ""}, fresh from Salad Street Farms`} cls="cutout" />
           {p.pack ? (
-            // Hover reveal: the packaged product
             // eslint-disable-next-line @next/next/no-img-element
-            <img className="hv-alt" src={p.pack} alt="" aria-hidden="true" width={900} height={720} loading="lazy" decoding="async" />
-          ) : null}
+            <img className="pk-photo" src={p.pack} alt={`${p.name}${p.weight ? ` ${p.weight}` : ""} pack from Salad Street Farms`} width={900} height={720} loading="lazy" decoding="async" />
+          ) : (
+            <Media src={p.img} label="" alt={`${p.name}${p.weight ? ` (${p.weight})` : ""}, fresh from Salad Street Farms`} cls="cutout" />
+          )}
           <Dew />
         </Link>
+        <Badge p={p} />
         <WishBtn p={p} />
       </div>
       <div className="pbody">
@@ -127,9 +138,10 @@ export function ProductCard({ p }: { p: Product }) {
           </p>
         ) : null}
       </div>
+      <div className="pactions">
       <AddButton
         dataAdd={p.id}
-        img={p.img}
+        img={p.pack || p.img}
         label={`Add ${p.name} to cart`}
         onAdd={() => {
           add(p.id);
@@ -137,6 +149,7 @@ export function ProductCard({ p }: { p: Product }) {
         }}
       />
       <WaOrder name={p.name} weight={p.weight} price={p.price} />
+      </div>
     </article>
   );
 }

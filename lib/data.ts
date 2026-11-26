@@ -60,11 +60,20 @@ export type Product = {
   reviews?: number;
   /** Packaging photo (public/images/packs/). */
   pack?: string;
+  /** Soft tint behind the pack photo on product cards. */
+  tint?: string;
+  /** Card badge, only when the client confirms it. */
+  badge?: "Bestseller" | "Chef's pick";
   /** Extra pack sizes. The product's own weight/price is the default pack. */
   variants?: Variant[];
 };
 export type Variant = { key: string; weight: string; price: number; pack?: string };
-export const PRODUCTS: Product[] = [
+const TINT: Record<string, string> = {
+  "rocket-leaves": "#E3EFD9", "italian-basil": "#E8F5DC", "lettuce-mix": "#EEF6E2", "baby-spinach": "#E1EDDA",
+  "salad-leaves-mix": "#EAF3E0", mint: "#E0F4EC", microgreens: "#F0F7D8",
+};
+
+export const PRODUCTS: Product[] = (<Product[]>[
   { id: "rocket-leaves", name: "Rocket Leaves", hi: "", weight: "100 g", price: 120, cat: "salad-greens", home: true, img: "/images/leafy/rocket.png", note: "Peppery, crisp leaves", pack: "/images/packs/rocket-leaves.webp" },
   { id: "italian-basil", name: "Italian Basil", hi: "", weight: "100 g", price: 140, cat: "herbs", home: true, img: "/images/leafy/italian-basil.png", note: "Sweet, aromatic herb", pack: "/images/packs/italian-basil.webp" },
   { id: "lettuce-mix", name: "Lettuce Mix", hi: "", weight: "200 g", price: 299, cat: "salad-greens", home: true, img: "/images/leafy/lettuce-mix.png", note: "Soft and crunchy lettuces", pack: "/images/packs/lettuce-mix.webp" },
@@ -72,7 +81,7 @@ export const PRODUCTS: Product[] = [
   { id: "salad-leaves-mix", name: "Salad Leaves Mix", hi: "", weight: "150 g", price: 200, cat: "salad-greens", home: true, img: "/images/leafy/salad-leaves-mix.png", note: "Red and green salad leaves", pack: "/images/packs/salad-leaves-mix-150g.webp", variants: [{ key: "200g", weight: "200 g", price: 299, pack: "/images/packs/salad-leaves-mix-200g.webp" }] },
   { id: "mint", name: "Mint", hi: "", weight: "100 g", price: 70, cat: "herbs", home: true, img: "/images/leafy/mint.png", note: "Cool, fresh aroma", pack: "/images/packs/mint.webp" },
   { id: "microgreens", name: "Microgreens", hi: "", weight: "50 g", price: 150, cat: "microgreens", home: true, img: "/images/leafy/microgreens.png", note: "Tiny, tender shoots", pack: "/images/packs/microgreens.webp" },
-];
+]).map((p) => ({ ...p, tint: p.tint ?? TINT[p.id] }));
 
 /* Slides 2–4 copy is draft — replace with approved copy.
    Banners: full-width hero backgrounds (2048px) with a 1024px `-sm` version for phones. */
@@ -81,26 +90,20 @@ export const SLIDES: Slide[] = [
   {
     lines: ["Fresh", ["Salads", " for a"], "Healthier You"],
     text: "Farm fresh ingredients, ready-to-eat salads, and healthy products for your everyday wellness.",
-    img: "images/hero/banner-1.webp",
-    imgSm: "images/hero/banner-1-sm.webp",
+    img: "images/hero/slide-1.webp",
+    imgSm: "images/hero/slide-1-sm.webp",
   },
   {
     lines: ["Farm", ["to Bowl,", ""], "Every Day"],
     text: "Grown at our farm, prepared fresh and ready to eat.",
-    img: "images/hero/banner-2.webp",
-    imgSm: "images/hero/banner-2-sm.webp",
+    img: "images/hero/slide-2.webp",
+    imgSm: "images/hero/slide-2-sm.webp",
   },
   {
     lines: ["Picked", ["Fresh", " for"], "Your Table"],
     text: "Seasonal vegetables and salads, picked and packed with care.",
-    img: "images/hero/banner-3.webp",
-    imgSm: "images/hero/banner-3-sm.webp",
-  },
-  {
-    lines: ["Green", ["Goodness,", ""], "Naturally"],
-    text: "Fragrant herbs and leafy greens, grown fresh at our farm for your kitchen.",
-    img: "images/hero/banner-4.webp",
-    imgSm: "images/hero/banner-4-sm.webp",
+    img: "images/hero/slide-3.webp",
+    imgSm: "images/hero/slide-3-sm.webp",
   },
 ];
 

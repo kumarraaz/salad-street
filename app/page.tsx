@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
 import { BLOGS, CONFIG, FAQS, PRODUCTS, REVIEWS } from "@/lib/data";
-import { CtaRow, Decor, SecTitle } from "@/components/ui";
+import { CtaRow, Decor, SecTitle, Wave } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards, BlogCard } from "@/components/Cards";
 import { ReviewCarousel } from "@/components/Rails";
 import Founders from "@/components/Founders";
 import { QueryBlock } from "@/components/Enquiry";
 import FaqColumns from "@/components/Faq";
-import { FarmStory, FeatureStrip, KitsBanner, WhySection } from "@/components/Sections";
+import { FeatureStrip, WhySection } from "@/components/Sections";
 import { Newsletter } from "@/components/SectionsClient";
 import PackShop from "@/components/PackShop";
-import VisionMission from "@/components/VisionMission";
+import OurStory from "@/components/OurStory";
 
 export const metadata: Metadata = {
   title: { absolute: `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms` },
@@ -35,13 +35,13 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd).replace(/</g, "\\u003c") }} />
       <Hero />
-      {/* Alternating section tones: bg-w (white) · bg-c (warm cream #F7F5EA) · bg-s (light sage #EDF3E8) */}
+      {/* Alternating section tones: white → cream #FBF6EC → sage #F1F8EA, joined by wavy dividers */}
       <FeatureStrip cls="bg-w" />
+      <Wave from="w" to="c" />
       <PackShop cls="bg-c" id="our-products" />
-      <VisionMission cls="bg-w" />
-
-      <KitsBanner cls="bg-s" />
-      <FarmStory cls="bg-c" />
+      <Wave from="c" to="s" />
+      <OurStory cls="bg-s" />
+      <Wave from="s" to="w" />
 
       <section className="sec highlights bg-w" id="day-highlights" aria-labelledby="hl-t">
         <Decor k="leaf" cls="corner-tl" />
@@ -52,12 +52,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <WhySection cls="bg-s" />
-      <Founders cls="bg-w" />
+      <Wave from="w" to="c" />
+      <WhySection cls="bg-c" />
+      <Wave from="c" to="s" />
+      <Founders cls="bg-s" />
+      <Wave from="s" to="w" />
 
       {/* Shown only once genuine reviews exist in lib/data.ts */}
       {REVIEWS.length ? (
-        <section className="sec reviews bg-c" aria-labelledby="rv-t">
+        <section className="sec reviews bg-w" aria-labelledby="rv-t">
           <div className="wrap">
             <SecTitle id="rv-t" title="Loved by Health-Conscious Customers" />
             <ReviewCarousel />
@@ -77,7 +80,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec faq deco-sec bg-s" aria-labelledby="faq-t">
+      <Wave from="w" to="c" />
+      <section className="sec faq deco-sec bg-c" aria-labelledby="faq-t">
         <Decor k="carrot" cls="faq-deco l" />
         <Decor k="tomato" cls="faq-deco r" />
         <div className="wrap">
@@ -89,13 +93,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="sec enquire-sec bg-w" aria-label="Enquiry">
+      <Wave from="c" to="s" />
+      <section className="sec enquire-sec bg-s" aria-label="Enquiry">
         <div className="wrap">
           <QueryBlock />
         </div>
       </section>
 
-      <Newsletter cls="bg-c" />
+      <Wave from="s" to="w" />
+      <Newsletter cls="bg-w" />
     </>
   );
 }

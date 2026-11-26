@@ -9,6 +9,7 @@ import Floating from "@/components/Floating";
 import { CartDrawer, Toast } from "@/components/CartDrawer";
 import { SvgSprite } from "@/components/ui";
 import Motion from "@/components/Motion";
+import MobileBar from "@/components/MobileBar";
 
 const SITE_TITLE = `Fresh Salad Greens, Herbs & Microgreens${CONFIG.city ? ` in ${CONFIG.city}` : ""} | Salad Street Farms`;
 
@@ -91,7 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Poppins:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Poppins:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap"
           rel="stylesheet"
         />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd).replace(/</g, "\\u003c") }} />
@@ -112,6 +113,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CartDrawer />
           <Toast />
           <Motion />
+          <MobileBar />
           <noscript>
             <p style={{ padding: "24px", textAlign: "center" }}>Please enable JavaScript to use the Salad Street website.</p>
           </noscript>

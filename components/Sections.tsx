@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CATEGORIES, WHY } from "@/lib/data";
-import { SCENE } from "@/lib/media";
 import { Cta, Decor, Icon, SecTitle, Tbc } from "./ui";
 import fs from "node:fs";
 import path from "node:path";
@@ -38,8 +37,8 @@ export function FeatureStrip({ cls = "" }: { cls?: string }) {
 export { default as KitsBanner } from "./KitsBanner";
 
 /* Real farm photo: shown only once /public/images/farm/farm.webp exists (checked at build time). */
-const FARM_IMG = "/images/farm/farm.webp";
-const hasFarmImg = fs.existsSync(path.join(process.cwd(), "public", FARM_IMG));
+export const FARM_IMG = "/images/farm/farm.webp";
+export const hasFarmImg = fs.existsSync(path.join(process.cwd(), "public", FARM_IMG));
 
 /** "From Our Farm to Your Plate" story with the farm photo. */
 export function FarmStory({ cls = "" }: { cls?: string }) {
@@ -76,14 +75,43 @@ export function FarmStory({ cls = "" }: { cls?: string }) {
   );
 }
 
-/** Why Choose Salad Street (4 columns) + green "farm process" band. */
+export const STEPS = [
+  { icon: "sprout", t: "Grow", s: "Grown at our farm" },
+  { icon: "leaf", t: "Harvest", s: "Picked fresh" },
+  { icon: "basket", t: "Pack", s: "Packed with care" },
+  { icon: "truck", t: "Deliver", s: "Fresh to your table" },
+];
+
+/** The Salad Street farm process: Grow → Harvest → Pack → Deliver (dashed line draws on scroll). */
+export function FarmProcess({ title = "The Salad Street Farm Process" }: { title?: string }) {
+  return (
+    <div className="process-in">
+      <h3 className="story-sub">{title}</h3>
+      <ol className="steps">
+        <svg className="steps-line" viewBox="0 0 100 2" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M12.5 1H87.5" />
+        </svg>
+        {STEPS.map((s, i) => (
+          <li key={s.t}>
+            <span className="step-ic">
+              <Icon k={s.icon} size={26} />
+            </span>
+            <b>{s.t}</b>
+            <small>{s.s}</small>
+            {i < STEPS.length - 1 ? (
+              <span className="step-arrow" aria-hidden="true">
+                <Icon k="arrow" size={20} />
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+/** Why Choose Salad Street (4 columns). */
 export function WhySection({ cls = "" }: { cls?: string }) {
-  const steps = [
-    { icon: "sprout", t: "Grow", s: "Grown at our farm" },
-    { icon: "leaf", t: "Harvest", s: "Picked fresh" },
-    { icon: "basket", t: "Pack", s: "Packed with care" },
-    { icon: "truck", t: "Deliver", s: "Fresh to your table" },
-  ];
   return (
     <section className={`why2 ${cls}`} aria-labelledby="why2-t">
       <div className="sec wrap">
@@ -101,31 +129,6 @@ export function WhySection({ cls = "" }: { cls?: string }) {
               </p>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="process" style={{ ["--bg" as string]: `url("${SCENE.harvest}")` }}>
-        <div className="wrap process-in">
-          <h2>The Salad Street Farm Process</h2>
-          <ol className="steps">
-            {/* Motion: dashed path that draws through the four steps */}
-            <svg className="steps-line" viewBox="0 0 100 2" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M12.5 1H87.5" pathLength="1" />
-            </svg>
-            {steps.map((s, i) => (
-              <li key={s.t}>
-                <span className="step-ic">
-                  <Icon k={s.icon} size={26} />
-                </span>
-                <b>{s.t}</b>
-                <small>{s.s}</small>
-                {i < steps.length - 1 ? (
-                  <span className="step-arrow" aria-hidden="true">
-                    <Icon k="arrow" size={20} />
-                  </span>
-                ) : null}
-              </li>
-            ))}
-          </ol>
         </div>
       </div>
     </section>
