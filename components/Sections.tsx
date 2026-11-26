@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CATEGORIES, WHY, productsInCategory } from "@/lib/data";
+import { CATEGORIES, WHY } from "@/lib/data";
 import { SCENE } from "@/lib/media";
 import { Cta, Decor, Icon, SecTitle, Tbc } from "./ui";
 import { FarmVideo } from "./SectionsClient";
@@ -34,39 +34,7 @@ export function FeatureStrip({ cls = "" }: { cls?: string }) {
   );
 }
 
-/** "Ready-to-Eat" promo banner with the client's horizontal salad-bowl PNG. */
-export function KitsBanner({ cls = "" }: { cls?: string }) {
-  const n = productsInCategory("salad-greens");
-  return (
-    <section className={`kits-wrap ${cls}`} aria-labelledby="kits-t">
-      <div className="wrap">
-        <div className="kits">
-          <Decor k="leaf" cls="kits-leaf" />
-          <div className="kits-copy">
-            <p className="script">Ready-to-Eat</p>
-            <h2 id="kits-t">Fresh Salads</h2>
-            <p className="kits-sub">Healthy meals, ready when you are</p>
-            <ul className="ticks">
-              <li>
-                <Icon k="leaf" size={18} /> Farm Fresh
-              </li>
-              <li>
-                <Icon k="check" size={18} /> Ready to Eat
-              </li>
-              <li>
-                <Icon k="heart" size={18} /> Healthy
-              </li>
-            </ul>
-            <Cta label={n ? "Shop Salad Greens" : "Explore Products"} href={n ? "/products?cat=salad-greens" : "/products"} solid />
-          </div>
-          <div className="kits-art">
-            <Decor k="bowlH" cls="kits-bowl" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+export { default as KitsBanner } from "./KitsBanner";
 
 /** "From Our Farm to Your Plate" story with play-on-demand farm video. */
 export function FarmStory({ cls = "" }: { cls?: string }) {

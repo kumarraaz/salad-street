@@ -959,3 +959,85 @@ body.cart-open .fabs,body.cart-open .bot-launch,body.cart-open .chat{display:non
   .vm-lead{margin-top:32px}
 }
 @media (prefers-reduced-motion:reduce){.vm-card:hover,.vm-pillars li:hover,.vm-brand li:hover,.vm-pillars li:hover .vm-pi{transform:none}}
+
+/* ---------- Ready-to-eat banner: premium motion ---------- */
+.kx{--mx:0;--my:0;isolation:isolate;background:linear-gradient(120deg,#F7F2DF 0%,#FBF9F1 45%,#E9F4DF 100%);box-shadow:0 30px 60px -30px rgba(23,63,21,.28),inset 0 1px 0 #fff}
+.kx-blob{position:absolute;z-index:-1;border-radius:50%;filter:blur(50px);opacity:.55;pointer-events:none;animation:kxBlob 16s ease-in-out infinite alternate}
+.kx-b1{width:340px;height:340px;left:-90px;top:-120px;background:#CFE8B4}
+.kx-b2{width:300px;height:300px;right:8%;bottom:-140px;background:#F4DFA0;animation-duration:19s;animation-delay:-6s}
+.kx-b3{width:220px;height:220px;right:-60px;top:-60px;background:#B9E0A0;animation-duration:13s;animation-delay:-3s}
+@keyframes kxBlob{0%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,30px) scale(1.15)}100%{transform:translate(-30px,20px) scale(.92)}}
+.kx-shine{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);transform:translateX(-120%);border-radius:inherit}
+.kx.is-in .kx-shine{animation:kxShine 1.6s .4s cubic-bezier(.4,0,.2,1) both,kxShineLoop 9s 4s ease-in-out infinite}
+@keyframes kxShine{to{transform:translateX(120%)}}
+@keyframes kxShineLoop{0%,82%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+
+/* copy entrance */
+.kx .kx-in,.kx .kx-pop,.kx .kx-ch{opacity:0}
+.kx h2{display:flex;flex-wrap:wrap;background:linear-gradient(90deg,var(--g9) 0%,var(--g6) 40%,var(--g9) 60%,var(--g9) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text}
+.kx .kx-ch{display:inline-block;color:var(--g9);transform:translateY(.55em) rotate(6deg);filter:blur(6px)}
+.kx.is-in .kx-in{animation:kxUp .8s var(--d,0s) cubic-bezier(.2,.7,.2,1) both}
+.kx.is-in .kx-ch{animation:kxCh .7s var(--d,0s) cubic-bezier(.2,.8,.2,1.2) both}
+.kx.is-in .kx-pop{animation:kxPop .6s var(--d,0s) cubic-bezier(.3,1.5,.5,1) both}
+@keyframes kxUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes kxCh{to{opacity:1;transform:none;filter:none}}
+@keyframes kxPop{from{opacity:0;transform:scale(.6) translateY(10px)}to{opacity:1;transform:none}}
+.kx .ticks li{background:rgba(255,255,255,.7);border:1px solid #E3EBD6;padding:8px 14px;border-radius:999px;box-shadow:0 6px 14px -8px rgba(23,63,21,.25);transition:transform .35s cubic-bezier(.3,1.4,.5,1),box-shadow .35s,background .35s}
+.kx .ticks li:hover{transform:translateY(-3px);background:#fff;box-shadow:0 12px 22px -10px rgba(23,63,21,.35)}
+.kx .ticks li:hover .ico{animation:kxWiggle .6s ease}
+@keyframes kxWiggle{0%,100%{transform:none}30%{transform:rotate(-14deg) scale(1.15)}60%{transform:rotate(10deg)}}
+.kx-cta .btn{position:relative;overflow:hidden}
+.kx.is-in .kx-cta .btn{animation:kxGlow 2.8s 2s ease-in-out infinite}
+@keyframes kxGlow{0%,100%{box-shadow:0 8px 18px rgba(61,124,39,.25),0 0 0 0 rgba(93,187,70,.45)}50%{box-shadow:0 10px 24px rgba(61,124,39,.32),0 0 0 12px rgba(93,187,70,0)}}
+
+/* artwork */
+.kx .kits-art{transform:translate3d(calc(var(--mx)*-18px),calc(var(--my)*-14px),0);transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.kx-bowl{position:relative;z-index:1;display:grid;place-items:center;width:100%;opacity:0;transform:scale(.7) rotate(-18deg)}
+.kx.is-in .kx-bowl{animation:kxBowlIn 1.2s .2s cubic-bezier(.2,.9,.25,1.15) both}
+.kx.is-in .kx-bowl .kits-bowl{animation:kxFloat 6s 1.4s ease-in-out infinite}
+@keyframes kxBowlIn{to{opacity:1;transform:none}}
+@keyframes kxFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(2deg)}}
+.kx-ring{position:absolute;z-index:0;left:50%;top:50%;border-radius:50%;pointer-events:none;translate:-50% -50%;opacity:0}
+.kx-r1{width:min(420px,92%);aspect-ratio:1;border:2px dashed rgba(61,124,39,.28)}
+.kx-r2{width:min(330px,72%);aspect-ratio:1;border:1px solid rgba(61,124,39,.18);background:radial-gradient(circle,rgba(255,255,255,.9),rgba(255,255,255,0) 70%)}
+.kx.is-in .kx-r1{animation:kxFade .8s .3s both,kxSpin 40s linear infinite}
+.kx.is-in .kx-r2{animation:kxFade .8s .45s both,kxSpin 60s linear infinite reverse}
+@keyframes kxFade{to{opacity:1}}
+@keyframes kxSpin{to{rotate:360deg}}
+.kx-glow{position:absolute;z-index:0;left:50%;top:58%;width:60%;height:22%;translate:-50% 0;border-radius:50%;background:radial-gradient(rgba(23,63,21,.22),transparent 70%);filter:blur(10px);animation:kxShadow 6s 1.4s ease-in-out infinite}
+@keyframes kxShadow{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(.85);opacity:.6}}
+.kx-orb{position:absolute;z-index:2;opacity:0;transform:translate3d(calc(var(--mx)*var(--z,30px)),calc(var(--my)*var(--z,30px)),0);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.kx-orb .decor{position:static;display:block;width:100%;filter:drop-shadow(0 10px 12px rgba(23,63,21,.2))}
+.kx-o1{width:90px;left:2%;top:6%;--z:40px}
+.kx-o2{width:96px;right:0;bottom:8%;--z:-34px}
+.kx-o3{width:44px;right:12%;top:2%;--z:26px}
+.kx.is-in .kx-orb{animation:kxOrbIn .9s cubic-bezier(.3,1.4,.5,1) both}
+.kx.is-in .kx-o1{animation-delay:.8s}.kx.is-in .kx-o2{animation-delay:1s}.kx.is-in .kx-o3{animation-delay:1.15s}
+.kx.is-in .kx-orb .decor{animation:kxBob 5s ease-in-out infinite}
+.kx-o2 .decor{animation-delay:-1.6s!important;animation-duration:6s!important}
+.kx-o3 .decor{animation-delay:-3s!important;animation-duration:4.4s!important}
+@keyframes kxOrbIn{from{opacity:0;scale:.3}to{opacity:1;scale:1}}
+@keyframes kxBob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(-8deg)}}
+.kx-spark{position:absolute;z-index:2;width:8px;height:8px;border-radius:50%;background:radial-gradient(#fff,#BFE59B 60%,transparent 70%);box-shadow:0 0 10px 2px rgba(191,229,155,.8);opacity:0;pointer-events:none}
+.kx.is-in .kx-spark{animation:kxTwinkle 3.2s ease-in-out infinite}
+.kx-s0{left:18%;top:20%;animation-delay:1.2s!important}
+.kx-s1{left:78%;top:30%;animation-delay:1.9s!important}
+.kx-s2{left:30%;bottom:16%;animation-delay:2.4s!important}
+.kx-s3{right:20%;bottom:30%;animation-delay:1.5s!important}
+.kx-s4{left:50%;top:6%;animation-delay:2.8s!important;width:6px;height:6px}
+.kx-s5{left:8%;top:60%;animation-delay:3.3s!important;width:6px;height:6px}
+@keyframes kxTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.2)}}
+.kx:hover .kx-r1{border-color:rgba(61,124,39,.45)}
+
+@media (max-width:900px){
+  .kx-o1{width:64px;left:4%;top:0}
+  .kx-o2{width:70px;right:2%;bottom:0}
+  .kx-o3{width:34px}
+  .kx-r1{width:min(300px,86%)}.kx-r2{width:min(240px,68%)}
+  .kx h2{justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  .kx *,.kx{animation:none!important;transition:none!important}
+  .kx .kx-in,.kx .kx-pop,.kx .kx-ch,.kx-bowl,.kx-ring,.kx-orb{opacity:1!important;transform:none!important;filter:none!important}
+  .kx-spark,.kx-shine{display:none}
+}
