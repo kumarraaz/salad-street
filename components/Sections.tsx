@@ -11,7 +11,7 @@ import path from "node:path";
 export function FeatureStrip({ cls = "" }: { cls?: string }) {
   const items = [
     { icon: "leaf", t: "100% Fresh", s: "Farm fresh ingredients" },
-    { icon: "shield", t: "No Preservatives", s: "Made without added preservatives", tbc: true },
+    { icon: "handshake", t: "No Middlemen", s: "Connecting our farm directly with consumers" },
     { icon: "heart", t: "Healthy & Nutritious", s: "Made for everyday wellness", tbc: true },
     { icon: "basket", t: "Ready to Eat", s: "Prepared fresh, ready to eat" },
   ];
@@ -39,6 +39,9 @@ export { default as KitsBanner } from "./KitsBanner";
 /* Real farm photo: shown only once /public/images/farm/farm.webp exists (checked at build time). */
 export const FARM_IMG = "/images/farm/farm.webp";
 export const hasFarmImg = fs.existsSync(path.join(process.cwd(), "public", FARM_IMG));
+/* Farm video: the section appears once /public/images/farm/farm.mp4 exists (keep it under 5 MB). */
+export const FARM_VIDEO = "/images/farm/farm.mp4";
+export const hasFarmVideo = fs.existsSync(path.join(process.cwd(), "public", FARM_VIDEO));
 
 /** "From Our Farm to Your Plate" story with the farm photo. */
 export function FarmStory({ cls = "" }: { cls?: string }) {

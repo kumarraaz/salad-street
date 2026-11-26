@@ -2,22 +2,40 @@
 
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import { CONFIG, baseId, inr, orderText, waLink, priceText } from "@/lib/data";
+import { BLOCKED_DATES, CONFIG, DELIVERY_SLOTS, baseId, inr, orderText, waLink, priceText } from "@/lib/data";
 import { Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
+
+/* Reservable delivery days: tomorrow to +14 days. Sundays and BLOCKED_DATES are disabled. */
+const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const dayLabel = (d: Date) => d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+function deliveryDays() {
+  const out: { key: string; label: string; off: boolean }[] = [];
+  const t = new Date();
+  for (let i = 1; i <= 14; i++) {
+    const d = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i);
+    out.push({ key: iso(d), label: dayLabel(d), off: d.getDay() === 0 || BLOCKED_DATES.includes(iso(d)) });
+  }
+  return out;
+}
 
 export function CartDrawer() {
   const { lines, count, total, set, items, closeCart } = useApp();
   const [step, setStep] = useState<"cart" | "checkout" | "done">("cart");
   const [pay, setPay] = useState<"upi" | "whatsapp">(CONFIG.upi ? "upi" : "whatsapp");
   const [done, setDone] = useState<{ upi: string; wa: string } | null>(null);
+  const [date, setDate] = useState("");
+  const [slot, setSlot] = useState("");
+  const days = step === "checkout" ? deliveryDays() : [];
+  const dateText = date ? `${days.find((x) => x.key === date)?.label ?? date}${slot ? ` · ${slot}` : ""}` : "";
   const priced = lines.length > 0 && lines.every((l) => l.p.price != null);
   const upiOk = !!CONFIG.upi && priced && total > 0;
 
   const placeOrder = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
+    if (!date || !slot) return; // native validation already blocks this; belt and braces
     const method = pay === "upi" && upiOk ? "UPI (online)" : "Pay after confirmation on WhatsApp";
     const text = `${orderText(lines, total)}
 
@@ -25,11 +43,12 @@ Name: ${d.name}
 Phone: ${d.phone}
 Address: ${d.address}${d.pin ? ` - ${d.pin}` : ""}${d.note ? `
 Note: ${d.note}` : ""}
+Delivery date: ${dateText}
 Payment: ${method}`;
     const wa = waLink(text);
     const upi =
       pay === "upi" && upiOk
-        ? `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent("Salad Street")}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent("Salad Street order")}`
+        ? `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent("Salad Street")}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Salad Street order · delivery ${date} ${slot}`)}`
         : "";
     setDone({ upi, wa });
     setStep("done");
@@ -71,6 +90,26 @@ Payment: ${method}`;
               <label>Pin code<input name="pin" inputMode="numeric" pattern="[0-9]{6}" autoComplete="postal-code" /></label>
               <label>Note (optional)<input name="note" /></label>
             </fieldset>
+            <fieldset className="co-date">
+              <legend>Reserve a delivery date</legend>
+              <div className="co-days" role="radiogroup" aria-label="Delivery date">
+                {days.map((x) => (
+                  <label key={x.key} className={`co-day${x.off ? " off" : ""}`}>
+                    <input type="radio" name="date" value={x.key} required disabled={x.off} checked={date === x.key} onChange={() => setDate(x.key)} />
+                    <span>{x.label}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="co-slots" role="radiogroup" aria-label="Time slot">
+                {DELIVERY_SLOTS.map((s) => (
+                  <label key={s} className="co-day">
+                    <input type="radio" name="slot" value={s} required checked={slot === s} onChange={() => setSlot(s)} />
+                    <span>{s}</span>
+                  </label>
+                ))}
+              </div>
+              <small className="co-hint">Sundays are closed.</small>
+            </fieldset>
             <fieldset className="co-pay">
               <legend>Payment method</legend>
               {CONFIG.upi ? (
@@ -91,6 +130,10 @@ Payment: ${method}`;
               </label>
             </fieldset>
             <div className="co-sum">
+              <div className="co-when">
+                <span>Delivery</span>
+                <span>{dateText || "Choose a date and slot"}</span>
+              </div>
               {lines.map(({ p, q }) => (
                 <div key={p.id}>
                   <span>{p.name}{p.weight ? ` (${p.weight})` : ""} × {q}</span>

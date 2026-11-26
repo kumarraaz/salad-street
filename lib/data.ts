@@ -203,3 +203,15 @@ export const cartProduct = (key: string): Product | undefined => {
 };
 
 export const productsInCategory = (id: string) => PRODUCTS.filter((p) => p.cat === id).length;
+
+/* ============================ AVAILABLE NEXT WEEK ====================
+   Products arriving next week. Fill only with confirmed items; empty = section hidden.
+   Example: { name: "Red Amaranth", weight: "100 g", img: "/images/packs/red-amaranth.webp" } */
+export type NextWeekItem = { name: string; weight?: string; img: string; tint?: string };
+export const NEXT_WEEK: NextWeekItem[] = [];
+
+/* ============================ DELIVERY CALENDAR =====================
+   Dates customers cannot reserve at checkout (holidays, farm closures), as "YYYY-MM-DD".
+   Sundays are always closed. */
+export const BLOCKED_DATES: string[] = [];
+export const DELIVERY_SLOTS = ["Morning", "Evening"] as const;

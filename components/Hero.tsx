@@ -106,6 +106,7 @@ export default function Hero() {
                   <p className="hero-p">{s.text}</p>
                   <div className="hero-ctas">
                     <Cta label="Shop Now" href="/products" solid />
+                    <Cta label="Visit Our Farm" href="/highlights" />
                     {CONFIG.city ? (
                       <span className="hero-city">
                         <Icon k="pin" size={15} /> Delivering in {CONFIG.city}

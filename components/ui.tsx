@@ -37,6 +37,8 @@ export const P: Record<string, string> = {
   basket: '<path d="M3 10h18l-2 10H5z"/><path d="m8 10 4-6 4 6M9 14v3M15 14v3"/>',
   truck: '<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
   sparkle: "M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18",
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
   wa: '<path d="M3.5 20.5l1.4-4.2A8.5 8.5 0 1 1 8.1 19.4z"/><path d="M9 8.8c0 3.400 2.800 6.200 6.200 6.200l1.100-1.700-2.100-1.100-1 .9a4 4 0 0 1-2.300-2.300l.9-1-1.100-2.100z"/>',
 };
 
@@ -178,21 +180,10 @@ export const DECOR = {
 } as const;
 export type DecorKey = keyof typeof DECOR;
 
-export function Decor({ k, cls = "", float = true }: { k: DecorKey; cls?: string; float?: boolean }) {
-  const d = DECOR[k];
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className={`decor${float ? " floaty" : ""} ${cls}`}
-      src={d.src}
-      width={d.w}
-      height={d.h}
-      alt=""
-      aria-hidden="true"
-      loading="lazy"
-      decoding="async"
-    />
-  );
+/** Decorative PNGs (leaves, carrot, tomato, bowl) were removed from the design. Kept as a no-op so call sites stay valid. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function Decor(_props: { k: DecorKey; cls?: string; float?: boolean }) {
+  return null;
 }
 
 export function CtaRow({ label, href }: { label: string; href: string }) {
