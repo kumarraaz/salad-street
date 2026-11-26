@@ -69,7 +69,7 @@ export default function HomePage() {
           ),
         ]
       : []),
-    (c) => <Recipes cls={c} />,
+    (c) => <Recipes cls={c} more />,
     (c) => (
       <section className={`sec faq ${c}`} aria-labelledby="faq-t">
         <div className="wrap">

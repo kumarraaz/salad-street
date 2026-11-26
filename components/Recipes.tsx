@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PRODUCTS } from "@/lib/data";
 import { RECIPES, type Recipe } from "@/lib/recipes";
@@ -72,13 +73,13 @@ function RecipeModal({ r, onClose, video }: { r: Recipe; onClose: () => void; vi
   );
 }
 
-export default function Recipes({ cls = "" }: { cls?: string }) {
+export default function Recipes({ cls = "", title = true, more = false }: { cls?: string; title?: boolean; more?: boolean }) {
   const [open, setOpen] = useState<{ r: Recipe; video: boolean } | null>(null);
   const close = useCallback(() => setOpen(null), []);
   return (
     <section className={`sec recipes ${cls}`} aria-labelledby="rc-t">
       <div className="wrap">
-        <SecTitle id="rc-t" title="Fresh Recipes" />
+        {title ? <SecTitle id="rc-t" title="Fresh Recipes" /> : <h2 id="rc-t" className="sr">Fresh Recipes</h2>}
         <div className="rc-grid">
           {RECIPES.map((r) => (
             <article className="pk-card rc-card" key={r.id}>
@@ -107,6 +108,13 @@ export default function Recipes({ cls = "" }: { cls?: string }) {
             </article>
           ))}
         </div>
+        {more ? (
+          <div className="cta-row">
+            <Link className="btn btn-outline" href="/recipes">
+              View All Recipes <Icon k="arrow" size={18} />
+            </Link>
+          </div>
+        ) : null}
       </div>
       {open ? <RecipeModal r={open.r} video={open.video} onClose={close} /> : null}
     </section>

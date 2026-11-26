@@ -37,9 +37,8 @@ export default function Header() {
     };
   }, []);
 
-  const isOn = (n: string, recipes = false) =>
-    n === "/" ? pathname === "/" : (pathname === n || pathname.startsWith(n + "/")) && !recipes;
-  const cur = (n: string, recipes = false) => (isOn(n, recipes) ? ("page" as const) : undefined);
+  const isOn = (n: string) => (n === "/" ? pathname === "/" : pathname === n || pathname.startsWith(n + "/"));
+  const cur = (n: string) => (isOn(n) ? ("page" as const) : undefined);
 
   return (
     <header className="site-header" id="siteHeader" onClick={(e) => { if ((e.target as HTMLElement).closest("a")) closeMenus(); }}>
@@ -78,8 +77,7 @@ export default function Header() {
                 key={n.label}
                 href={n.href}
                 data-nav={n.href}
-                {...(n.label === "Recipes" ? { "data-recipes": "" } : {})}
-                aria-current={cur(n.href, n.label === "Recipes")}
+                aria-current={cur(n.href)}
               >
                 {n.label}
               </Link>
@@ -125,7 +123,7 @@ export default function Header() {
         </div>
       </div>
       <div className="mobile-panel" id="mPanel" hidden={!mOpen}>
-        {NAV.filter((n) => n.label !== "Recipes").map((n) => (
+        {NAV.map((n) => (
           <Fragment key={n.label}>
             <Link className="m-link" href={n.href} data-nav={n.href} aria-current={cur(n.href)}>
               {n.label}

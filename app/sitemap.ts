@@ -3,7 +3,7 @@ import { BLOGS, CONFIG, PRODUCTS, REVIEWS } from "@/lib/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = CONFIG.siteUrl;
-  const pages = ["", "/about", "/products", "/categories", "/highlights", "/blog", "/faqs", "/contact", "/terms", "/privacy", "/refund"];
+  const pages = ["", "/about", "/products", "/categories", "/highlights", "/recipes", "/blog", "/faqs", "/contact", "/terms", "/privacy", "/refund"];
   if (REVIEWS.length) pages.push("/reviews");
   return [
     ...pages.map((p) => ({ url: `${base}${p || "/"}`, changeFrequency: "weekly" as const, priority: p ? 0.7 : 1 })),
