@@ -1408,3 +1408,13 @@ section.bg-s{background:var(--bg-sage)}
 .nt-form input{min-height:44px;padding:0 14px;border:1px solid #DCE3D8;border-radius:12px;background:#FBFCF9;font:inherit}
 .nt-form input:focus{outline:none;border-color:#4B781E;box-shadow:0 0 0 4px rgba(124,194,74,.3)}
 .nt-err{color:#B42318!important;font-size:13px!important}
+
+/* Delivery pin check */
+.pin-msg{display:flex;gap:6px;align-items:flex-start;margin:6px 0 0;font-size:13px;line-height:1.4;color:var(--mu)}
+.pin-msg svg{flex:none;margin-top:2px}
+.pin-msg.ok{color:#2E6B12}
+.pin-msg.no{color:#B3261E;font-weight:600}
+.pin-check{margin-top:18px;padding:12px 14px;border:1px solid rgba(75,120,30,.25);border-radius:12px;background:#F1F8EA;max-width:420px}
+.pin-check label{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-weight:600;color:#104312;font-size:14px}
+.pin-check label span{display:inline-flex;gap:6px;align-items:center}
+.pin-check input{flex:1;min-width:140px;padding:9px 12px;border:1px solid rgba(75,120,30,.35);border-radius:8px;font:inherit;background:#fff}

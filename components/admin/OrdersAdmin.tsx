@@ -121,6 +121,12 @@ export default function OrdersAdmin({ orders, waClicks, initial }: { orders: Ord
                   <span className="adm-lbl">Delivery</span>
                   <p>
                     {o.delivery.date} · {o.delivery.slot}
+                    {o.delivery.charge ? (
+                      <>
+                        <br />
+                        <b>{o.delivery.charge}</b>
+                      </>
+                    ) : null}
                     <br />
                     <small>{o.payment}</small>
                   </p>

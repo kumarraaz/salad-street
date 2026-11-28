@@ -9,6 +9,7 @@ import Media from "./Media";
 import { useApp } from "./Providers";
 import { useRail } from "./Rails";
 import { flyToCart, leafBurst } from "./fx";
+import PinCheck from "./PinCheck";
 
 /* Product cards use only real data from lib/data.ts (name, price, weight, image).
    The rating row appears only for products with a genuine `rating` set. */
@@ -252,6 +253,7 @@ export function BuyBox({ p }: { p: Product }) {
         <WishBtn p={p} />
       </div>
       )}
+      <PinCheck />
     </div>
   );
 }

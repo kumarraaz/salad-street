@@ -5,6 +5,8 @@ import { useState, type FormEvent } from "react";
 import { BLOCKED_DATES, CONFIG, DELIVERY_SLOTS, baseId, inr, orderText, waLink, priceText } from "@/lib/data";
 import { Icon } from "./ui";
 import Media from "./Media";
+import { PinMsg } from "./PinCheck";
+import { FREE_DELIVERY_MIN, checkPin, deliveryNote } from "@/lib/delivery";
 import { useApp } from "./Providers";
 
 /* Reservable delivery days: tomorrow to +14 days. Sundays and BLOCKED_DATES are disabled. */
@@ -32,12 +34,15 @@ export function CartDrawer() {
   const priced = lines.length > 0 && lines.every((l) => l.p.price != null);
   const upiOk = !!CONFIG.upi && priced && total > 0;
 
+  const [pin, setPin] = useState("");
+  const pinRes = checkPin(pin);
+  const pinOk = pinRes.status === "ok";
   const [saving, setSaving] = useState(false);
   const placeOrder = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (saving) return;
     const d = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    if (!date || !slot) return; // native validation already blocks this; belt and braces
+    if (!date || !slot || !pinOk) return; // native validation already blocks this; belt and braces
     const method = pay === "upi" && upiOk ? "UPI (online)" : "Pay after confirmation on WhatsApp";
     const useUpi = pay === "upi" && upiOk;
     // Open the WhatsApp tab now, while we still have the click (pop-up blockers), and fill it in after saving.
@@ -70,6 +75,7 @@ Phone: ${d.phone}
 Address: ${d.address}${d.pin ? ` - ${d.pin}` : ""}${d.note ? `
 Note: ${d.note}` : ""}
 Delivery date: ${dateText}
+Delivery: ${deliveryNote(pinRes, total)}
 Payment: ${method}`;
     const wa = waLink(text);
     const upi = useUpi
@@ -117,7 +123,12 @@ Payment: ${method}`;
               <label>Full name<input name="name" required autoComplete="name" /></label>
               <label>Mobile number<input name="phone" required type="tel" inputMode="tel" pattern="[0-9+ ]{10,15}" autoComplete="tel" /></label>
               <label>Delivery address<textarea name="address" required rows={3} autoComplete="street-address" /></label>
-              <label>Pin code<input name="pin" inputMode="numeric" pattern="[0-9]{6}" autoComplete="postal-code" /></label>
+              <label>
+                Pin code
+                <input name="pin" required value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, "").slice(0, 6))} inputMode="numeric" pattern="[0-9]{6}" maxLength={6} autoComplete="postal-code" />
+              </label>
+              <PinMsg r={pinRes} total={total} />
+              {pinRes.status === "empty" ? <small className="co-hint">We deliver only in Delhi NCR. Free delivery in Gurugram on orders of {inr(FREE_DELIVERY_MIN)}+.</small> : null}
               <label>Note (optional)<input name="note" /></label>
             </fieldset>
             <fieldset className="co-date">
@@ -268,12 +279,12 @@ Payment: ${method}`;
               <button className="btn btn-solid" type="button" onClick={() => setStep("checkout")}>
                 Proceed to Checkout
               </button>
-              <small>Enter delivery details and choose how to pay.</small>
+              <small>Delivering in Delhi NCR only · Free delivery in Gurugram on orders of {inr(FREE_DELIVERY_MIN)}+.</small>
             </>
           ) : null}
           {lines.length && step === "checkout" ? (
             <>
-              <button className="btn btn-solid" type="submit" form="checkoutForm" disabled={saving || (!waLink() && !(pay === "upi" && upiOk))}>
+              <button className="btn btn-solid" type="submit" form="checkoutForm" disabled={saving || pinRes.status === "no" || (!waLink() && !(pay === "upi" && upiOk))}>
                 {saving ? "Placing order…" : pay === "upi" && upiOk ? `Pay ${inr(total)} with UPI` : "Place Order"}
               </button>
               <small>{pay === "upi" && upiOk ? "Your UPI app opens with the amount filled in." : "Your order opens in WhatsApp to confirm. Payment details are shared there."}</small>

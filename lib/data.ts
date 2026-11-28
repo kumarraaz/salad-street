@@ -14,9 +14,9 @@ export const CONFIG = {
   formEndpoint: "", // e.g. "https://formspree.io/f/xxxxxxx" (POST JSON)
   social: { instagram: "", youtube: "", facebook: "", linkedin: "" } as Record<string, string>,
   fssai: "", // FSSAI licence number
-  city: "", // city / delivery areas, e.g. "Greater Noida & Noida"
+  city: "Delhi NCR", // city / delivery areas, e.g. "Greater Noida & Noida"
   minOrder: "", // e.g. "₹299"
-  deliveryFee: "", // e.g. "Free above ₹499"
+  deliveryFee: "free in Gurugram on orders of ₹599+", // e.g. "Free above ₹499"
   deliveryDays: "", // e.g. "Mon–Sat"
   payment: "", // e.g. "UPI / Cash on delivery"
   offerCode: "", // e.g. "FRESH10"

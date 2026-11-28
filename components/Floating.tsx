@@ -83,7 +83,7 @@ export default function Floating() {
     if (has("deliver", "delivery", "area", "pin", "location", "ship"))
       return (
         <>
-          Tell us your pin code through the <Link href="/contact">enquiry form</Link> and the team will confirm delivery to your area.
+          We deliver only in Delhi NCR right now (Delhi, Gurugram, Noida, Greater Noida, Ghaziabad, Faridabad). Delivery is free in Gurugram on orders of ₹599 or more. Enter your pin code at checkout to check. Questions? Use the <Link href="/contact">enquiry form</Link>.
         </>
       );
     if (has("contact", "call", "phone", "whatsapp", "email", "address", "talk")) {

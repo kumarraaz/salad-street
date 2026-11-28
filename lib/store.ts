@@ -20,7 +20,7 @@ export type Order = {
   createdAt: string;
   status: OrderStatus;
   customer: { name: string; phone: string; address: string; pin: string; note: string };
-  delivery: { date: string; slot: string };
+  delivery: { date: string; slot: string; area?: string; charge?: string };
   payment: string;
   lines: OrderLine[];
   total: number;

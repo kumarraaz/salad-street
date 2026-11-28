@@ -1,6 +1,7 @@
 import { clientIp, rateLimit, sameOrigin } from "@/lib/auth";
 import { bad, json, phoneOk, str } from "@/lib/api";
 import { cartProduct, inStock } from "@/lib/data";
+import { checkPin, deliveryNote } from "@/lib/delivery";
 import { getProducts, newId, writeStore, type OrderLine } from "@/lib/store";
 
 /** Checkout saves the order here (for the admin), then the customer sends it on WhatsApp.
@@ -12,7 +13,9 @@ export async function POST(req: Request) {
   const c = b.customer || {};
   const customer = { name: str(c.name, 80), phone: str(c.phone, 20), address: str(c.address, 400), pin: str(c.pin, 10), note: str(c.note, 300) };
   if (!customer.name || !phoneOk(customer.phone) || !customer.address) return bad("Please fill in your name, mobile number and address.");
-  const delivery = { date: str(b.delivery?.date, 10), slot: str(b.delivery?.slot, 20) };
+  const pin = checkPin(customer.pin);
+  if (pin.status !== "ok") return bad(pin.status === "no" ? "Sorry, we deliver only in Delhi NCR right now. This pin code is not deliverable." : "Please enter a valid 6-digit pin code.");
+  const delivery = { date: str(b.delivery?.date, 10), slot: str(b.delivery?.slot, 20), area: pin.area, charge: "" };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(delivery.date) || !delivery.slot) return bad("Please choose a delivery date and slot.");
 
   const products = await getProducts();
@@ -25,6 +28,7 @@ export async function POST(req: Request) {
   }
   if (!lines.length) return bad("Your cart is empty or the items are out of stock.");
   const total = lines.reduce((s, l) => s + l.price * l.q, 0);
+  delivery.charge = deliveryNote(pin, total);
 
   const order = await writeStore((s) => {
     const o = {
