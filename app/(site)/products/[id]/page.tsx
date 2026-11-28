@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CATEGORIES, CONFIG, PRODUCTS, withWeight } from "@/lib/data";
+import { CATEGORIES, CONFIG, withWeight } from "@/lib/data";
+import { getProducts } from "@/lib/store";
 import { CtaRow, PageHero, SecTitle } from "@/components/ui";
 import Media from "@/components/Media";
 import { BuyBox, ProductSlider } from "@/components/Products";
 import PackShop from "@/components/PackShop";
 
-export function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ id: p.id }));
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const p = PRODUCTS.find((x) => x.id === id);
+  const p = (await getProducts()).find((x) => x.id === id);
   return p
     ? {
         title: withWeight(p),
@@ -25,6 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const PRODUCTS = await getProducts();
   const p = PRODUCTS.find((x) => x.id === id);
   if (!p) notFound();
   const cat = CATEGORIES.find((c) => c.id === p.cat);

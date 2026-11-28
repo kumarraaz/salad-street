@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { PRODUCTS } from "@/lib/data";
+import type { Product } from "@/lib/data";
+import { useApp } from "./Providers";
 import { RECIPES, type Recipe } from "@/lib/recipes";
 import { Icon, SecTitle } from "./ui";
 
-const names = (ids: string[]) => ids.map((id) => PRODUCTS.find((p) => p.id === id)?.name).filter(Boolean).join(", ");
-const tint = (id: string) => PRODUCTS.find((p) => p.id === id)?.tint;
+const namesIn = (list: Product[], ids: string[]) => ids.map((id) => list.find((p) => p.id === id)?.name).filter(Boolean).join(", ");
+const tintIn = (list: Product[], id: string) => list.find((p) => p.id === id)?.tint;
 
 /** YouTube link → privacy-friendly embed URL; anything else is treated as a video file. */
 const ytId = (u: string) => u.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/)?.[1];
@@ -31,7 +32,7 @@ function RecipeVideo({ src, title }: { src: string; title: string }) {
 }
 
 /** Recipe modal: ingredients + steps. Esc, the close button or the backdrop closes it; focus returns to the card. */
-function RecipeModal({ r, onClose, video }: { r: Recipe; onClose: () => void; video: boolean }) {
+function RecipeModal({ r, onClose, video, names }: { r: Recipe; onClose: () => void; video: boolean; names: (ids: string[]) => string }) {
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const prev = document.activeElement as HTMLElement | null;
@@ -74,6 +75,9 @@ function RecipeModal({ r, onClose, video }: { r: Recipe; onClose: () => void; vi
 }
 
 export default function Recipes({ cls = "", title = true, more = false }: { cls?: string; title?: boolean; more?: boolean }) {
+  const { products } = useApp();
+  const names = (ids: string[]) => namesIn(products, ids);
+  const tint = (id: string) => tintIn(products, id);
   const [open, setOpen] = useState<{ r: Recipe; video: boolean } | null>(null);
   const close = useCallback(() => setOpen(null), []);
   return (
@@ -116,7 +120,7 @@ export default function Recipes({ cls = "", title = true, more = false }: { cls?
           </div>
         ) : null}
       </div>
-      {open ? <RecipeModal r={open.r} video={open.video} onClose={close} /> : null}
+      {open ? <RecipeModal r={open.r} video={open.video} onClose={close} names={names} /> : null}
     </section>
   );
 }

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { CATEGORIES, PRODUCTS, REVIEWS, productsInCategory } from "@/lib/data";
+import { CATEGORIES, REVIEWS, productsInCategory } from "@/lib/data";
+import { useApp } from "./Providers";
 import { Icon } from "./ui";
 import Media from "./Media";
 
@@ -67,6 +68,7 @@ export function useRail() {
 }
 
 export function CategoryRail() {
+  const { products: PRODUCTS } = useApp();
   const r = useRail();
   return (
     <div className="rail" data-rail>
@@ -75,7 +77,7 @@ export function CategoryRail() {
       </button>
       <div className="track cat-track" tabIndex={0} aria-label="Product categories" ref={r.track}>
         {CATEGORIES.map((c) => {
-          const n = productsInCategory(c.id);
+          const n = productsInCategory(c.id, PRODUCTS);
           return (
             <Link className="cat" href={`/products?cat=${c.id}`} key={c.id}>
               <Media src={c.img} label={c.name} alt={c.name} cls="cutout" />
@@ -101,6 +103,7 @@ export function CategoryRail() {
 
 /** "Shop by Product": category-style cards for the 7 products, each linking to its product page. */
 export function ProductRail() {
+  const { products: PRODUCTS } = useApp();
   const r = useRail();
   return (
     <div className="pslider" data-carousel>
@@ -192,6 +195,7 @@ export function ReviewCarousel(): ReactNode {
 
 /** "Upcoming Harvest": cream cards for the 7 products, 4 per view on desktop, 2 on phones. */
 export function HarvestRail() {
+  const { products: PRODUCTS } = useApp();
   const r = useRail();
   return (
     <div className="hv-slider" data-carousel>

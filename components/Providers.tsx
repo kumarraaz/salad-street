@@ -2,13 +2,15 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { cartProduct, type Product } from "@/lib/data";
+import { cartProduct, inStock, type Product } from "@/lib/data";
 
 type ToastAction = { label: string; run: () => void };
 type ToastState = { text: string; action?: ToastAction; show: boolean };
 type CartLine = { p: Product; q: number };
 
 type Ctx = {
+  /** Live product list (from the admin-managed store). */
+  products: Product[];
   items: Record<string, number>;
   lines: CartLine[];
   count: number;
@@ -32,7 +34,7 @@ export const useApp = () => {
   return c;
 };
 
-export default function Providers({ children }: { children: ReactNode }) {
+export default function Providers({ children, products }: { children: ReactNode; products: Product[] }) {
   const router = useRouter();
   const [items, setItems] = useState<Record<string, number>>({});
   const [wish, setWish] = useState<string[]>([]);
@@ -96,9 +98,10 @@ export default function Providers({ children }: { children: ReactNode }) {
   const lines = useMemo<CartLine[]>(
     () =>
       Object.entries(items)
-        .map(([id, q]) => ({ p: cartProduct(id) as Product, q }))
-        .filter((l) => l.p),
-    [items],
+        .map(([id, q]) => ({ p: cartProduct(id, products) as Product, q }))
+        // Products switched to "out of stock" in the admin drop out of the cart.
+        .filter((l) => l.p && inStock(l.p)),
+    [items, products],
   );
   const count = useMemo(() => lines.reduce((s, l) => s + l.q, 0), [lines]);
   const total = useMemo(() => lines.reduce((s, l) => s + l.q * (l.p.price ?? 0), 0), [lines]);
@@ -165,6 +168,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   }, [toast, router]);
 
   const value: Ctx = {
+    products,
     items,
     lines,
     count,

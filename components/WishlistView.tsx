@@ -1,14 +1,13 @@
 "use client";
 
-import { PRODUCTS } from "@/lib/data";
 import { Cta } from "./ui";
 import { ProductGrid } from "./Products";
 import { useApp } from "./Providers";
 
 /** Products saved with the heart button (stored in this browser only). */
 export default function WishlistView() {
-  const { wish } = useApp();
-  const list = PRODUCTS.filter((p) => wish.includes(p.id));
+  const { wish, products } = useApp();
+  const list = products.filter((p) => wish.includes(p.id));
   return list.length ? (
     <ProductGrid list={list} />
   ) : (

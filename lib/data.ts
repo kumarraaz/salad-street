@@ -62,6 +62,8 @@ export type Product = {
   pack?: string;
   /** Soft tint behind the pack photo on product cards. */
   tint?: string;
+  /** false = out of stock: card shows "Out of Stock" and a Notify button instead of Add to Cart. */
+  inStock?: boolean;
   /** Card badge, only when the client confirms it. */
   badge?: "Bestseller" | "Chef's pick";
   /** Extra pack sizes. The product's own weight/price is the default pack. */
@@ -192,15 +194,17 @@ export const orderText = (lines: { p: Product; q: number }[], total: number) =>
 
 /** Cart keys are "<id>" for the default pack or "<id>~<variant key>" for another pack size. */
 export const baseId = (key: string) => key.split("~")[0];
-export const cartProduct = (key: string): Product | undefined => {
+export const cartProduct = (key: string, list: Product[] = PRODUCTS): Product | undefined => {
   const [id, vk] = key.split("~");
-  const p = PRODUCTS.find((x) => x.id === id);
+  const p = list.find((x) => x.id === id);
   if (!p || !vk) return p;
   const v = p.variants?.find((x) => x.key === vk);
   return v ? { ...p, id: key, weight: v.weight, price: v.price, pack: v.pack ?? p.pack } : undefined;
 };
 
-export const productsInCategory = (id: string) => PRODUCTS.filter((p) => p.cat === id).length;
+export const productsInCategory = (id: string, list: Product[] = PRODUCTS) => list.filter((p) => p.cat === id).length;
+/** In stock unless explicitly switched off in the admin. */
+export const inStock = (p: Product) => p.inStock !== false;
 
 /* ============================ AVAILABLE NEXT WEEK ====================
    Product ids (from PRODUCTS) available next week, as confirmed by the client. Empty = section hidden. */

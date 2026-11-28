@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CATEGORIES, PRODUCTS } from "@/lib/data";
+import { CATEGORIES } from "@/lib/data";
+import { getProducts } from "@/lib/store";
 import { PageHero } from "@/components/ui";
 import { ProductGrid } from "@/components/Products";
 import { DeliveryStrip } from "@/components/PackShop";
@@ -9,6 +10,7 @@ export const metadata: Metadata = { title: "Products", alternates: { canonical: 
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ cat?: string | string[] }> }) {
   const sp = await searchParams;
+  const PRODUCTS = await getProducts();
   const catParam = Array.isArray(sp.cat) ? sp.cat[0] : sp.cat;
   const c = CATEGORIES.find((x) => x.id === (catParam || ""));
   const list = c ? PRODUCTS.filter((p) => p.cat === c.id) : PRODUCTS;

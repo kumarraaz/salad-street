@@ -36,7 +36,6 @@ export function FeatureStrip({ cls = "" }: { cls?: string }) {
   );
 }
 
-export { default as KitsBanner } from "./KitsBanner";
 
 /* Real farm photo: shown only once /public/images/farm/farm.webp exists (checked at build time). */
 export const FARM_IMG = "/images/farm/farm.webp";

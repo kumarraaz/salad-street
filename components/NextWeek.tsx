@@ -1,4 +1,4 @@
-import { COMING_SOON, NEXT_WEEK, PRODUCTS, type SoonItem } from "@/lib/data";
+import { COMING_SOON, NEXT_WEEK, type Product, type SoonItem } from "@/lib/data";
 import { Icon, SecTitle } from "./ui";
 
 /* "Available Next Week" and "Coming Soon Products": same card style as the products,
@@ -40,12 +40,12 @@ function SoonGrid({ id, eyebrow, title, badge, items, cls }: { id: string; eyebr
 }
 
 /** Next-week items come from existing products (ids in NEXT_WEEK). */
-export const nextWeekItems: SoonItem[] = NEXT_WEEK.map((id) => PRODUCTS.find((p) => p.id === id))
+export const nextWeekItems = (products: Product[]): SoonItem[] => NEXT_WEEK.map((id) => products.find((p) => p.id === id))
   .filter((p): p is NonNullable<typeof p> => !!p)
   .map((p) => ({ name: p.name, weight: p.weight, img: p.pack || p.img, tint: p.tint }));
 
-export default function NextWeek({ cls = "" }: { cls?: string }) {
-  return <SoonGrid id="nw-t" eyebrow="Fresh Harvest Ahead" title="Available Next Week" badge="Next Week" items={nextWeekItems} cls={cls} />;
+export default function NextWeek({ cls = "", items }: { cls?: string; items: SoonItem[] }) {
+  return <SoonGrid id="nw-t" eyebrow="Fresh Harvest Ahead" title="Available Next Week" badge="Next Week" items={items} cls={cls} />;
 }
 
 export function ComingSoon({ cls = "" }: { cls?: string }) {

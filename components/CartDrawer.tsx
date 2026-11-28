@@ -32,12 +32,38 @@ export function CartDrawer() {
   const priced = lines.length > 0 && lines.every((l) => l.p.price != null);
   const upiOk = !!CONFIG.upi && priced && total > 0;
 
-  const placeOrder = (e: FormEvent<HTMLFormElement>) => {
+  const [saving, setSaving] = useState(false);
+  const placeOrder = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (saving) return;
     const d = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
     if (!date || !slot) return; // native validation already blocks this; belt and braces
     const method = pay === "upi" && upiOk ? "UPI (online)" : "Pay after confirmation on WhatsApp";
-    const text = `${orderText(lines, total)}
+    const useUpi = pay === "upi" && upiOk;
+    // Open the WhatsApp tab now, while we still have the click (pop-up blockers), and fill it in after saving.
+    const tab = useUpi ? null : window.open("", "_blank");
+    setSaving(true);
+    // 1) Save the order for the admin panel (prices are re-checked on the server).
+    let orderId = "";
+    try {
+      const r = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: { name: d.name, phone: d.phone, address: d.address, pin: d.pin, note: d.note },
+          delivery: { date, slot },
+          payment: method,
+          lines: lines.map((l) => ({ id: l.p.id, q: l.q })),
+        }),
+      });
+      if (r.ok) orderId = (await r.json()).id || "";
+    } catch {
+      /* still send the order on WhatsApp */
+    }
+    setSaving(false);
+    // 2) The order message for WhatsApp.
+    const text = `${orderId ? `Order ID: ${orderId}
+` : ""}${orderText(lines, total)}
 
 Name: ${d.name}
 Phone: ${d.phone}
@@ -46,14 +72,18 @@ Note: ${d.note}` : ""}
 Delivery date: ${dateText}
 Payment: ${method}`;
     const wa = waLink(text);
-    const upi =
-      pay === "upi" && upiOk
-        ? `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent("Salad Street")}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Salad Street order · delivery ${date} ${slot}`)}`
-        : "";
+    const upi = useUpi
+      ? `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent("Salad Street")}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent(`Salad Street order ${orderId} · delivery ${date} ${slot}`)}`
+      : "";
     setDone({ upi, wa });
     setStep("done");
     if (upi) window.location.href = upi;
-    else if (wa) window.open(wa, "_blank", "noopener");
+    else if (wa) {
+      if (tab) {
+        tab.opener = null;
+        tab.location.href = wa;
+      } else window.open(wa, "_blank", "noopener");
+    }
   };
 
   const change = (id: string, d: number) => {
@@ -243,8 +273,8 @@ Payment: ${method}`;
           ) : null}
           {lines.length && step === "checkout" ? (
             <>
-              <button className="btn btn-solid" type="submit" form="checkoutForm" disabled={!waLink() && !(pay === "upi" && upiOk)}>
-                {pay === "upi" && upiOk ? `Pay ${inr(total)} with UPI` : "Place Order"}
+              <button className="btn btn-solid" type="submit" form="checkoutForm" disabled={saving || (!waLink() && !(pay === "upi" && upiOk))}>
+                {saving ? "Placing order…" : pay === "upi" && upiOk ? `Pay ${inr(total)} with UPI` : "Place Order"}
               </button>
               <small>{pay === "upi" && upiOk ? "Your UPI app opens with the amount filled in." : "Your order opens in WhatsApp to confirm. Payment details are shared there."}</small>
             </>

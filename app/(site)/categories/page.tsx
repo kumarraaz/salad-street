@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CATEGORIES, productsInCategory } from "@/lib/data";
+import { getProducts } from "@/lib/store";
 import { CtaRow, PageHero } from "@/components/ui";
 import Media from "@/components/Media";
 
 export const metadata: Metadata = { title: "Categories" };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const products = await getProducts();
   return (
     <>
       <PageHero title="All Categories" sub="Choose a category to browse its products." trail={[{ label: "Categories" }]} art="bowlH" />
@@ -14,7 +16,7 @@ export default function CategoriesPage() {
         <div className="wrap">
           <div className="pgrid">
             {CATEGORIES.map((c) => {
-              const n = productsInCategory(c.id);
+              const n = productsInCategory(c.id, products);
               return (
                 <Link className="cat" key={c.id} href={`/products?cat=${c.id}`}>
                   <Media src={c.img} label={c.name} alt={c.name} cls="cutout" />

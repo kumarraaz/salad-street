@@ -3,7 +3,7 @@ import { CONFIG } from "@/lib/data";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/", disallow: ["/account", "/wishlist"] },
+    rules: { userAgent: "*", allow: "/", disallow: ["/account", "/wishlist", "/admin", "/api"] },
     sitemap: `${CONFIG.siteUrl}/sitemap.xml`,
     host: CONFIG.siteUrl,
   };

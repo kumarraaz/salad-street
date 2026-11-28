@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fragment, type ReactNode } from "react";
-import { CONFIG, FAQS, PRODUCTS, REVIEWS } from "@/lib/data";
+import { CONFIG, FAQS, REVIEWS, type Product } from "@/lib/data";
+import { getProducts } from "@/lib/store";
 import { CtaRow, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards } from "@/components/Cards";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 /* Structured data for the product list: name, price, pack size only (no ratings). */
-const productLd = {
+const productLd = (PRODUCTS: Product[]) => ({
   "@context": "https://schema.org",
   "@graph": PRODUCTS.map((p) => ({
     "@type": "Product",
@@ -31,17 +32,19 @@ const productLd = {
     ...(p.weight ? { weight: { "@type": "QuantitativeValue", value: parseFloat(p.weight), unitCode: "GRM" } } : {}),
     ...(p.price != null ? { offers: { "@type": "Offer", price: p.price, priceCurrency: "INR" } } : {}),
   })),
-};
+});
 
 /* Plain full-width backgrounds, alternating white and cream. */
 const TONES = ["w", "c"] as const;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getProducts();
+  const nw = nextWeekItems(products);
   /* Sections in order. Hidden ones (no data) are dropped first, so white and cream always alternate. */
   const blocks: ((cls: string) => ReactNode)[] = [
     (c) => <FeatureStrip cls={c} />,
     (c) => <PackShop cls={c} id="our-products" />,
-    ...(nextWeekItems.length ? [(c: string) => <NextWeek cls={c} />] : []),
+    ...(nw.length ? [(c: string) => <NextWeek cls={c} items={nw} />] : []),
     (c) => <ComingSoon cls={c} />,
     (c) => <FarmStory cls={c} />,
     (c) => <OurStory cls={c} />,
@@ -92,7 +95,7 @@ export default function HomePage() {
   ];
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd(products)).replace(/</g, "\\u003c") }} />
       <Hero />
       {blocks.map((b, i) => (
         <Fragment key={i}>{b(`bg-${TONES[i % 2]}`)}</Fragment>

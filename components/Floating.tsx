@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
-import { CONFIG, PRODUCTS, inr, waLink, withWeight } from "@/lib/data";
+import { CONFIG, inr, waLink, withWeight } from "@/lib/data";
 import { AVATAR, WA_SVG } from "@/lib/svg";
 import { Icon, RawSvg } from "./ui";
 import { useApp } from "./Providers";
@@ -13,7 +13,7 @@ const QUICK = ["Show products", "Day Highlights", "Bulk / corporate order", "Con
 type Msg = { who: "bot" | "me"; node: ReactNode };
 
 export default function Floating() {
-  const { add, toast, openCart } = useApp();
+  const { add, toast, openCart, products: PRODUCTS } = useApp();
   const [open, setOpen] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([
     { who: "bot", node: "Hi! I'm the Salad Street assistant. How can I help you today?" },

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES, per100, priceText, waOrderLink, type Product } from "@/lib/data";
+import { CATEGORIES, inStock, per100, priceText, waOrderLink, type Product } from "@/lib/data";
+import { NotifyButton, OutBadge } from "./Notify";
 import { Cta, Icon } from "./ui";
 import Media from "./Media";
 import { useApp } from "./Providers";
@@ -105,7 +106,7 @@ export function ProductCard({ p }: { p: Product }) {
   const { add, toast, openCart } = useApp();
   const href = productHref(p);
   return (
-    <article className="pcard">
+    <article className={`pcard${inStock(p) ? "" : " oos"}`}>
       <div className="pimg" style={p.tint ? ({ "--tint": p.tint } as React.CSSProperties) : undefined}>
         <Link href={href} tabIndex={-1} className="pimg-link">
           {p.pack ? (
@@ -116,7 +117,7 @@ export function ProductCard({ p }: { p: Product }) {
           )}
           <Dew />
         </Link>
-        <Badge p={p} />
+        {inStock(p) ? <Badge p={p} /> : <OutBadge />}
         <WishBtn p={p} />
       </div>
       <div className="pbody">
@@ -138,6 +139,11 @@ export function ProductCard({ p }: { p: Product }) {
           </p>
         ) : null}
       </div>
+      {!inStock(p) ? (
+        <div className="pactions one">
+          <NotifyButton p={p} />
+        </div>
+      ) : (
       <div className="pactions">
       <AddButton
         dataAdd={p.id}
@@ -150,6 +156,7 @@ export function ProductCard({ p }: { p: Product }) {
       />
       <WaOrder name={p.name} weight={p.weight} price={p.price} />
       </div>
+      )}
     </article>
   );
 }
@@ -214,6 +221,13 @@ export function BuyBox({ p }: { p: Product }) {
           Category: <Link href={`/products?cat=${cat.id}`}>{cat.name}</Link>
         </p>
       ) : null}
+      {!inStock(p) ? (
+        <div className="pd-actions">
+          <span className="oos-badge static">Out of Stock</span>
+          <NotifyButton p={p} cls="lg" />
+          <WishBtn p={p} />
+        </div>
+      ) : (
       <div className="pd-actions">
         <div className="qty" role="group" aria-label="Quantity">
           <button type="button" aria-label="Decrease quantity" onClick={() => setQ((n) => Math.max(1, n - 1))}>
@@ -237,6 +251,7 @@ export function BuyBox({ p }: { p: Product }) {
         </button>
         <WishBtn p={p} />
       </div>
+      )}
     </div>
   );
 }

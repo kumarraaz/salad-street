@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
-import { BLOGS, CONFIG, PRODUCTS, REVIEWS } from "@/lib/data";
+import { BLOGS, CONFIG, REVIEWS } from "@/lib/data";
+import { getProducts } from "@/lib/store";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const PRODUCTS = await getProducts();
   const base = CONFIG.siteUrl;
   const pages = ["", "/about", "/products", "/categories", "/highlights", "/recipes", "/blog", "/faqs", "/contact", "/terms", "/privacy", "/refund"];
   if (REVIEWS.length) pages.push("/reviews");
