@@ -1,6 +1,6 @@
 "use client";
 
-import { CONFIG } from "@/lib/data";
+import { CONFIG, logWaClick } from "@/lib/data";
 import { Icon } from "./ui";
 import { useApp } from "./Providers";
 
@@ -9,7 +9,7 @@ export default function MobileBar() {
   const { count, openCart } = useApp();
   return (
     <nav className="mbar" aria-label="Quick order">
-      <a className="mbar-wa" href={`https://wa.me/${CONFIG.whatsapp}`} target="_blank" rel="noopener">
+      <a className="mbar-wa" href={`https://wa.me/${CONFIG.whatsapp}`} target="_blank" rel="noopener" onClick={() => logWaClick("bar")}>
         <Icon k="wa" size={20} /> Order on WhatsApp
       </a>
       <button className="mbar-cart" type="button" data-open-cart onClick={openCart} aria-label={`Open cart, ${count} ${count === 1 ? "item" : "items"}`}>

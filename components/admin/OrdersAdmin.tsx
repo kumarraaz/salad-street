@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { inr } from "@/lib/data";
-import type { Order, OrderStatus } from "@/lib/store";
+import type { Order, OrderStatus, WaClick } from "@/lib/store";
+import { Icon } from "../ui";
 
 const STATUSES: OrderStatus[] = ["new", "confirmed", "delivered", "cancelled"];
 const LABEL: Record<OrderStatus, string> = { new: "New", confirmed: "Confirmed", delivered: "Delivered", cancelled: "Cancelled" };
@@ -14,11 +15,11 @@ export const waNumber = (phone: string) => {
   return d.length === 10 ? `91${d}` : d;
 };
 
-export default function OrdersAdmin({ orders, initial }: { orders: Order[]; initial: string }) {
+export default function OrdersAdmin({ orders, waClicks, initial }: { orders: Order[]; waClicks: WaClick[]; initial: string }) {
   const router = useRouter();
   const [filter, setFilter] = useState(initial);
   const [msg, setMsg] = useState("");
-  const list = filter === "all" ? orders : orders.filter((o) => o.status === filter);
+  const list = filter === "all" ? orders : filter === "whatsapp" ? [] : orders.filter((o) => o.status === filter);
 
   const setStatus = async (o: Order, status: OrderStatus) => {
     const r = await fetch(`/api/admin/orders/${encodeURIComponent(o.id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) }).catch(() => null);
@@ -29,20 +30,53 @@ export default function OrdersAdmin({ orders, initial }: { orders: Order[]; init
 
   return (
     <>
-      <h1 className="adm-h1">Orders</h1>
+      <h1 className="adm-h1">
+        <Icon k="cart" size={24} /> Orders
+      </h1>
       <div className="adm-tabs" role="tablist" aria-label="Filter orders">
         {["all", ...STATUSES].map((s) => (
           <button key={s} type="button" role="tab" aria-selected={filter === s} onClick={() => setFilter(s)}>
             {s === "all" ? "All" : LABEL[s as OrderStatus]} ({s === "all" ? orders.length : orders.filter((o) => o.status === s).length})
           </button>
         ))}
+        <button type="button" role="tab" aria-selected={filter === "whatsapp"} onClick={() => setFilter("whatsapp")}>
+          WhatsApp taps ({waClicks.length})
+        </button>
       </div>
       {msg ? (
         <p className="adm-msg" role="status">
           {msg}
         </p>
       ) : null}
-      {list.length ? (
+      {filter === "whatsapp" ? (
+        <div className="adm-card">
+          <p className="adm-sub">
+            Customers who tapped a “WhatsApp” order button on the website. The order itself is chatted on your WhatsApp, so only the product and time are recorded here.
+          </p>
+          {waClicks.length ? (
+            <table className="adm-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Product</th>
+                  <th>From</th>
+                </tr>
+              </thead>
+              <tbody>
+                {waClicks.map((w) => (
+                  <tr key={w.id}>
+                    <td>{fmt(w.createdAt)}</td>
+                    <td>{w.productName || "General order (no product chosen)"}</td>
+                    <td>{w.source === "bar" ? "Mobile “Order on WhatsApp” bar" : "Product card"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="adm-note">No WhatsApp taps yet.</p>
+          )}
+        </div>
+      ) : list.length ? (
         <div className="adm-orders">
           {list.map((o) => (
             <article className="adm-card adm-order" key={o.id}>

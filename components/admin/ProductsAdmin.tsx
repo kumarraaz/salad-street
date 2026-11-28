@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "../ui";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { inr, type Product } from "@/lib/data";
@@ -7,7 +8,7 @@ import { inr, type Product } from "@/lib/data";
 type Cat = { id: string; name: string };
 type VariantRow = { key: string; weight: string; price: string };
 
-async function api(url: string, method: string, body?: unknown) {
+export async function api(url: string, method: string, body?: unknown) {
   const r = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
   const j = await r.json().catch(() => ({}));
   if (r.status === 401) window.location.href = "/admin/login";
@@ -16,7 +17,7 @@ async function api(url: string, method: string, body?: unknown) {
 }
 
 /** Photo picker: uploads straight away and returns the stored URL. */
-function PhotoField({ label, value, onChange }: { label: string; value: string; onChange: (url: string) => void }) {
+export function PhotoField({ label, value, onChange }: { label: string; value: string; onChange: (url: string) => void }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   return (
@@ -211,9 +212,11 @@ export default function ProductsAdmin({ products, categories }: { products: Prod
   return (
     <>
       <div className="adm-head">
-        <h1 className="adm-h1">Products</h1>
+        <h1 className="adm-h1">
+          <Icon k="basket" size={24} /> Products
+        </h1>
         <button className="adm-btn primary" type="button" onClick={() => setEditing("new")}>
-          + Add product
+          <Icon k="plus" size={16} /> Add product
         </button>
       </div>
       {msg ? (

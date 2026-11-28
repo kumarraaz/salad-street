@@ -179,6 +179,15 @@ export const per100 = (price?: number | null, weight?: string) => {
 export const waOrderLink = (name: string, weight?: string, price?: number | null) =>
   `https://wa.me/918826954654?text=${encodeURIComponent(`Hi, I want ${name}${weight ? " " + weight : ""}${price != null ? " ₹" + price : ""}`)}`;
 
+/** Tell the admin a WhatsApp order button was tapped (fire-and-forget; never blocks the link). */
+export const logWaClick = (source: "card" | "bar", productId = "", weight = "") => {
+  try {
+    navigator.sendBeacon?.("/api/wa-click", new Blob([JSON.stringify({ source, productId, weight })], { type: "application/json" }));
+  } catch {
+    /* ignore */
+  }
+};
+
 export const waLink = (text = "") =>
   CONFIG.whatsapp ? `https://wa.me/${CONFIG.whatsapp}${text ? "?text=" + encodeURIComponent(text) : ""}` : "";
 

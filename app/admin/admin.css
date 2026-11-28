@@ -103,3 +103,46 @@ a.adm-stat:hover{border-color:#7CC24A}
   .adm-table.adm-products td:first-child{grid-row:span 4}
   .adm-table.adm-products .r{text-align:left}
 }
+
+/* ---------- v2: logo, icon nav, stat cards ---------- */
+.adm .ico{flex:none}
+.adm-side{gap:14px;padding:20px 14px;box-shadow:4px 0 24px rgba(16,67,18,.12)}
+.adm-logo{display:flex;align-items:center;gap:12px;padding:4px 6px 16px;border-bottom:1px solid rgba(241,248,234,.14)}
+.adm-logo-badge{display:grid;place-items:center;width:84px;height:62px;border-radius:14px;background:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.adm-logo b{display:block;color:#fff;font-size:16px;line-height:1.2}
+.adm-logo small{color:#B9D6A3;font-size:12px}
+.adm-side nav a{justify-content:flex-start;gap:12px;padding:11px 12px;transition:background-color .2s,color .2s}
+.adm-side nav a span:not(.adm-pill){flex:1}
+.adm-side nav a .ico{color:#9CCB7E}
+.adm-side nav a[aria-current=page]{background:#F1F8EA;color:#104312;font-weight:600}
+.adm-side nav a[aria-current=page] .ico{color:#4B781E}
+.adm-side nav a[aria-current=page] .adm-pill{background:#104312;color:#fff}
+.adm-logout{gap:8px}
+.adm-h1{display:flex;align-items:center;gap:10px}
+.adm-h1 .ico{color:#4B781E}
+.adm-sub{color:#5E6B57;margin:0 0 14px;max-width:70ch}
+.adm-stat{position:relative;padding:16px 16px 16px 66px;min-height:82px;align-content:center;transition:transform .2s,box-shadow .2s,border-color .2s}
+a.adm-stat:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,67,18,.08)}
+.adm-stat-ic{position:absolute;left:14px;top:50%;translate:0 -50%;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#F1F8EA;color:#4B781E;font-style:normal}
+.adm-stat.t-ok .adm-stat-ic{background:#E3F3D6;color:#104312}
+.adm-stat.t-warn .adm-stat-ic{background:#FFF4D6;color:#7A5300}
+.adm-stat.t-info .adm-stat-ic{background:#E3EEFF;color:#1E4FA8}
+.adm-stat.t-bad .adm-stat-ic{background:#FDE7E5;color:#B42318}
+.adm-btn .ico{margin-left:-2px}
+.adm-soon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.adm-soon{display:grid;gap:6px;margin:0}
+.adm-soon img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:#F1F8EA}
+.adm-soon small{color:#5E6B57}
+.adm-row-actions{display:flex;gap:6px;margin-top:4px}
+.adm-login-logo{display:grid;place-items:center;margin:-4px 0 6px}
+.adm-login .adm-brand{text-align:center;margin-bottom:6px;color:#4B781E}
+.adm-login h1{text-align:center}
+@media (max-width:900px){
+  .adm-side{box-shadow:none}
+  .adm-logo{border:0;padding:0}
+  .adm-logo-badge{width:62px;height:46px}
+  .adm-logo-badge svg{width:54px;height:40px}
+  .adm-side nav a{padding:8px 10px}
+}
+.adm-logout{background:transparent!important;color:#F1F8EA!important;border-color:rgba(241,248,234,.35)!important}
+.adm-logout:hover{background:rgba(255,255,255,.1)!important}

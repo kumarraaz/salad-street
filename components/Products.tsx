@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { CATEGORIES, inStock, per100, priceText, waOrderLink, type Product } from "@/lib/data";
+import { CATEGORIES, inStock, logWaClick, per100, priceText, waOrderLink, type Product } from "@/lib/data";
 import { NotifyButton, OutBadge } from "./Notify";
 import { Cta, Icon } from "./ui";
 import Media from "./Media";
@@ -93,9 +93,9 @@ export function AddButton({ label, dataAdd, img, onAdd }: { label: string; dataA
 }
 
 /** "Order on WhatsApp" link for one pack (opens a pre-filled chat). */
-export function WaOrder({ name, weight, price }: { name: string; weight?: string; price?: number | null }) {
+export function WaOrder({ id = "", name, weight, price }: { id?: string; name: string; weight?: string; price?: number | null }) {
   return (
-    <a className="btn-wa" href={waOrderLink(name, weight, price)} target="_blank" rel="noopener" aria-label={`Order ${name}${weight ? " " + weight : ""} on WhatsApp`}>
+    <a className="btn-wa" href={waOrderLink(name, weight, price)} target="_blank" rel="noopener" onClick={() => logWaClick("card", id, weight)} aria-label={`Order ${name}${weight ? " " + weight : ""} on WhatsApp`}>
       <Icon k="wa" size={17} />
       <span className="lbl-lg">WhatsApp</span>
     </a>
@@ -154,7 +154,7 @@ export function ProductCard({ p }: { p: Product }) {
           toast(`${p.name} added to cart`, { label: "View cart", run: openCart });
         }}
       />
-      <WaOrder name={p.name} weight={p.weight} price={p.price} />
+      <WaOrder id={p.id} name={p.name} weight={p.weight} price={p.price} />
       </div>
       )}
     </article>

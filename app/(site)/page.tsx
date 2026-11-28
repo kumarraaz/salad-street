@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fragment, type ReactNode } from "react";
 import { CONFIG, FAQS, REVIEWS, type Product } from "@/lib/data";
-import { getProducts } from "@/lib/store";
+import { getComingSoon, getProducts } from "@/lib/store";
 import { CtaRow, SecTitle } from "@/components/ui";
 import Hero from "@/components/Hero";
 import { HighlightCards } from "@/components/Cards";
@@ -38,14 +38,14 @@ const productLd = (PRODUCTS: Product[]) => ({
 const TONES = ["w", "c"] as const;
 
 export default async function HomePage() {
-  const products = await getProducts();
+  const [products, soon] = await Promise.all([getProducts(), getComingSoon()]);
   const nw = nextWeekItems(products);
   /* Sections in order. Hidden ones (no data) are dropped first, so white and cream always alternate. */
   const blocks: ((cls: string) => ReactNode)[] = [
     (c) => <FeatureStrip cls={c} />,
     (c) => <PackShop cls={c} id="our-products" />,
     ...(nw.length ? [(c: string) => <NextWeek cls={c} items={nw} />] : []),
-    (c) => <ComingSoon cls={c} />,
+    (c) => <ComingSoon cls={c} items={soon} />,
     (c) => <FarmStory cls={c} />,
     (c) => <OurStory cls={c} />,
     (c) => (

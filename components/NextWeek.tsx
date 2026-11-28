@@ -1,4 +1,4 @@
-import { COMING_SOON, NEXT_WEEK, type Product, type SoonItem } from "@/lib/data";
+import { NEXT_WEEK, type Product, type SoonItem } from "@/lib/data";
 import { Icon, SecTitle } from "./ui";
 
 /* "Available Next Week" and "Coming Soon Products": same card style as the products,
@@ -48,7 +48,9 @@ export default function NextWeek({ cls = "", items }: { cls?: string; items: Soo
   return <SoonGrid id="nw-t" eyebrow="Fresh Harvest Ahead" title="Available Next Week" badge="Next Week" items={items} cls={cls} />;
 }
 
-export function ComingSoon({ cls = "" }: { cls?: string }) {
+/** Coming Soon products are managed in the admin (Coming Soon page). */
+export function ComingSoon({ cls = "", items }: { cls?: string; items: SoonItem[] }) {
+  const COMING_SOON = items;
   // No new products named yet: show the section with a WhatsApp sign-up instead of product cards.
   if (!COMING_SOON.length)
     return (

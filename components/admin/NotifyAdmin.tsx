@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "../ui";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { NotifyReq } from "@/lib/store";
@@ -22,7 +23,9 @@ export default function NotifyAdmin({ list }: { list: NotifyReq[] }) {
   return (
     <>
       <div className="adm-head">
-        <h1 className="adm-h1">Notify requests</h1>
+        <h1 className="adm-h1">
+          <Icon k="bell" size={24} /> Notify requests
+        </h1>
         <label className="adm-check">
           <input type="checkbox" checked={showDone} onChange={(e) => setShowDone(e.target.checked)} /> Show completed
         </label>

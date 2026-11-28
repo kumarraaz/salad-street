@@ -114,7 +114,7 @@ function PackCard({ p }: { p: Product }) {
           toast(`${p.name}${weight ? ` (${weight})` : ""} added to cart`, { label: "View cart", run: openCart });
         }}
       />
-      <WaOrder name={p.name} weight={weight} price={price} />
+      <WaOrder id={key} name={p.name} weight={weight} price={price} />
       </div>
       )}
     </article>

@@ -1,5 +1,7 @@
 "use client";
 
+import { Icon } from "../ui";
+
 export default function LogoutButton() {
   return (
     <button
@@ -10,7 +12,7 @@ export default function LogoutButton() {
         window.location.href = "/admin/login";
       }}
     >
-      Log out
+      <Icon k="logout" size={17} /> Log out
     </button>
   );
 }

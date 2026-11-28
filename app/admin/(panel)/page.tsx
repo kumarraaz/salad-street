@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { inr } from "@/lib/data";
 import { readStore } from "@/lib/store";
+import { Icon } from "@/components/ui";
 
 export const metadata = { title: "Dashboard" };
 
@@ -25,30 +26,40 @@ export default async function Dashboard() {
     }
   const top = [...perProduct.values()].sort((a, b) => b.q - a.q);
 
-  const stats = [
-    { label: "Total orders", value: s.orders.length },
-    { label: "New orders", value: by("new").length, href: "/admin/orders?status=new" },
-    { label: "Confirmed", value: by("confirmed").length },
-    { label: "Delivered orders", value: delivered.length },
-    { label: "Items delivered", value: unitsDelivered },
-    { label: "Delivered sales", value: inr(revenue) },
-    { label: "Cancelled", value: by("cancelled").length },
-    { label: "Products (out of stock)", value: `${s.products.length} (${out})`, href: "/admin/products" },
-    { label: "Open notify requests", value: s.notify.filter((n) => !n.done).length, href: "/admin/notify" },
+  const stats: { label: string; value: string | number; icon: string; tone?: string; href?: string }[] = [
+    { label: "Total orders", value: s.orders.length, icon: "cart", href: "/admin/orders" },
+    { label: "New orders", value: by("new").length, icon: "bell", tone: "warn", href: "/admin/orders?status=new" },
+    { label: "Confirmed", value: by("confirmed").length, icon: "check", tone: "info", href: "/admin/orders?status=confirmed" },
+    { label: "Delivered orders", value: delivered.length, icon: "truck", tone: "ok", href: "/admin/orders?status=delivered" },
+    { label: "Items delivered", value: unitsDelivered, icon: "box", tone: "ok" },
+    { label: "Delivered sales", value: inr(revenue), icon: "rupee", tone: "ok" },
+    { label: "Cancelled", value: by("cancelled").length, icon: "x", tone: "bad", href: "/admin/orders?status=cancelled" },
+    { label: "WhatsApp order taps", value: s.waClicks.length, icon: "wa", href: "/admin/orders?status=whatsapp" },
+    { label: "Products (out of stock)", value: `${s.products.length} (${out})`, icon: "basket", href: "/admin/products" },
+    { label: "Coming Soon products", value: s.soon.length, icon: "sprout", href: "/admin/coming-soon" },
+    { label: "Open notify requests", value: s.notify.filter((n) => !n.done).length, icon: "bell", tone: "warn", href: "/admin/notify" },
   ];
 
   return (
     <>
-      <h1 className="adm-h1">Dashboard</h1>
+      <h1 className="adm-h1">
+        <Icon k="grid" size={24} /> Dashboard
+      </h1>
       <div className="adm-stats">
         {stats.map((x) =>
           x.href ? (
-            <Link key={x.label} className="adm-stat" href={x.href}>
+            <Link key={x.label} className={`adm-stat t-${x.tone || "base"}`} href={x.href}>
+              <i className="adm-stat-ic">
+                <Icon k={x.icon} size={20} />
+              </i>
               <span>{x.label}</span>
               <b>{x.value}</b>
             </Link>
           ) : (
-            <div key={x.label} className="adm-stat">
+            <div key={x.label} className={`adm-stat t-${x.tone || "base"}`}>
+              <i className="adm-stat-ic">
+                <Icon k={x.icon} size={20} />
+              </i>
               <span>{x.label}</span>
               <b>{x.value}</b>
             </div>
